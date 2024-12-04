@@ -1,0 +1,27 @@
+{
+  "_sourceId": "c30b28da-749e-479b-bcb6-cecd8d7be9e3",
+  "creator": {
+    "version": "3.8.3",
+    "registry": {
+      "remote": {}
+    },
+    "dependencies": {}
+  },
+  "dependencies": {
+    "@tonconnect/ui": "^2.0.9",
+    "buffer": "^6.0.3",
+    "crypto-es": "^1.2.7",
+    "crypto-js": "^4.2.0",
+    "decimal.js": "^10.4.3",
+    "install": "^0.13.0",
+    "node-forge": "^1.3.1",
+    "qrcode-generator": "^1.4.4"
+  },
+  "description": "恐龙乐园",
+  "name": "dinosaur-park",
+  "uuid": "00d7d957-a3e8-4ad6-80f4-2fcfb235bca4",
+  "version": "3.6.3",
+  "devDependencies": {
+    "@types/node": "^22.7.4"
+  }
+}

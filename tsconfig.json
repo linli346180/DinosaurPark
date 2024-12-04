@@ -1,0 +1,16 @@
+{
+  /* Base configuration. Do not edit this field. */
+  "extends": "./temp/tsconfig.cocos.json",
+  
+  /* Add your custom configuration here. */
+  "compilerOptions": {
+    "strict": false,
+    "allowSyntheticDefaultImports": true,
+    // "moduleResolution": "node",
+    // "esModuleInterop": true,
+    // "resolveJsonModule": true,
+    // "target": "es6",
+    // "module": "commonjs",
+    // "lib": ["es6", "dom"]
+  }
+}

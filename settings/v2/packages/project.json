@@ -1,0 +1,47 @@
+{
+  "general": {
+    "designResolution": {
+      "fitWidth": true,
+      "fitHeight": false,
+      "height": 1960,
+      "width": 1080
+    },
+    "highQuality": false
+  },
+  "__version__": "1.0.6",
+  "fbx": {
+    "legacyFbxImporter": {
+      "visible": true
+    }
+  },
+  "script": {
+    "preserveSymlinks": true
+  },
+  "custom_joint_texture_layouts": [],
+  "layer": [
+    {
+      "name": "UI_Help",
+      "value": 1
+    },
+    {
+      "name": "SpawnPoint",
+      "value": 2
+    },
+    {
+      "name": "3DWall",
+      "value": 4
+    }
+  ],
+  "physics": {
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "Actor"
+      }
+    ],
+    "collisionMatrix": {
+      "0": 3,
+      "1": 3
+    }
+  }
+}
