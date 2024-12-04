@@ -32,6 +32,7 @@ export class EvolveView extends Component {
     @property(Label) coinResourceNum: Label = null!;
     @property(Button) btn_tips: Button = null!;
     @property(Node) maskNode: Node = null!;
+    @property(Button) btn_buy: Button = null!;
 
     @property(Node) icon_110: Node = null!;
     @property(Node) icon_301: Node = null!;
@@ -62,6 +63,7 @@ export class EvolveView extends Component {
         this.btn_reduceonce.node.on(Button.EventType.CLICK, this.onReduceOnceClick, this);
         this.btn_addonce.node.on(Button.EventType.CLICK, this.onAddOnceClick, this);
         this.btn_tips.node.on(Button.EventType.CLICK, this.showTips, this);
+        this.btn_buy.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.GemShop) }, this);
     }
 
     onEnable() {

@@ -11,16 +11,10 @@ const { ccclass, property } = _decorator;
 
 @ccclass('STBPurItem')
 export class STBPurItem extends Component {
-    @property(Sprite)
-    private icon: Sprite = null!;
-    @property(Button)
-    private btn_buy: Button = null!;
-    @property(Label)
-    private num: Label = null!;
-    @property(Label)
-    private stbName: Label = null!;
-    @property(Label)
-    private level: Label = null!;
+    @property(Sprite) icon: Sprite = null!;
+    @property(Button) btn_buy: Button = null!;
+    @property(Label) num: Label = null!;
+    @property(Label) level: Label = null!;
 
     private config: UserInstbConfigData;
     private configId: number = 0;
@@ -32,11 +26,8 @@ export class STBPurItem extends Component {
 
     initItem(config: UserInstbConfigData) {
         this.config = config;
-
         this.configId = config.id;
         this.num.string = config.purConCoinNum.toString();
-        this.stbName.string = config.stbName;
-
         const stbType = StringUtil.combineNumbers(config.stbKinds, config.stbGrade, 2);
         this.STBConfig.init(stbType);
         if (this.STBConfig.puricon) {
@@ -48,7 +39,7 @@ export class STBPurItem extends Component {
         this.level.string = config.stbGrade.toString();
     }
 
-    onBuySTB() {
+    private onBuySTB() {
         const letNum = Math.floor(smc.account.AccountModel.CoinData.gemsCoin) - Math.floor(this.config.purConCoinNum);
         console.log(`剩余宝石数量:${smc.account.AccountModel.CoinData.gemsCoin},所需宝石:${this.config.purConCoinNum}`);
         if (letNum < 0) {
@@ -57,7 +48,6 @@ export class STBPurItem extends Component {
             oops.gui.remove(UIID.STBShop, false);
             return;
         }
-        
         this.btn_buy.interactable = false;
         smc.account.adopStartBeastNet(this.configId, false, (success: boolean, msg: string) => {
             if (success) {

@@ -7,9 +7,9 @@ import { Color } from 'cc';
 const { ccclass, property, requireComponent, disallowMultiple } = _decorator;
 
 @ccclass('Actor')
-@requireComponent(RigidBody2D)
-@requireComponent(Collider2D)
-@disallowMultiple(true)
+// @requireComponent(RigidBody2D)
+// @requireComponent(Collider2D)
+// @disallowMultiple(true)
 export class Actor extends Component {
     public rigidbody: RigidBody2D | null = null;
     public collider: Collider2D | null = null;

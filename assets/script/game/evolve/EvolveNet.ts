@@ -1,3 +1,4 @@
+import { oops } from "../../../../extensions/oops-plugin-framework/assets/core/Oops";
 import { HttpManager } from "../../net/HttpManager";
 import { netConfig } from "../../net/custom/NetConfig";
 import { NetErrorCode } from "../../net/custom/NetErrorCode";
@@ -21,12 +22,12 @@ export namespace EvolueNetService {
      /** 查询进化手册 */
      export async function getEvolveTips() {
         const http = createHttpManager();
-        const response = await http.getUrl(`tgapp/api/user/stb/evolution/tips?token=${netConfig.Token}`);
+        const response = await http.getUrl(`tgapp/api/language/getConfigList?token=${netConfig.Token}&languageKey=${oops.language.current}&typeKey=${"evolution"}`);
         if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
-            console.warn(`查询进化手册`, response.res);
+            console.warn(`获取系统配置:`, response.res);
             return response.res;
         } else {
-            console.error(`查询进化手册异常`, response);
+            console.error("获取系统配置异常", response);
             return null;
         }
     }
