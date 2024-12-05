@@ -80,7 +80,7 @@ export class EvolveView extends Component {
     }
 
     private onClose() {
-        oops.gui.remove(UIID.Evolve);
+        oops.gui.remove(UIID.Evolve, false);
     }
 
     private showTips() {
