@@ -211,6 +211,19 @@ export namespace AccountNetService {
         }
     }
 
+    /** 获取收集金币数据 */
+    export async function getCollectCoinData() {
+        const http = createHttpManager();
+        const response = await http.getUrl("tgapp/api/user/coin?token=" + netConfig.Token);
+        if (response.isSucc && response.res.resultCode == NetErrorCode.Success && response.res.userCoin != null) {
+            console.warn("收集金币数据请求成功", response.res);
+            return response.res;
+        } else {
+            console.error("收集金币数据请求异常", response);
+            return null;
+        }
+    }
+
     /** 领养星兽 */
     export async function adopStartBeast(adopStbID: number) {
         const http = createHttpManager();

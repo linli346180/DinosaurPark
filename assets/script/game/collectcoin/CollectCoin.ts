@@ -6,6 +6,7 @@ import { UIID } from '../common/config/GameUIConfig';
 import { AccountNetService } from '../account/AccountNet';
 import { AccountEvent } from '../account/AccountEvent';
 import { smc } from '../common/SingletonModuleComp';
+import { AccountCoinType } from '../account/AccountDefine';
 const { ccclass, property } = _decorator;
 
 @ccclass('CollectCoin')
@@ -27,9 +28,10 @@ export class CollectCoin extends Component {
         this.setupButtonHandlers();
     }
 
-    private loadCoinData() {
-        this.free_coin_num.string = this.dataDisplayConversion(100);
-        this.gem_coin_num.string = this.dataDisplayConversion(100000000);
+    private async loadCoinData() {
+        const res = await AccountNetService.UseCollectCoin();
+        this.free_coin_num.string = this.dataDisplayConversion(Number(res.userCoin.goldCoin)/2);
+        this.gem_coin_num.string = this.dataDisplayConversion(Number(res.userCoin.goldCoin));
         this.expend_gem.string = this.dataDisplayConversion(100);
     }
 
@@ -44,24 +46,15 @@ export class CollectCoin extends Component {
     }
 
     private async freeGetCoin(){
-        // const coinDataRes = await AccountNetService.getUserCoinData();
-        // if (coinDataRes && coinDataRes.userCoin != null) {
-        //     //this.AccountModel.CoinData = coinDataRes.userCoin;
-        //     oops.message.dispatchEvent(AccountEvent.CoinDataChange);
-        // }
-        const res = await AccountNetService.getUserCoinData();
-        if (res) {
-            smc.account.OnClaimAward(res.userCoin.freeCoin);
-        }
-        console.log("获得免费金币: ", res.userCoin.freeCoin);
+        smc.account.UseCollectCoin(AccountCoinType.Gold);
+        console.log("获得免费金币: ");
+        oops.gui.remove(UIID.CollectCoin, true);
     }
 
     private async gemGetCoin(){
-        const res = await AccountNetService.getUserCoinData();
-        if (res) {
-            smc.account.OnClaimAward(res.userCoin.freeCoin);
-        }
-        console.log("获得宝石金币: ", res.userCoin.gemCoin);
+        smc.account.UseCollectCoin(AccountCoinType.Gold);
+        console.log("获得宝石金币: ");
+        oops.gui.remove(UIID.CollectCoin, true);
     }
 
     //数值超过百万后，需要将单位转换成M
