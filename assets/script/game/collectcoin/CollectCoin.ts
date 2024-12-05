@@ -39,10 +39,6 @@ export class CollectCoin extends Component {
     }
 
     private closeScreen(){
-
-
-
-        
         oops.gui.remove(UIID.CollectCoin, false);
     }
 

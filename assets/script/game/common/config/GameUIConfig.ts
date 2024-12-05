@@ -50,6 +50,7 @@ export enum UIID {
     Evolve,         // 星兽进化
     EvolveTips,     // 星兽进化提示
     EvolveResult,     // 星兽进化提示
+    CollectCoin,    // 收集金币
 }
 
 /** 打开界面方式的配置数据 */
@@ -98,6 +99,5 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.GuideReward]: { layer: LayerType.System, prefab: "gui/guide/guideReward", mask: true },
     [UIID.LanguageUI]: { layer: LayerType.Dialog, prefab: "gui/setting/languageView", mask: true, vacancy: true },
     [UIID.Keyboard]: { layer: LayerType.System, prefab: "gui/keyboard/Keyboard", mask: true, vacancy: true},
-
-    
+    [UIID.CollectCoin]: { layer: LayerType.System, prefab: "gui/collectcoin/prefab/collectcoin", mask: true, vacancy: true}, 
 }
