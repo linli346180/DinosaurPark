@@ -25,14 +25,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 24
+        "__id__": 28
       },
       {
-        "__id__": 26
+        "__id__": 30
       }
     ],
     "_prefab": {
-      "__id__": 28
+      "__id__": 32
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -79,16 +79,19 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 21
+        "__id__": 23
+      },
+      {
+        "__id__": 25
       }
     ],
     "_prefab": {
-      "__id__": 23
+      "__id__": 27
     },
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 50,
+      "y": 60,
       "z": 0
     },
     "_lrot": {
@@ -140,10 +143,13 @@
       },
       {
         "__id__": 18
+      },
+      {
+        "__id__": 20
       }
     ],
     "_prefab": {
-      "__id__": 20
+      "__id__": 22
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -241,7 +247,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 611.312305,
+      "width": 900,
       "height": 63
     },
     "_anchorPoint": {
@@ -370,8 +376,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 750,
-      "height": 100
+      "width": 1000,
+      "height": 120
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -401,16 +407,16 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 44,
-      "g": 44,
-      "b": 44,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_spriteFrame": {
       "__uuid__": "bdc6c564-ad81-4651-ab71-5c81ead4122d@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "_type": 0,
+    "_type": 1,
     "_fillType": 0,
     "_sizeMode": 0,
     "_fillCenter": {
@@ -483,6 +489,42 @@
     "fileId": "e1FbeaCGNJBqi2SmnzUmaO"
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 3
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 21
+    },
+    "_alignFlags": 40,
+    "_target": null,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_horizontalCenter": 0,
+    "_verticalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 900,
+    "_originalHeight": 0,
+    "_alignMode": 2,
+    "_lockFlags": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "6apr9y4QdGZY220qX+uOEw"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -505,12 +547,12 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 22
+      "__id__": 24
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 750,
-      "height": 100
+      "width": 1000,
+      "height": 120
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -522,6 +564,42 @@
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "faI3WGiA5KeaDNN0CHWvGS"
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 26
+    },
+    "_alignFlags": 40,
+    "_target": null,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_horizontalCenter": 0,
+    "_verticalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 900,
+    "_originalHeight": 0,
+    "_alignMode": 2,
+    "_lockFlags": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "a1yfwss2NIrq5eBf2QzNJZ"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -546,12 +624,12 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 25
+      "__id__": 29
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 664,
-      "height": 100
+      "width": 1000,
+      "height": 120
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -574,7 +652,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 27
+      "__id__": 31
     },
     "_resizeMode": 1,
     "_layoutType": 2,

@@ -14,29 +14,23 @@ export class EvolveBox extends Component {
 
     onLoad() {
         this.btn_item.node.on(Button.EventType.CLICK, this.onItemClick, this);
-        let stbConfig = smc.account.getSTBConfigByType(303);
-        if(stbConfig) {
-            smc.account.getUserInstbCount(stbConfig.id);
-            this.icon_303.active = true;
-            return;
-        } 
-        stbConfig = smc.account.getSTBConfigByType(302);
-        if(stbConfig) {
-            smc.account.getUserInstbCount(stbConfig.id);
-            this.icon_302.active = true;
-            return;
-        } 
-        stbConfig = smc.account.getSTBConfigByType(301);
-        if(stbConfig) {
-            smc.account.getUserInstbCount(stbConfig.id);
-            this.icon_301.active = true;
-            return;
-        } 
+        if (!this.updateIconVisibility(303, this.icon_303)) {
+            if (!this.updateIconVisibility(302, this.icon_302)) {
+                this.updateIconVisibility(301, this.icon_301);
+            }
+        }
     }
 
-    private onItemClick() { 
-        oops.gui.open(UIID.Evolve)
+    private updateIconVisibility(type: number, icon: Node): boolean {
+        const stbConfig = smc.account.getSTBConfigByType(type);
+        if (stbConfig && smc.account.getUserInstbCount(stbConfig.id) > 0) {
+            icon.active = true;
+            return true;
+        }
+        return false
+    }
+
+    private onItemClick() {
+        oops.gui.open(UIID.Evolve);
     }
 }
-
-

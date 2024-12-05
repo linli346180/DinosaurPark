@@ -1686,15 +1686,15 @@
       "__id__": 70
     },
     "_lineHeight": 50,
-    "_string": "",
+    "_string": "说明",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
     "_fontSize": 45,
     "_fontColor": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 109,
+      "g": 57,
+      "b": 0,
       "a": 255
     },
     "_maxWidth": 780,

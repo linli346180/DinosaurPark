@@ -252,5 +252,17 @@
     "tips_Wallet_address_empty":"请连接钱包",
     "tips_Wallet_address_connect":"连接钱包",
 
+    "evolve_title":"进化",
+    "evolve_congratulation":"恭喜获得",
+    "evolve_instructions":"说明",
+    "evolve_consumption":"素材",
+    "evolve_expend":"消耗",
+    "evolve_times":"进化次数",
+    "evolve_times_empty":"进化次数不允许为0",
+    "evolve_times_addonce":"增加一次",
+    "evolve_times_reduceonce":"减少一次",
+    "evolve_sucess":"进化成功",
+    "evolve_fail":"进化失败",
+    
     "End":"结束"
 }

@@ -40,11 +40,10 @@ export class CoinPoolViewModel {
         const goldstbList = smc.account.getSTBDataByConfigType([STBTypeID.STB_Gold_Level10]);
         let surNum = 0;
         goldstbList.forEach((stbData) => {
-            if (smc.account.getSTBSurvivalSec(stbData.id) != 0) {
-                surNum++;
-                this.gold_speed += Number(this.goldConfig.incomeNumMin);
-            }
-        });
+        if (surNum < 10 && smc.account.getSTBSurvivalSec(stbData.id) != 0) {
+            surNum++;
+            this.gold_speed += Number(this.goldConfig.incomeNumMin);
+        }});
         this.gold_speed = Math.floor(this.gold_speed)
         console.log("金币生产速度:" + this.gold_speed + " 总数量:" + goldstbList.length + "存活量:" + surNum + " 收益(分钟):" + this.goldConfig.incomeNumMin);
         return this.gold_speed;

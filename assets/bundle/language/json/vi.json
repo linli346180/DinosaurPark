@@ -252,5 +252,17 @@
     "tips_Wallet_address_empty": "Vui lòng kết nối ví",
     "tips_Wallet_address_connect": "Kết nối ví",
 
+    "evolve_title":"Tiến hóa",
+    "evolve_congratulation":"Chúc mừng bạn đã nhận được",
+    "evolve_instructions":"Hướng dẫn",
+    "evolve_consumption":"Nguyên liệu",
+    "evolve_expend":"Tiêu thụ",
+    "evolve_times":"Số lần Tiến hóa",
+    "evolve_times_empty":"Số lần Tiến hóa không được bằng 0",
+    "evolve_times_addonce":"Thêm một lần",
+    "evolve_times_reduceonce":"Giảm một lần",
+    "evolve_sucess":"Tiến hóa Thành công",
+    "evolve_fail":"Tiến hóa Thất bại",
+
     "End": "Kết thúc"
 }

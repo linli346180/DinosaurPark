@@ -252,5 +252,17 @@
     "tips_Wallet_address_empty": "지갑을 연결해주세요",
     "tips_Wallet_address_connect": "지갑 연결",
 
+    "evolve_title":"진화",
+    "evolve_congratulation":"획득을 축하합니다",
+    "evolve_instructions":"설명",
+    "evolve_consumption":"소재",
+    "evolve_expend":"소비",
+    "evolve_times":"진화 횟수",
+    "evolve_times_empty":"진화 횟수는 0일 수 없습니다",
+    "evolve_times_addonce":"한 번 추가",
+    "evolve_times_reduceonce":"한 번 감소",
+    "evolve_sucess":"진화 성공",
+    "evolve_fail":"진화 실패",
+
     "End": "종료"
 }

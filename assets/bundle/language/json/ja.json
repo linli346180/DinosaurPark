@@ -252,5 +252,17 @@
     "tips_Wallet_address_empty": "ウォレットを接続してください",
     "tips_Wallet_address_connect": "ウォレットを接続",
 
+    "evolve_title":"進化",
+    "evolve_congratulation":"獲得おめでとうございます",
+    "evolve_instructions":"説明",
+    "evolve_consumption":"素材",
+    "evolve_expend":"消費",
+    "evolve_times":"進化回数",
+    "evolve_times_empty":"進化回数は0にできません",
+    "evolve_times_addonce":"1回追加",
+    "evolve_times_reduceonce":"1回減らす",
+    "evolve_sucess":"進化成功",
+    "evolve_fail":"進化失敗",
+
     "End": "終了"
 }

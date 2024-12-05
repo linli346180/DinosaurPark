@@ -252,5 +252,17 @@
     "tips_Wallet_address_empty": "वॉलेट कनेक्ट करें",
     "tips_Wallet_address_connect": "वॉलेट कनेक्ट करें",
 
+    "evolve_title":"विकास",
+    "evolve_congratulation":"प्राप्ति पर बधाई",
+    "evolve_instructions":"निर्देश",
+    "evolve_consumption":"सामग्री",
+    "evolve_expend":"खपत",
+    "evolve_times":"विकास की संख्या",
+    "evolve_times_empty":"विकास की संख्या 0 नहीं हो सकती",
+    "evolve_times_addonce":"एक बार जोड़ें",
+    "evolve_times_reduceonce":"एक बार घटाएं",
+    "evolve_sucess":"विकास सफल",
+    "evolve_fail":"विकास असफल",
+
     "End": "समाप्त"
 }

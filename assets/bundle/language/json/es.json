@@ -252,5 +252,17 @@
     "tips_Wallet_address_empty": "Por favor conecta la billetera",
     "tips_Wallet_address_connect": "Conectar billetera",
 
+    "evolve_title":"Evolución",
+    "evolve_congratulation":"Felicidades por obtener",
+    "evolve_instructions":"Instrucciones",
+    "evolve_consumption":"Material",
+    "evolve_expend":"Consumo",
+    "evolve_times":"Número de Evoluciones",
+    "evolve_times_empty":"El número de evoluciones no puede ser 0",
+    "evolve_times_addonce":"Añadir una",
+    "evolve_times_reduceonce":"Reducir una",
+    "evolve_sucess":"Evolución Exitosa",
+    "evolve_fail":"Evolución Fallida",
+
     "End": "Fin"
 }

@@ -12,6 +12,9 @@ import { Decimal } from 'decimal.js';
 import { ReddotComp } from '../reddot/ReddotComp';
 import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
 import { EvolveResult } from './EvolveResult';
+import { tween } from 'cc';
+import { instantiate } from 'cc';
+import { UIOpacity } from 'cc';
 
 const { ccclass, property } = _decorator;
 
@@ -34,21 +37,25 @@ export class EvolveView extends Component {
     @property(Node) maskNode: Node = null!;
     @property(Button) btn_buy: Button = null!;
 
-    @property(Node) icon_110: Node = null!;
-    @property(Node) icon_301: Node = null!;
-    @property(Node) icon_302: Node = null!;
-    @property(Node) boxIcon_301: Node = null!;
-    @property(Node) boxIcon_302: Node = null!;
-    @property(Node) boxIcon_303: Node = null!;
+    @property(Node) icon_110: Node = null!; // 10级黄金星兽
+    @property(Node) icon_301: Node = null!; // 初级至尊星兽
+    @property(Node) icon_302: Node = null!; // 中级至尊星兽
+    @property(Node) icon_101: Node = null!; // 金币
+    @property(Node) icon_102: Node = null!; // 宝石
+    @property(ProgressBar) boxIcon_301: ProgressBar = null!;
+    @property(ProgressBar) boxIcon_302: ProgressBar = null!;
+    @property(ProgressBar) boxIcon_303: ProgressBar = null!;
     @property(Node) biaoIcon_301: Node = null!;
     @property(Node) biaoIcon_302: Node = null!;
     @property(Node) biaoIcon_303: Node = null!;
 
-    private evolutionDataMap: Map<number, EvolutionData> = new Map();
+    private evolutionDataMap: Map<number, EvolutionData> = new Map();   // 进化基础信息 key: stbConfigId 星兽配置ID value: EvolutionData
     private selectIndex = 301;        // 选择的星兽类型
     private evolutionNumber = 0;      // 进化次数
     private stbResource: EvolutionResource;     // 当前区间星兽资源消耗配置
     private coinResource: EvolutionResource;    // 当前区间金币资源消耗配置
+    private animNode: Node[] = [];
+    private evoResponse: EvolutionResponse;    // 进化返回数据
 
     onLoad() {
         this.toggleGroup.children.forEach((child, index) => {
@@ -64,6 +71,8 @@ export class EvolveView extends Component {
         this.btn_addonce.node.on(Button.EventType.CLICK, this.onAddOnceClick, this);
         this.btn_tips.node.on(Button.EventType.CLICK, this.showTips, this);
         this.btn_buy.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.GemShop) }, this);
+
+        this.animNode.push(this.icon_110, this.icon_301, this.icon_302, this.icon_101, this.icon_102);
     }
 
     onEnable() {
@@ -80,9 +89,13 @@ export class EvolveView extends Component {
     }
 
     private initUI() {
-        this.boxIcon_301.active = this.selectIndex === 301;
-        this.boxIcon_302.active = this.selectIndex === 302;
-        this.boxIcon_303.active = this.selectIndex === 303;
+        this.boxIcon_301.node.active = this.selectIndex === 301;
+        this.boxIcon_302.node.active = this.selectIndex === 302;
+        this.boxIcon_303.node.active = this.selectIndex === 303;
+        this.boxIcon_301.progress = 1;
+        this.boxIcon_302.progress = 1;
+        this.boxIcon_303.progress = 1;
+
         this.biaoIcon_301.active = this.selectIndex === 301;
         this.biaoIcon_302.active = this.selectIndex === 302;
         this.biaoIcon_303.active = this.selectIndex === 303;
@@ -138,15 +151,27 @@ export class EvolveView extends Component {
         }
     }
 
+    /** 更新进度条 */
     private updateProgress(evoData: EvolutionData) {
-        const progress = evoData.currentProgress / evoData.evolutionTotal;
-        this.progressBar.progress = progress;
-        this.slider.progress = progress;
+        const targetProgress = evoData.currentProgress / evoData.evolutionTotal;
         this.progressLabel.string = `(${evoData.currentProgress}/${evoData.evolutionTotal})`;
+        // 更新进度条
+        tween(this.progressBar).to(0.5, { progress: targetProgress }).start();
+        tween(this.slider).to(0.5, { progress: targetProgress }).start();
+        if (this.boxIcon_301.node.active) {
+            tween(this.boxIcon_301).to(0.5, { progress: 1 - targetProgress }).start();
+        }
+        if (this.boxIcon_302.node.active) {
+            tween(this.boxIcon_302).to(0.5, { progress: 1 - targetProgress }).start();
+        }
+        if (this.boxIcon_303.node.active) {
+            tween(this.boxIcon_303).to(0.5, { progress: 1 - targetProgress }).start();
+        }
     }
 
     private async onEvolveClick() {
         if (this.evolutionNumber <= 0) {
+            oops.gui.toast(oops.language.getLangByID("evolve_times_empty"));
             console.error(`未添加进化次数`, this.evolutionNumber);
             return;
         }
@@ -160,8 +185,10 @@ export class EvolveView extends Component {
         this.maskNode.active = true;
         const res = await EvolueNetService.evolveRequest(stbConfig.id, this.evolutionNumber);
         if (res && res.evolution) {
-            const evoResponse: EvolutionResponse = res.evolution;
-            if (evoResponse.isCreate) {
+            this.playEvolveAnim();
+            this.evoResponse = res.evolution;
+            // 显示进化结果
+            if (this.evoResponse.isCreate) {
                 var uic: UICallbacks = {
                     onAdded: (node: Node, params: any) => {
                         node.getComponent(EvolveResult)?.InitUI(this.selectIndex);
@@ -170,16 +197,17 @@ export class EvolveView extends Component {
                 let uiArgs: any;
                 oops.gui.open(UIID.EvolveResult, uiArgs, uic);
             }
-            this.updateEvolutionData(stbConfig.id, evoResponse);
 
+            this.updateEvolutionData(stbConfig.id, this.evoResponse);
             await smc.account.updateCoinData();
             await smc.account.updateInstbData();
             this.onToggleSelcted(this.selectIndex);
+        } else {
+            this.maskNode.active = false;
         }
-
-        this.maskNode.active = false;
     }
 
+    /** 更新进化进度值 */
     private updateEvolutionData(stbConfigId: number, evoResponse: EvolutionResponse) {
         const evoData = this.evolutionDataMap.get(stbConfigId);
         if (evoData) {
@@ -218,15 +246,24 @@ export class EvolveView extends Component {
         }
 
         if (this.stbResource) {
-            this.updateResourceIcon(this.stbResource.resourceId);
+            const stnConfigId = this.stbResource.resourceId;
+            this.updateResourceIcon(stnConfigId);
             this.stbRemain.string = StringUtil.formatMoney(smc.account.getUserInstbCount(this.stbResource.resourceId));
         } else {
+            this.stbRemain.string = '0';
+            this.icon_110.active = false;
+            this.icon_301.active = false;
+            this.icon_302.active = false;
             console.error(`未找到星兽资源`);
         }
 
         if (this.coinResource) {
+            this.icon_102.active = true;
             this.coinRemain.string = StringUtil.formatMoney(smc.account.AccountModel.CoinData.gemsCoin);
         } else {
+            this.coinRemain.string = '0';
+            this.icon_101.active = false;
+            this.icon_102.active = false;
             console.error(`未找到货币资源`);
         }
     }
@@ -307,6 +344,31 @@ export class EvolveView extends Component {
             const powerResult = proportion.pow(new Decimal(current - min));
             const resultNum = new Decimal(basicQuantity).mul(powerResult);
             return Math.floor(resultNum.toNumber());
+        }
+    }
+
+    /** 播放进化动画 */
+    private playEvolveAnim() {
+        const targetPos = this.biaoIcon_301.getWorldPosition();
+        for (const node of this.animNode) {
+            if (node.active == false)
+                continue;
+
+            const targetNode = instantiate(node);
+            this.node.addChild(targetNode);
+
+            let uiOpacity = targetNode.getComponent(UIOpacity);
+            if (uiOpacity == null)
+                uiOpacity = targetNode.addComponent(UIOpacity);
+            tween(targetNode)
+                .call(() => { targetNode.setWorldPosition(node.getWorldPosition().clone()); })
+                .to(1, { worldPosition: targetPos }, { easing: 'sineInOut' })
+                .to(0.5, {}, { onUpdate: (target, ratio) => { uiOpacity.opacity = 255 * (1 - ratio * 1); } }) // 透明度从 255 变到 127.5
+                .call(() => {
+                    targetNode.destroy();
+                    this.maskNode.active = false;
+                })
+                .start();
         }
     }
 }

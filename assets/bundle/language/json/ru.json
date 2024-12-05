@@ -251,6 +251,18 @@
     "tips_Wallet_address": "Адрес кошелька",
     "tips_Wallet_address_empty": "Пожалуйста, подключите кошелек",
     "tips_Wallet_address_connect": "Подключить кошелек",
+
+    "evolve_title":"Эволюция",
+    "evolve_congratulation":"Поздравляем с получением",
+    "evolve_instructions":"Инструкции",
+    "evolve_consumption":"Материал",
+    "evolve_expend":"Потребление",
+    "evolve_times":"Количество эволюций",
+    "evolve_times_empty":"Количество эволюций не может быть 0",
+    "evolve_times_addonce":"Добавить один",
+    "evolve_times_reduceonce":"Уменьшить один",
+    "evolve_sucess":"Эволюция Успешна",
+    "evolve_fail":"Эволюция Неудачна",
     
     "End": "Конец"
 }

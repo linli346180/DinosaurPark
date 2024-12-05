@@ -252,5 +252,17 @@
     "tips_Wallet_address_empty": "Pakikonekta ang Wallet",
     "tips_Wallet_address_connect": "Ikonekta ang Wallet",
 
+    "evolve_title":"Ebolusyon",
+    "evolve_congratulation":"Binabati kita sa pagkuha",
+    "evolve_instructions":"Mga Tagubilin",
+    "evolve_consumption":"Materyal",
+    "evolve_expend":"Pagkonsumo",
+    "evolve_times":"Bilang ng Ebolusyon",
+    "evolve_times_empty":"Ang bilang ng ebolusyon ay hindi maaaring maging 0",
+    "evolve_times_addonce":"Magdagdag ng isa",
+    "evolve_times_reduceonce":"Bawasan ng isa",
+    "evolve_sucess":"Matagumpay na Ebolusyon",
+    "evolve_fail":"Nabigong Ebolusyon",
+
     "End": "Wakas"
 }

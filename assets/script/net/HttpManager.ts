@@ -193,9 +193,9 @@ export class HttpManager {
                             return response.formData();
                     }
                 }
-                else {
-                    this.setReturn(this.url, resolve, false, response);
-                }
+                // else {
+                //     this.setReturn(this.url, resolve, false, response);
+                // }
             }).then((value: any) => {
                 this.setReturn<T>(this.url, resolve, true, value);
             }).catch((reason: any) => {
@@ -271,7 +271,7 @@ export class HttpManager {
             }
         }
         else {
-            console.error("网络请求失败",url);
+            console.error("网络请求失败", url);
             oops.message.dispatchEvent(GameEvent.NetConnectFail)
             ret.err = value;
         }

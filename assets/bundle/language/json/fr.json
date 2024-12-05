@@ -252,5 +252,17 @@
     "tips_Wallet_address_empty": "Veuillez connecter votre portefeuille",
     "tips_Wallet_address_connect": "Connecter le portefeuille",
 
+    "evolve_title":"Évolution",
+    "evolve_congratulation":"Félicitations pour avoir obtenu",
+    "evolve_instructions":"Instructions",
+    "evolve_consumption":"Matériel",
+    "evolve_expend":"Consommation",
+    "evolve_times":"Nombre d'Évolutions",
+    "evolve_times_empty":"Le nombre d'évolutions ne peut pas être 0",
+    "evolve_times_addonce":"Ajouter une fois",
+    "evolve_times_reduceonce":"Réduire une fois",
+    "evolve_sucess":"Évolution Réussie",
+    "evolve_fail":"Évolution Échouée",
+
     "End": "Fin"
 }

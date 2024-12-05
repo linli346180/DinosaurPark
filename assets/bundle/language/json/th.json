@@ -252,5 +252,17 @@
     "tips_Wallet_address_empty": "กรุณาเชื่อมต่อกระเป๋าเงิน",
     "tips_Wallet_address_connect": "เชื่อมต่อกระเป๋าเงิน",
 
+    "evolve_title":"วิวัฒนาการ",
+    "evolve_congratulation":"ยินดีด้วยที่ได้รับ",
+    "evolve_instructions":"คำแนะนำ",
+    "evolve_consumption":"วัสดุ",
+    "evolve_expend":"การใช้",
+    "evolve_times":"จำนวนครั้งที่วิวัฒนาการ",
+    "evolve_times_empty":"จำนวนครั้งที่วิวัฒนาการต้องไม่เท่ากับ 0",
+    "evolve_times_addonce":"เพิ่มหนึ่งครั้ง",
+    "evolve_times_reduceonce":"ลดหนึ่งครั้ง",
+    "evolve_sucess":"วิวัฒนาการสำเร็จ",
+    "evolve_fail":"วิวัฒนาการล้มเหลว",
+
     "End": "จบ"
 }

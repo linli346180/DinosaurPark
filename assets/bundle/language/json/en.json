@@ -252,5 +252,17 @@
     "tips_Wallet_address_empty": "Please connect wallet",
     "tips_Wallet_address_connect": "Connect Wallet",
 
+    "evolve_title":"Evolution",
+    "evolve_congratulation":"Congratulations on obtaining",
+    "evolve_instructions":"Instructions",
+    "evolve_consumption":"Material",
+    "evolve_expend":"Consumption",
+    "evolve_times":"Number of Evolutions",
+    "evolve_times_empty":"Number of Evolutions cannot be 0",
+    "evolve_times_addonce":"Add one",
+    "evolve_times_reduceonce":"Reduce one",
+    "evolve_sucess":"Evolution Successful",
+    "evolve_fail":"Evolution Failed",
+
     "End": "End"
 }

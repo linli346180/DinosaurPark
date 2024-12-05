@@ -251,6 +251,18 @@
     "tips_Wallet_address": "Endereço da Carteira",
     "tips_Wallet_address_empty": "Por favor, conecte sua carteira",
     "tips_Wallet_address_connect": "Conectar Carteira",
+
+    "evolve_title":"Evolução",
+    "evolve_congratulation":"Parabéns por obter",
+    "evolve_instructions":"Instruções",
+    "evolve_consumption":"Material",
+    "evolve_expend":"Consumo",
+    "evolve_times":"Número de Evoluções",
+    "evolve_times_empty":"O número de evoluções não pode ser 0",
+    "evolve_times_addonce":"Adicionar uma",
+    "evolve_times_reduceonce":"Reduzir uma",
+    "evolve_sucess":"Evolução Bem-sucedida",
+    "evolve_fail":"Evolução Falhou",
     
     "End": "Fim"
 }

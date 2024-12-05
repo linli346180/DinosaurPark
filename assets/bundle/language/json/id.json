@@ -251,6 +251,18 @@
     "tips_Wallet_address": "Alamat Dompet",
     "tips_Wallet_address_empty": "Harap Hubungkan Dompet",
     "tips_Wallet_address_connect": "Hubungkan Dompet",
+
+    "evolve_title":"Evolusi",
+    "evolve_congratulation":"Selamat mendapatkan",
+    "evolve_instructions":"Instruksi",
+    "evolve_consumption":"Material",
+    "evolve_expend":"Konsumsi",
+    "evolve_times":"Jumlah Evolusi",
+    "evolve_times_empty":"Jumlah Evolusi tidak boleh 0",
+    "evolve_times_addonce":"Tambah satu kali",
+    "evolve_times_reduceonce":"Kurangi satu kali",
+    "evolve_sucess":"Evolusi Berhasil",
+    "evolve_fail":"Evolusi Gagal",
     
     "End": "Selesai"
 }

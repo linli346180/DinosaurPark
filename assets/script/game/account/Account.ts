@@ -102,7 +102,7 @@ export class Account extends ecs.Entity {
                 console.log("4.数据初始化完成");
                 oops.gui.openAsync(UIID.Map);
                 await oops.gui.openAsync(UIID.Main);
-                await oops.gui.openAsync(UIID.CollectCoin);
+                // await oops.gui.openAsync(UIID.CollectCoin);
                 AccountNetService.createWebSocket();
                 break;
 
