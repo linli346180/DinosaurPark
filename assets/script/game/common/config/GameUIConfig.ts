@@ -66,7 +66,7 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.Main]: { layer: LayerType.UI, prefab: "gui/game/prefab/home" },
     [UIID.Email]: { layer: LayerType.UI, prefab: "gui/email/prefab/emailUI", mask: true },
     [UIID.RankUI]: { layer: LayerType.UI, prefab: "gui/rank/prefab/ranklUI", mask: true },
-    [UIID.Revive]: { layer: LayerType.UI, prefab: "gui/debris/prefab/debrisUI", mask: true },
+    // [UIID.Revive]: { layer: LayerType.UI, prefab: "gui/debris/prefab/debrisUI", mask: true },
     [UIID.Hatch]: { layer: LayerType.UI, prefab: "gui/hatch/prefab/hatch", mask: true },
     [UIID.Activity]: { layer: LayerType.UI, prefab: "gui/activity/activityUI", mask: true },
     [UIID.Evolve]: { layer: LayerType.UI, prefab: "gui/evolve/evolveUI", mask: true},
@@ -83,7 +83,7 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.Task]: { layer: LayerType.UI, prefab: "gui/task/prefab/task" },
     [UIID.Invite]: { layer: LayerType.UI, prefab: "gui/invite/prefab/invite" },
     [UIID.User]: { layer: LayerType.PopUp, prefab: "gui/setting/usercenter", mask: true },
-    [UIID.DebrisResult]: { layer: LayerType.PopUp, prefab: "gui/debris/prefab/debrisResult", mask: true },
+    // [UIID.DebrisResult]: { layer: LayerType.PopUp, prefab: "gui/debris/prefab/debrisResult", mask: true },
     [UIID.STBShop]: { layer: LayerType.PopUp, prefab: "gui/shop/prefab/STBShop", mask: true },
     
     [UIID.GemShop]: { layer: LayerType.PopUp, prefab: "gui/wallet/gemShop", mask: true },
