@@ -141,6 +141,22 @@ export default class Keyboard extends Component {
             if (keyItem) {
                 keyItem.InitItem(keyCode, KeyBoardConfigs[keyCode]);
                 keyItem.clickHandler = this.onKeyPress.bind(this);
+                
+            }
+            if (this.inputMode === InputMode.NUMERIC) {
+                if (keyCode < KeyBoardCode.NUM_0 || keyCode > KeyBoardCode.NUM_9) {
+                    keyItem.btnCom.interactable = false;
+                }
+            }
+            if (this.inputMode === InputMode.DECIMAL) {
+                if (keyCode < KeyBoardCode.NUM_0 || keyCode > KeyBoardCode.NUM_DECIMAL)
+                {
+                    keyItem.btnCom.interactable = false;
+                }
+            }
+            if (keyCode == KeyBoardCode.Caps || keyCode == KeyBoardCode.DELETE || keyCode == KeyBoardCode.Enter || keyCode == KeyBoardCode.Shift)
+            {
+                keyItem.btnCom.interactable = true;
             }
         }
     }

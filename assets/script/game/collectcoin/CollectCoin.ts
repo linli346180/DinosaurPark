@@ -5,6 +5,7 @@ import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/O
 import { UIID } from '../common/config/GameUIConfig';
 import { AccountNetService } from '../account/AccountNet';
 import { AccountEvent } from '../account/AccountEvent';
+import { smc } from '../common/SingletonModuleComp';
 const { ccclass, property } = _decorator;
 
 @ccclass('CollectCoin')
@@ -43,21 +44,24 @@ export class CollectCoin extends Component {
     }
 
     private async freeGetCoin(){
-        const coinDataRes = await AccountNetService.getUserCoinData();
-        if (coinDataRes && coinDataRes.userCoin != null) {
-            //this.AccountModel.CoinData = coinDataRes.userCoin;
-            oops.message.dispatchEvent(AccountEvent.CoinDataChange);
+        // const coinDataRes = await AccountNetService.getUserCoinData();
+        // if (coinDataRes && coinDataRes.userCoin != null) {
+        //     //this.AccountModel.CoinData = coinDataRes.userCoin;
+        //     oops.message.dispatchEvent(AccountEvent.CoinDataChange);
+        // }
+        const res = await AccountNetService.getUserCoinData();
+        if (res) {
+            smc.account.OnClaimAward(res.userCoin.freeCoin);
         }
-        console.log("获得免费金币: ", coinDataRes.userCoin);
+        console.log("获得免费金币: ", res.userCoin.freeCoin);
     }
 
     private async gemGetCoin(){
-        const coinDataRes = await AccountNetService.getUserCoinData();
-        if (coinDataRes && coinDataRes.userCoin != null) {
-            //this.AccountModel.CoinData = coinDataRes.userCoin;
-            oops.message.dispatchEvent(AccountEvent.CoinDataChange);
+        const res = await AccountNetService.getUserCoinData();
+        if (res) {
+            smc.account.OnClaimAward(res.userCoin.freeCoin);
         }
-        console.log("获得宝石金币: ", coinDataRes.userCoin);
+        console.log("获得宝石金币: ", res.userCoin.gemCoin);
     }
 
     //数值超过百万后，需要将单位转换成M

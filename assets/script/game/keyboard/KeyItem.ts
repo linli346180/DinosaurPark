@@ -14,7 +14,7 @@ export class KeyItem extends Component {
     @property(Label)
     private label: Label = null!;
     @property(Button)
-    private btnCom: Button = null!;
+    public btnCom: Button = null!;
     @property(Node)
     private icon_del: Node = null!;
     @property(Node)
