@@ -69,7 +69,7 @@ export class LanguagePack {
     /** 纹理多语言资源 */
     private loadTexture(lang: string) {
         return new Promise((resolve, reject) => {
-            const path = `${LanguageData.path_texture}/${lang}`;
+            const path = `${LanguageData.path_texture}/${lang.toLowerCase()}`;
             resLoader.loadDir(path, (err: any, assets: any) => {
                 if (err) {
                     error(err);
@@ -85,7 +85,7 @@ export class LanguagePack {
     /** Json格式多语言资源 */
     private loadJson(lang: string) {
         return new Promise(async (resolve, reject) => {
-            const path = `${LanguageData.path_json}/${lang}`;
+            const path = `${LanguageData.path_json}/${lang.toLowerCase()}`;
             const jsonAsset = await resLoader.loadAsync(path, JsonAsset);
             if (jsonAsset) {
                 LanguageData.json = jsonAsset.json;
@@ -107,7 +107,7 @@ export class LanguagePack {
     /** SPINE动画多语言资源 */
     private loadSpine(lang: string) {
         return new Promise(async (resolve, reject) => {
-            const path = `${LanguageData.path_spine}/${lang}`;
+            const path = `${LanguageData.path_spine}/${lang.toLowerCase()}`;
             resLoader.loadDir(path, (err: any, assets: any) => {
                 if (err) {
                     error(err);
