@@ -73,6 +73,16 @@ export class Account extends ecs.Entity {
                 oops.storage.setUser(this.AccountModel.userData.id.toString());
                 oops.audio.load();
 
+                if(this.AccountModel.noOperationMail) {
+                    console.log("有未读邮件");
+                    oops.storage.remove(NetCmd.UserEmailType.toString());
+                }
+
+                if(this.AccountModel.noOperationTask) {
+                    console.log("有未领取任务");
+                    oops.storage.remove(NetCmd.UserTaskType.toString());
+                }
+
                 // 检查是否已完成新手引导
                 if (!await this.isGuideFinish()) {
                     oops.message.dispatchEvent(GameEvent.CloseLoadingUI);
@@ -180,27 +190,29 @@ export class Account extends ecs.Entity {
     // 更新收益星兽数据
     async updateInstbData(callback: Function = null): Promise<void> {
         const res = await AccountNetService.GetUserSTBData();
-        let idList: number[] = [];
-        if (res && res.userInstbData.UserInstb != null) {
-            // 添加新的星兽
-            for (const stbItem of res.userInstbData.UserInstb) {
-                const stbId = stbItem.id;
-                const stbConfigID = stbItem.stbConfigID;
-
-                if (stbConfigID == null || stbConfigID == undefined || stbConfigID == 0)
-                    continue;
-
-                idList.push(stbId);
-                if (this.getUserSTBData(stbId, UserSTBType.InCome) == null) {
-                    this.AccountModel.addInComeSTBData(stbItem);
-                    oops.message.dispatchEvent(AccountEvent.AddInComeSTB, stbId);
+        if (res && res.userInstbData != null) {
+            let allList: number[] = [];      // 所有星兽
+            let delList: number[] = [];     // 已删除星兽
+            // 如果没有星兽数据
+            if(res.userInstbData.UserInstb) {
+                for (const stbItem of res.userInstbData.UserInstb) {
+                    const stbId = stbItem.id;
+                    const stbConfigID = stbItem.stbConfigID;
+                    if (stbConfigID == null || stbConfigID == undefined || stbConfigID == 0)
+                        continue;
+    
+                    allList.push(stbId);
+                    // 如果不存在，则添加
+                    if (this.getUserSTBData(stbId, UserSTBType.InCome) == null) {
+                        this.AccountModel.addInComeSTBData(stbItem);
+                        oops.message.dispatchEvent(AccountEvent.AddInComeSTB, stbId);
+                    }
                 }
             }
 
-            // 删除已经不存在的星兽
-            let delList: number[] = [];
+            // 删除已删除的星兽
             for (const stbItem of this.AccountModel.getUserInstb()) {
-                if (!idList.includes(stbItem.id)) {
+                if (!allList.includes(stbItem.id)) {
                     delList.push(stbItem.id);
                 }
             }

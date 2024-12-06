@@ -52,8 +52,9 @@ export class ReddotComp extends Component {
         this.playScaleAnimation(this.node);
     }
 
-    public setRead() {
-        oops.storage.set(this.cmd.toString(), true);
+    /** 设置为已读状态 */
+    public setRead(remove: boolean = true) {
+        if(remove) oops.storage.set(this.cmd.toString(), true);
         this.node.active = false;
     }
 
@@ -62,6 +63,7 @@ export class ReddotComp extends Component {
     }
 
     private onHandler(event: string, args: any) {
+        oops.storage.remove(args.toString());
         if (args == this.cmd) {
             this.node.active = true;
         }

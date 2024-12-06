@@ -515,7 +515,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "744b0f19-3519-41b9-9939-f2bde2139378@f9941",
+      "__uuid__": "215f0289-37e5-40ce-a796-1a31dc3d0e2b@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -835,9 +835,6 @@
     },
     "goodName": {
       "__id__": 27
-    },
-    "levelName": {
-      "__id__": 7
     },
     "_id": ""
   },

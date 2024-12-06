@@ -44,5 +44,7 @@ export class AccountLoginData extends ecs.ComblockSystem implements ecs.IEntityE
     private onLogonSucess(entity: Account, response: any) {
         entity.AccountModel.userData = response.user;
         entity.AccountModel.coinPoolData = response.userCoinIncome;
+        entity.AccountModel.noOperationMail = response.noOperationMail;
+        entity.AccountModel.noOperationTask = response.noOperationTask;
     }
 }

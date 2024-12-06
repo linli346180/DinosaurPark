@@ -3,6 +3,7 @@ import { RewardConfig, RewardType } from './HatchDefine';
 import { TableItemConfig } from '../common/table/TableItemConfig';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { StringUtil } from '../common/utils/StringUtil';
+import { AtlasUtil } from '../common/AtlasUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('RewardItem')
@@ -22,9 +23,15 @@ export class RewardItem extends Component {
 
         // 加载图标
         if (this.itemConfig.icon) {
-            oops.res.loadAsync(this.itemConfig.icon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
-                this.icon.spriteFrame = spriteFrame;
+            AtlasUtil.loadAtlasAsync(this.itemConfig.icon).then((spriteFrame) => { 
+                if(spriteFrame)
+                    this.icon.spriteFrame = spriteFrame;
+                else 
+                    console.error('加载失败:', this.itemConfig.icon);
             });
+            // oops.res.loadAsync(this.itemConfig.icon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
+            //     this.icon.spriteFrame = spriteFrame;
+            // });
         }
         // 显示名称
         this.updateName();

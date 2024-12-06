@@ -15,6 +15,8 @@ import { EvolveResult } from './EvolveResult';
 import { tween } from 'cc';
 import { instantiate } from 'cc';
 import { UIOpacity } from 'cc';
+import { SpriteFrame } from 'cc';
+import { Sprite } from 'cc';
 
 const { ccclass, property } = _decorator;
 
@@ -28,11 +30,12 @@ export class EvolveView extends Component {
     @property(Button) btn_addonce: Button = null!;
     @property(ProgressBar) progressBar: ProgressBar = null!;
     @property(Slider) slider: Slider = null!;
+    @property(Sprite) sliderHandle: Sprite = null!;
     @property(Label) evoNumLabel: Label = null!;
     @property(Label) stbRemain: Label = null!;     // 剩余星兽数量
     @property(Label) coinRemain: Label = null!;    // 剩余金币数量
-    @property(Label) stbResourceNum: Label = null!;
-    @property(Label) coinResourceNum: Label = null!;
+    @property(Label) stbResourceNum: Label = null!;     // 星兽消耗数量
+    @property(Label) coinResourceNum: Label = null!;    // 金币消耗数量
     @property(Button) btn_tips: Button = null!;
     @property(Node) maskNode: Node = null!;
     @property(Button) btn_buy: Button = null!;
@@ -48,6 +51,10 @@ export class EvolveView extends Component {
     @property(Node) biaoIcon_301: Node = null!;
     @property(Node) biaoIcon_302: Node = null!;
     @property(Node) biaoIcon_303: Node = null!;
+
+    @property(SpriteFrame) icon_301_sf: SpriteFrame = null!;
+    @property(SpriteFrame) icon_302_sf: SpriteFrame = null!;
+    @property(SpriteFrame) icon_303_sf: SpriteFrame = null!;
 
     private evolutionDataMap: Map<number, EvolutionData> = new Map();   // 进化基础信息 key: stbConfigId 星兽配置ID value: EvolutionData
     private selectIndex = 301;        // 选择的星兽类型
@@ -99,6 +106,9 @@ export class EvolveView extends Component {
         this.biaoIcon_301.active = this.selectIndex === 301;
         this.biaoIcon_302.active = this.selectIndex === 302;
         this.biaoIcon_303.active = this.selectIndex === 303;
+
+        this.sliderHandle.spriteFrame = this.selectIndex === 301 ? this.icon_301_sf : this.selectIndex === 302 ? this.icon_302_sf : this.icon_303_sf;
+
         this.stbRemain.string = '0';
         this.coinRemain.string = '0';
         this.stbResourceNum.string = '0';
@@ -145,7 +155,7 @@ export class EvolveView extends Component {
                     focusExtent = item;
                 }
             }
-            this.calculateRemainResource(focusExtent);
+            this.calculateRemainResource(focusExtent.evolutionResources);
         } else {
             console.error(`未命中区间`);
         }
@@ -187,6 +197,7 @@ export class EvolveView extends Component {
         if (res && res.evolution) {
             this.playEvolveAnim();
             this.evoResponse = res.evolution;
+
             // 显示进化结果
             if (this.evoResponse.isCreate) {
                 var uic: UICallbacks = {
@@ -197,11 +208,15 @@ export class EvolveView extends Component {
                 let uiArgs: any;
                 oops.gui.open(UIID.EvolveResult, uiArgs, uic);
             }
-
+            // 刷新进度
             this.updateEvolutionData(stbConfig.id, this.evoResponse);
-            await smc.account.updateCoinData();
-            await smc.account.updateInstbData();
-            this.onToggleSelcted(this.selectIndex);
+
+            // 延迟刷新账号数据
+            this.scheduleOnce(async () => { 
+                await smc.account.updateCoinData();
+                await smc.account.updateInstbData();
+                this.onToggleSelcted(this.selectIndex);
+            }, 1.5);
         } else {
             this.maskNode.active = false;
         }
@@ -232,10 +247,10 @@ export class EvolveView extends Component {
     }
 
     /** 计算剩余耗材 */
-    private calculateRemainResource(evolutionExtent: EvolutionExtent) {
+    private calculateRemainResource(evolutionResources: EvolutionResource[], useAccount: boolean = true) {
         this.coinResource = null;
         this.stbResource = null;
-        for (const item of evolutionExtent.evolutionResources) {
+        for (const item of evolutionResources) {
             console.log(`进化资源区间:`, item);
             if (item.resourceType === AwardType.Coin) {
                 this.coinResource = item;
@@ -248,7 +263,12 @@ export class EvolveView extends Component {
         if (this.stbResource) {
             const stnConfigId = this.stbResource.resourceId;
             this.updateResourceIcon(stnConfigId);
-            this.stbRemain.string = StringUtil.formatMoney(smc.account.getUserInstbCount(this.stbResource.resourceId));
+            if(useAccount) {
+                this.stbRemain.string = StringUtil.formatMoney(smc.account.getUserInstbCount(this.stbResource.resourceId));
+            } else {
+                this.stbRemain.string = this.stbResource.userQuantity.toString();
+            }
+            
         } else {
             this.stbRemain.string = '0';
             this.icon_110.active = false;
@@ -259,7 +279,11 @@ export class EvolveView extends Component {
 
         if (this.coinResource) {
             this.icon_102.active = true;
-            this.coinRemain.string = StringUtil.formatMoney(smc.account.AccountModel.CoinData.gemsCoin);
+            if(useAccount) { 
+                this.coinRemain.string = StringUtil.formatMoney(smc.account.AccountModel.CoinData.gemsCoin);
+            } else {
+                this.coinRemain.string = this.coinResource.userQuantity.toString();
+            }
         } else {
             this.coinRemain.string = '0';
             this.icon_101.active = false;
@@ -363,7 +387,7 @@ export class EvolveView extends Component {
             tween(targetNode)
                 .call(() => { targetNode.setWorldPosition(node.getWorldPosition().clone()); })
                 .to(1, { worldPosition: targetPos }, { easing: 'sineInOut' })
-                .to(0.5, {}, { onUpdate: (target, ratio) => { uiOpacity.opacity = 255 * (1 - ratio * 1); } }) // 透明度从 255 变到 127.5
+                .to(1, {}, { onUpdate: (target, ratio) => { uiOpacity.opacity = 255 * (1 - ratio * 1); } }) // 透明度从 255 变到 127.5
                 .call(() => {
                     targetNode.destroy();
                     this.maskNode.active = false;

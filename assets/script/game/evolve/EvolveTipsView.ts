@@ -24,6 +24,6 @@ export class EvolveTipsView extends Component {
     }
 
     private closeUI() {
-        oops.gui.remove(UIID.EvolveTips, false);
+        oops.gui.remove(UIID.EvolveTips);
     }
 }

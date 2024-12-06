@@ -6,6 +6,7 @@ import { TableItemConfig } from '../common/table/TableItemConfig';
 import { StringUtil } from '../common/utils/StringUtil';
 import { SpriteFrame } from 'cc';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
+import { AtlasUtil } from '../common/AtlasUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('EmailRewardItem')
@@ -22,10 +23,18 @@ export class EmailRewardItem extends Component {
 
         itemConfig.init(itemId);
         if(itemConfig.icon != null && itemConfig.icon != undefined && itemConfig.icon != ''){ 
-            oops.res.loadAsync(itemConfig.icon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
-                if (spriteFrame)
+            // oops.res.loadAsync(itemConfig.icon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
+            //     if (spriteFrame)
+            //         this.icon.spriteFrame = spriteFrame;
+            // })
+            AtlasUtil.loadAtlasAsync(itemConfig.icon).then((spriteFrame) => { 
+                if(spriteFrame)
                     this.icon.spriteFrame = spriteFrame;
-            })
+                else 
+                    console.error('加载失败:', itemConfig.icon);
+            });
         }
+
+        
     }
 }

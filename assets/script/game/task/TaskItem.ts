@@ -6,6 +6,7 @@ import { TableItemConfig } from '../common/table/TableItemConfig';
 import { StringUtil } from '../common/utils/StringUtil';
 import { UIID } from '../common/config/GameUIConfig';
 import { smc } from '../common/SingletonModuleComp';
+import { AtlasUtil } from '../common/AtlasUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('TaskItem')
@@ -52,9 +53,15 @@ export class TaskItem extends Component {
             let itemId = StringUtil.combineNumbers(rewardConfig.awardType, rewardConfig.awardResourceId, 2);
             itemConfig.init(itemId);
             if (itemConfig.icon != undefined && itemConfig.icon != null && itemConfig.icon != '') {
-                oops.res.loadAsync(itemConfig.icon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
-                    if (spriteFrame)
+                // oops.res.loadAsync(itemConfig.icon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
+                //     if (spriteFrame)
+                //         this.rewardIcon.spriteFrame = spriteFrame;
+                // });
+                AtlasUtil.loadAtlasAsync(itemConfig.icon).then((spriteFrame) => { 
+                    if(spriteFrame)
                         this.rewardIcon.spriteFrame = spriteFrame;
+                    else 
+                        console.error('加载失败:', itemConfig.icon);
                 });
             }
         } else {

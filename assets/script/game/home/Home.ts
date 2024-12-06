@@ -11,53 +11,29 @@ import { AnimUtil } from '../common/utils/AnimUtil';
 import { smc } from '../common/SingletonModuleComp';
 import { RedDotCmd } from '../reddot/ReddotDefine';
 import { ReddotComp } from '../reddot/ReddotComp';
+
 const { ccclass, property } = _decorator;
 
 @ccclass('HomeView')
 export class HomeView extends Component {
-    @property(Button)
-    btn_user: Button = null!;
-    @property(Button)
-    btn_email: Button = null!;
-    @property(Button)
-    btn_task: Button = null!;
-    @property(Button)
-    btn_rank: Button = null!;
-    @property(Button)
-    btn_book: Button = null!;
-    @property(Button)
-    btn_revivei: Button = null!;
-    @property(Button)
-    btn_store: Button = null!;
-    @property(Button)
-    btn_hatch: Button = null!;
-    @property(Button)
-    btn_invite: Button = null!;
-    @property(Button)
-    btn_activity: Button = null!;
-
-    // 收集金币动画
-    @property(Node)
-    goldAnimNode: Node = null!;
-    @property(Node)
-    goldAnimEndNode: Node = null!;
-    @property(Node)
-    goldAnimBeginNode: Node = null!;
-
-    // 收集USTD动画
-    @property(Node)
-    usdtAnimNode: Node = null!;
-    @property(Label)
-    usdtCount: Label = null!;
-    @property(Node)
-    usdtAnimEndNode: Node = null!;
-
-    // 星兽进化动画
-    @property(Node)
-    evolveTips: Node = null!;
-
-    @property(UserCoinView)
-    userCoinView: UserCoinView = null!;
+    @property(Button) btn_user: Button = null!;
+    @property(Button) btn_email: Button = null!;
+    @property(Button) btn_task: Button = null!;
+    @property(Button) btn_rank: Button = null!;
+    @property(Button) btn_book: Button = null!;
+    @property(Button) btn_revivei: Button = null!;
+    @property(Button) btn_store: Button = null!;
+    @property(Button) btn_hatch: Button = null!;
+    @property(Button) btn_invite: Button = null!;
+    @property(Button) btn_activity: Button = null!;
+    @property(Node) goldAnimNode: Node = null!;
+    @property(Node) goldAnimEndNode: Node = null!;
+    @property(Node) goldAnimBeginNode: Node = null!;
+    @property(Node) usdtAnimNode: Node = null!;
+    @property(Label) usdtCount: Label = null!;
+    @property(Node) usdtAnimEndNode: Node = null!;
+    @property(Node) evolveTips: Node = null!;
+    @property(UserCoinView) userCoinView: UserCoinView = null!;
 
     private buttonMap: { [key: string]: Button } = {};
 
@@ -71,7 +47,6 @@ export class HomeView extends Component {
     }
 
     onDestroy() {
-        // this.removeEventListeners();
         oops.message.off(AccountEvent.EvolveUnIncomeSTB, this.onHandler, this);
         oops.message.off(AccountEvent.UserCollectGold, this.onHandler, this);
         oops.message.off(AccountEvent.UserBounsUSTD, this.onHandler, this);
@@ -108,13 +83,15 @@ export class HomeView extends Component {
 
     private OpenUI(uid: UIID) {
         const targetNode = this.buttonMap[uid]?.node;
-        targetNode.getComponentInChildren(ReddotComp)?.setRead();
-        
-        if(uid == UIID.Invite) { 
+        if (uid == UIID.User) {
+            targetNode.getComponentInChildren(ReddotComp)?.setRead(false);
+        } else {
+            targetNode.getComponentInChildren(ReddotComp)?.setRead();
+        }
+        if (uid == UIID.Invite) {
             oops.gui.toast(oops.language.getLangByID("common_tips_Not_Enabled"));
             return;
         }
-
         oops.gui.open(uid);
     }
 
@@ -133,10 +110,10 @@ export class HomeView extends Component {
     }
 
     private showGoldAnim() {
-        this.goldAnimNode.active = true; 
+        this.goldAnimNode.active = true;
         this.goldAnimNode.getComponent(Animation)?.play();
         tween(this.goldAnimNode)
-            .call(() => { 
+            .call(() => {
                 this.goldAnimNode.setWorldPosition(this.goldAnimBeginNode.worldPosition);
             })
             .delay(0.5)

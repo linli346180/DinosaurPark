@@ -116,7 +116,7 @@ export class EmailVerifyView extends Component {
             oops.gui.toast(oops.language.getLangByID("tips_email_empty"));
             return;
         }
-        const code = this.editBoxEmail.string.trim();
+        const code = this.editBoxCode.string.trim();
         if (code === '') {
             oops.gui.toast(oops.language.getLangByID("tips_emailcode_empty"));
             return;

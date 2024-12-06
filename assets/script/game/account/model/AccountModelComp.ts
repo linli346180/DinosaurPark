@@ -9,6 +9,8 @@ export class AccountModelComp extends ecs.Comp {
     userData: UserData = new UserData(); // 用户数据
     coinPoolData: UserCoinIncome = new UserCoinIncome(); // 户货币数据(待领取)
     CoinData: UserCoinData = new UserCoinData(); // 户货币数据
+    noOperationMail: boolean = false;   //是否有未读邮件：fasle-否， true-是
+    noOperationTask: boolean = false;  //是否有未领取任务：fasle-否， true-是
 
     private UserInstb: StartBeastData[] = [];    //用户收益星兽列表
     private UserNinstb: StartBeastData[] = [];  //用户无收益星兽列表

@@ -22,10 +22,9 @@ const tmpP1 = v3();
 /** 地图管理:1.10级环境星兽和稀有星兽的地图管理 */
 @ccclass('MapComponent')
 export class MapComponent extends Component {
-    @property(Node)
-    mapRoot: Node = null!;
-    mapNodes: Map<number, Node> = new Map();  // 地图节点 1:Map1 2:Map2
-
+    @property(Node) mapRoot: Node = null!;
+    private mapNodes: Map<number, Node> = new Map();  // 地图节点 1:Map1 2:Map2
+    private timeoutIds: number[] = []; // 延迟ID列表
     private delList: number[] = [];  // 删除列表
 
     onLoad(): void {
@@ -55,6 +54,11 @@ export class MapComponent extends Component {
         RvoMgr.reset();
     }
 
+    private clearTimeouts() {
+        this.timeoutIds.forEach(timeoutId => clearTimeout(timeoutId));
+        this.timeoutIds = [];
+    }
+
     private onHandler(event: string, args: any) {
         switch (event) {
             case AccountEvent.AddInComeSTB:
@@ -82,6 +86,7 @@ export class MapComponent extends Component {
 
     /** 自填充星兽 */
     private fillUserSTB() {
+        this.timeoutIds = [];
         this.fillUserSTBMap(MapID.Map1, this.getMapSTBIds(MapID.Map1));
         this.fillUserSTBMap(MapID.Map2, this.getMapSTBIds(MapID.Map2));
     }
@@ -98,29 +103,29 @@ export class MapComponent extends Component {
     }
 
     private fillUserSTBMap(mapID: MapID, stbConfigIds: number[]) {
-        const mapConfig = MapConfigData[mapID];  // 地图配置
-        const mapNode = this.mapNodes.get(mapID);  // 地图节点
-        if(mapNode == undefined) return;
+        const mapConfig = MapConfigData[mapID];         // 地图配置
+        const mapNode = this.mapNodes.get(mapID);       // 地图节点
+        if (mapNode == undefined) return;
 
-        const userInstbData = smc.account.getSTBDataByConfigType(stbConfigIds);
+        // 获取所有执行类型的星兽列表
+        const stbDataList = smc.account.getSTBDataByConfigType(stbConfigIds);
+        const instNum = stbDataList.length;             // 用户拥有的星兽数量
+        const showNum = this.getChildCount(mapNode);    // 地图已显示数量
+        const limitNum = mapConfig.ItemLimit;           // 地图限制数量
 
-        const instNum = userInstbData.length;  // 用户星兽数量
-        const showNum = this.getChildCount(mapNode);  // 已显示数量
-        const limitNum = mapConfig.ItemLimit;  // 限制数量
-
-        // 判断是否超过限制
         if (instNum > showNum && showNum < limitNum) {
             let maxCount = Math.min(instNum - showNum, limitNum - showNum);
             for (let i = 0; i < maxCount; i++) {
-                for (let j = 0; j < userInstbData.length; j++) {
-                    const stbData = userInstbData[j];
+                for (let j = 0; j < stbDataList.length; j++) {
+                    const stbData = stbDataList[j];
                     if (mapNode.getChildByName(stbData.id.toString()) == null) {
-                        userInstbData.splice(j, 1);
-                        // setTimeout(() => {
-                        //     this.createSTBItem(stbData.id);
-                        // }, 0.5 * i * 1000);
-
-                        this.createSTBItem(stbData.id);
+                        stbDataList.splice(j, 1);   // 删除已经添加的星兽
+                        // 延迟添加星兽
+                        let timeoutId = window.setTimeout(() => {
+                            this.createSTBItem(stbData.id);
+                        }, 0.1 * i * 1000);
+                        this.timeoutIds.push(timeoutId);
+                        // this.createSTBItem(stbData.id);
                         break;
                     }
                 }
@@ -142,12 +147,12 @@ export class MapComponent extends Component {
             const mapID = STBConfigData[stbType].mapID; // 地图ID
 
             const mapNode = this.mapNodes.get(mapID); // 地图节点
-            if(mapNode == undefined) return;
+            if (mapNode == undefined) return;
 
             const showNum = this.getChildCount(mapNode);  // 已显示数量
             const mapConfig = MapConfigData[mapID]; // 地图配置
             if (showNum >= mapConfig.ItemLimit) {
-                Logger.logBusiness('地图上的星兽数量已经达到上限');
+                console.warn(`地图上的星兽数量${showNum} 达到上限${mapConfig.ItemLimit}`);
                 return;
             }
 
@@ -161,7 +166,7 @@ export class MapComponent extends Component {
                 itemNode.setPosition(tmpP0);
 
                 const cmp = itemNode.getComponent(ActorController);
-                if (cmp) { 
+                if (cmp) {
                     cmp.stbId = stbData.id;
                     cmp.widthLimit = mapConfig.widthLimit;
                     cmp.heightLimit = mapConfig.heightLimit;

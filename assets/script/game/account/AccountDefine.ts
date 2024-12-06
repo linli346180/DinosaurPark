@@ -4,34 +4,34 @@ import { StartBeastData } from "./model/AccountModelComp";
 
 /** 用户货币数据 */
 export class UserCoinData {
-    readonly id: number             = 0;
-    readonly userID: number         = 0;      // 用户ID
-    goldCoin: number                = 100;      // 金币(金币星兽产出)
-    gemsCoin: number                = 0;      // 宝石(宝石星兽产出)
-    usdt: number                    = 0;      // USDT(钻石星兽产出)
-    starBeastCoin: number           = 0;      // 星兽币(sbpc,至尊星兽产出)
+    readonly id: number = 0;
+    readonly userID: number = 0;      // 用户ID
+    goldCoin: number = 100;      // 金币(金币星兽产出)
+    gemsCoin: number = 0;      // 宝石(宝石星兽产出)
+    usdt: number = 0;      // USDT(钻石星兽产出)
+    starBeastCoin: number = 0;      // 星兽币(sbpc,至尊星兽产出)
 }
 
 /** 货币池数量 */
 export class UserCoinIncome {
-    goldCoin: number                = 0; // 金币
-    gemsCoin: number                = 0; // 宝石数量
+    goldCoin: number = 0; // 金币
+    gemsCoin: number = 0; // 宝石数量
 }
 
 export class UserData {
-    readonly id: number =            0; // 用户ID
-    readonly createdAt: string       = ''; // 创建时间
-    readonly updatedAt: string       = ''; // 更新时间
-    readonly deletedAt: string       = ''; // 删除时间
-    readonly name: string            = ''; // 名称
-    email: string           = ''; // 邮箱
-    readonly mobile: string          = ''; // 手机号
-    readonly account: string         = ''; // 账号
-    readonly registerType: RegisterType = RegisterType.Unknow; // 注册类型
-    readonly externalAccountType: AccountType = AccountType.Unknow; // 外部账号类型
+    readonly id: number = 0;     // 用户ID
+    readonly createdAt: string = '';  // 创建时间
+    readonly updatedAt: string = '';  // 更新时间
+    readonly deletedAt: string = '';  // 删除时间
+    readonly name: string = '';  // 名称
+    email: string = '';  // 邮箱
+    readonly mobile: string = '';  // 手机号
+    readonly account: string = '';  // 账号
+    readonly registerType: RegisterType = RegisterType.Unknow;          // 注册类型
+    readonly externalAccountType: AccountType = AccountType.Unknow;     // 外部账号类型
     readonly externalAccountUid: string = ''; // 用户外部ID
-    readonly avatarPath: string      = ''; // 头像路径
-    readonly state: number           = 0; // 用户状态
+    readonly avatarPath: string = '';  // 头像路径
+    readonly state: number = 0;   // 用户状态
     readonly prohibitionState: number = 0; // 用户封禁状态
     readonly releaseAt: string | null = null; // 解禁时间
 }

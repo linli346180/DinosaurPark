@@ -157,7 +157,6 @@ export class usercenter extends Component {
 
     private onGuide() {
        // 初始化引导模块
-
     }
 
     private onService() {
@@ -196,11 +195,6 @@ export class usercenter extends Component {
 
     private redDotReaded(targetNode: Node) {
         targetNode.getComponentInChildren(ReddotComp)?.setRead();
-        // const redDot = targetNode.getChildByName("reddot");
-        // if (redDot) {
-        //     redDot.getComponent(ReddotComp)?.setRead();
-        //     redDot.active = false;
-        // }
     }
 
     private showPurchase() {
