@@ -133,9 +133,9 @@ export class Account extends ecs.Entity {
             // 6. 网络连接失败
             case GameEvent.NetConnectFail:
                 console.error("收到网络请求失败")
-                // tips.alert(oops.language.getLangByID('net_tips_fetch_fail'), () => {
-                //     // (window as any).Telegram.WebApp.close();
-                // });
+                tips.alert(oops.language.getLangByID('net_tips_fetch_fail'), () => {
+                    // (window as any).Telegram.WebApp.close();
+                });
                 break
 
             // 7. 网络请求失败
@@ -337,8 +337,7 @@ export class Account extends ecs.Entity {
                         const component = node.getComponent(CollectCoin);
                         if (component) {
                             component.Init(data.goldCoin,data.gemsCoin)
-                        }
-                        },
+                        }}
                     };
                     let uiArgs: any;
                     oops.gui.open(UIID.CollectCoin, uiArgs, uic);
