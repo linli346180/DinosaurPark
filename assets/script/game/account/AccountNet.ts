@@ -166,6 +166,9 @@ export namespace AccountNetService {
         netChannel.game.on(NetCmd.UserBounsType, '', (data) => {
             smc.account.OnRecevieMessage(NetCmd.UserBounsType, data);
         });
+        netChannel.game.on(NetCmd.OfflineIncomeType, '', (data) => {
+            smc.account.OnRecevieMessage(NetCmd.OfflineIncomeType, data);
+        });
         oops.message.dispatchEvent(GameEvent.WebSocketConnected);
     }
 
@@ -214,12 +217,29 @@ export namespace AccountNetService {
     /** 获取收集金币数据 */
     export async function getCollectCoinData() {
         const http = createHttpManager();
-        const response = await http.getUrl("tgapp/api/user/coin?token=" + netConfig.Token);
-        if (response.isSucc && response.res.resultCode == NetErrorCode.Success && response.res.userCoin != null) {
-            console.warn("收集金币数据请求成功", response.res);
-            return response.res;
+        const rescoin = await http.getUrl("tgapp/api/stb/ol/coin/cg?token=" + netConfig.Token);
+        if (rescoin.isSucc && rescoin.res.resultCode == NetErrorCode.Success && rescoin.res.offlineCoinConfig != null) {
+            console.warn("收集金币数据请求成功", rescoin.res);
+            return rescoin.res;
         } else {
-            console.error("收集金币数据请求异常", response);
+            console.error("收集金币数据请求异常", rescoin);
+            return null;
+        }
+    }
+
+    /** 用户是否领取金币池1.是；2.否；免费返回2；支付宝石返回1 */
+    export async function collectCoinPool(isPay: number) {
+        const http = createHttpManager();
+        const params = {
+            'isPay': isPay.toString()
+        };
+        const paramString = new URLSearchParams(params).toString();
+        const rescoinpool = await http.postUrl("tgapp/api/user/coin/pool?token=" + netConfig.Token, paramString);
+        if (rescoinpool.isSucc && rescoinpool.res.resultCode == NetErrorCode.Success) {
+            console.warn("获取金币池请求成功", rescoinpool.res);
+            return rescoinpool.res;
+        } else {
+            console.error("获取金币池请求异常", rescoinpool);
             return null;
         }
     }
@@ -364,18 +384,18 @@ export namespace AccountNetService {
         }
     }
 
-    /** 购买宝石配置 */
-    export async function getBugGemConfig() {
-        const http = createHttpManager();
-        const response = await http.getUrl(`tgapp/api/user/buy/gems/config?token=${netConfig.Token}`);
-        if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
-            console.warn(`获取购买宝石配置:`, response.res);
-            return response.res;
-        } else {
-            console.error("获取购买宝石配置异常", response);
-            return null;
-        }
-    }
+    // /** 购买宝石配置 */
+    // export async function getBugGemConfig() {
+    //     const http = createHttpManager();
+    //     const response = await http.getUrl(`tgapp/api/user/buy/gems/config?token=${netConfig.Token}`);
+    //     if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
+    //         console.warn(`获取购买宝石配置:`, response.res);
+    //         return response.res;
+    //     } else {
+    //         console.error("获取购买宝石配置异常", response);
+    //         return null;
+    //     }
+    // }
 
      /** 获取用户星兽价格 */
     export async function getUserPrize() {

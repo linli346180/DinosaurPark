@@ -22,6 +22,8 @@ import { GuideNetService } from "../guide/GuideNet";
 import { UICallbacks } from "../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines";
 import { GuideReward } from "../guide/GuideReward";
 import { _decorator, Component, Node } from 'cc';
+import { CollectCoin } from "../collectcoin/CollectCoin";
+import { CoinNetService } from "../coin/CoinNet";
 
 /** 账号模块 */
 @ecs.register('Account')
@@ -29,6 +31,7 @@ export class Account extends ecs.Entity {
     // 数据层Model
     AccountModel !: AccountModelComp;
     STBConfigMode!: STBConfigModeComp;
+    //CoinModel !: CoinModelComp;
 
     // 业务层System
     AccountNickName !: AccountNickNameComp;
@@ -69,6 +72,7 @@ export class Account extends ecs.Entity {
             case GameEvent.APPInitialized:
                 console.log("1.应用初始化成功");
                 this.add(AccountLoginComp);
+                //smc.coin.updateCoinData();
                 break;
 
             // 2. 登陆成功
@@ -325,6 +329,21 @@ export class Account extends ecs.Entity {
             case NetCmd.UserBounsType:
                 console.log("USDT奖励:", data.bounsID, data.amount);
                 oops.message.dispatchEvent(AccountEvent.UserBounsUSTD, data.amount);
+                break;
+            case NetCmd.OfflineIncomeType:
+                if (data.goldCoin > 0 || data.gemsCoin > 0) {
+                    oops.gui.open(UIID.CollectCoin);
+                    var uic: UICallbacks = {
+                        onAdded: (node: Node, params: any) => {
+                        const component = node.getComponent(CollectCoin);
+                        if (component) {
+                            component.Init(data.goldCoin,data.gemsCoin)
+                        }
+                        },
+                    };
+                    let uiArgs: any;
+                    oops.gui.open(UIID.STBMerge, uiArgs, uic);
+                }
                 break;
         }
     }

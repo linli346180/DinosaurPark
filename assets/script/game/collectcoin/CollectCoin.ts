@@ -6,12 +6,15 @@ import { UIID } from '../common/config/GameUIConfig';
 import { AccountNetService } from '../account/AccountNet';
 import { AccountEvent } from '../account/AccountEvent';
 import { smc } from '../common/SingletonModuleComp';
-import { AccountCoinType } from '../account/AccountDefine';
+//import { AccountCoinType } from '../account/AccountDefine';
 import { coinPoolVM } from '../account/viewModel/CoinPoolViewModel';
 import { tween } from 'cc';
 import { UserInstbConfigData } from '../account/model/STBConfigModeComp';
 import { STBTypeID } from '../character/STBDefine';
 import { macro } from 'cc';
+import { CoinNetService } from '../coin/CoinNet';
+import { CoinType } from '../coin/CoinDefine';
+import { defaultMaxListeners } from 'events';
 const { ccclass, property } = _decorator;
 
 @ccclass('CollectCoin')
@@ -29,78 +32,37 @@ export class CollectCoin extends Component {
     @property(Label)
     private expend_gem: Label = null!;
 
-    private goldConfig: UserInstbConfigData = null;
-    private gemConfig: UserInstbConfigData = null;
-    
-    start() {
-        this.loadCoinData();
-        this.setupButtonHandlers();
-        coinPoolVM.Init();
-    }
-
-    private async loadCoinData() {
-        this.goldConfig = smc.account.getSTBConfigByType(STBTypeID.STB_Gold_Level10);
-        if (this.goldConfig == null) return;
-        this.schedule(this.updateGoldPool, this.goldConfig.incomeCycle + 5, macro.REPEAT_FOREVER, this.goldConfig.incomeCycle);
-        this.playAnim(this.free_coin_num, coinPoolVM.GoldNum/2);
-        this.playAnim(this.gem_coin_num, coinPoolVM.GoldNum);
-        this.expend_gem.string = this.dataDisplayConversion(100);
-    }
-
-    private setupButtonHandlers() {
+    protected onLoad(): void {
+        this.loadPayGem();
         this.btn_close.node.on(Button.EventType.CLICK, this.closeScreen, this);
         this.btn_free.node.on(Button.EventType.CLICK, this.freeGetCoin, this);
         this.btn_gem.node.on(Button.EventType.CLICK, this.gemGetCoin, this);
     }
 
-    private closeScreen(){
-        oops.gui.remove(UIID.CollectCoin, false);
+    public Init(goldCoin:number, gemsCoin:number) {
+        this.free_coin_num.string = goldCoin.toString();
+        this.gem_coin_num.string = gemsCoin.toString();
     }
 
-    private async freeGetCoin(){
-        smc.account.UseCollectCoin(AccountCoinType.Gold);
-        console.log("获得免费金币: ");
-        oops.gui.remove(UIID.CollectCoin, true);
-        coinPoolVM.GoldNum = 0;
-        // 重启定时器
-        this.unschedule(this.updateGoldPool);
-        this.schedule(this.updateGoldPool, this.goldConfig.incomeCycle + 5, macro.REPEAT_FOREVER, this.goldConfig.incomeCycle);
+    private async loadPayGem() {
+        const res = await CoinNetService.getCollectCoinData();
+        this.expend_gem.string = res.offlineCoinConfig.payGoldCoinNum;
     }
 
-    private async gemGetCoin(){
-        smc.account.UseCollectCoin(AccountCoinType.Gold);
-        console.log("获得宝石金币: ");
-        oops.gui.remove(UIID.CollectCoin, true);
-        coinPoolVM.GoldNum = 0;
-        // 重启定时器
-        this.unschedule(this.updateGoldPool);
-        this.schedule(this.updateGoldPool, this.goldConfig.incomeCycle + 5, macro.REPEAT_FOREVER, this.goldConfig.incomeCycle);
+    private closeScreen() {
+        oops.gui.remove(UIID.CollectCoin);
     }
 
-    //数值超过百万后，需要将单位转换成M
-    private dataDisplayConversion(num: number){
-        if(num >= 1000000){
-            return (num/1000000).toFixed(2) + "M";
-        }else{  
-            return num.toString();
-        }
+    private async freeGetCoin() {
+        const res = await CoinNetService.collectCoinPool(2);
+        smc.account.AccountModel.CoinData = res.userCoin;
+        this.closeScreen();
     }
 
-    /** 更新金币池 */
-    private updateGoldPool() {
-        coinPoolVM.GoldNum = Number(coinPoolVM.GoldNum) + Number(coinPoolVM.GoldSpeed);
-        this.playAnim(this.free_coin_num, coinPoolVM.GoldNum/2);
-        this.playAnim(this.gem_coin_num, coinPoolVM.GoldNum);
-    }
-
-    private playAnim(label: Label, endNum: number, callback?: Function) {
-        let startNum = parseInt(label.string);
-        tween(label)
-            .to(0.5, {}, {
-                onUpdate: (target, ratio) => { label.string = Math.floor(startNum + (endNum - startNum) * ratio).toString(); }
-            })
-            .call(() => { if (callback) callback(); })
-            .start();
+    private async gemGetCoin() {
+        const res = await CoinNetService.collectCoinPool(1);
+        smc.account.AccountModel.CoinData = res.userCoin;
+        this.closeScreen();
     }
 }
 

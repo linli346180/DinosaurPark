@@ -9262,7 +9262,7 @@
         "__id__": 429
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 447
@@ -10700,7 +10700,7 @@
     "node": {
       "__id__": 392
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": {
       "__id__": 452
     },
@@ -10792,7 +10792,7 @@
         "__id__": 461
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 481
