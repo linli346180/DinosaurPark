@@ -6,7 +6,7 @@ import { UIID } from '../common/config/GameUIConfig';
 import { AccountNetService } from '../account/AccountNet';
 import { AccountEvent } from '../account/AccountEvent';
 import { smc } from '../common/SingletonModuleComp';
-//import { AccountCoinType } from '../account/AccountDefine';
+import { AccountCoinType } from '../account/AccountDefine';
 import { coinPoolVM } from '../account/viewModel/CoinPoolViewModel';
 import { tween } from 'cc';
 import { UserInstbConfigData } from '../account/model/STBConfigModeComp';
@@ -45,7 +45,7 @@ export class CollectCoin extends Component {
     }
 
     private async loadPayGem() {
-        const res = await CoinNetService.getCollectCoinData();
+        const res = await AccountNetService.getCollectCoinData();
         this.expend_gem.string = res.offlineCoinConfig.payGoldCoinNum;
     }
 
@@ -54,13 +54,13 @@ export class CollectCoin extends Component {
     }
 
     private async freeGetCoin() {
-        const res = await CoinNetService.collectCoinPool(2);
+        const res = await AccountNetService.collectCoinPool(2);
         smc.account.AccountModel.CoinData = res.userCoin;
         this.closeScreen();
     }
 
     private async gemGetCoin() {
-        const res = await CoinNetService.collectCoinPool(1);
+        const res = await AccountNetService.collectCoinPool(1);
         smc.account.AccountModel.CoinData = res.userCoin;
         this.closeScreen();
     }
