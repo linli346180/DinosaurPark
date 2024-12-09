@@ -33,7 +33,7 @@ export class NetConfig {
         return this.ServerConfigList[this.curEnvironment].returnUrl;
     }
 
-    private curEnvironment: EnvironmentType = EnvironmentType.PreRelease;
+    private curEnvironment: EnvironmentType = EnvironmentType.Production;
     private ServerConfigList = {
         [EnvironmentType.Development]: {
             Server: "https://konglong.live/",

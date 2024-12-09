@@ -18,6 +18,10 @@ import { AccountLoginComp } from "./system/AccountLogin";
 import { netChannel } from "../../net/custom/NetChannelManager";
 import { tonConnect } from "../wallet/TonConnect";
 import { DEBUG } from "cc/env";
+import { GuideNetService } from "../guide/GuideNet";
+import { UICallbacks } from "../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines";
+import { GuideReward } from "../guide/GuideReward";
+import { _decorator, Component, Node } from 'cc';
 
 /** 账号模块 */
 @ecs.register('Account')
@@ -73,23 +77,23 @@ export class Account extends ecs.Entity {
                 oops.storage.setUser(this.AccountModel.userData.id.toString());
                 oops.audio.load();
 
-                if(this.AccountModel.noOperationMail) {
+                if (this.AccountModel.noOperationMail) {
                     console.log("有未读邮件");
                     oops.storage.remove(NetCmd.UserEmailType.toString());
                 }
 
-                if(this.AccountModel.noOperationTask) {
+                if (this.AccountModel.noOperationTask) {
                     console.log("有未领取任务");
                     oops.storage.remove(NetCmd.UserTaskType.toString());
                 }
 
                 // 检查是否已完成新手引导
-                if (!await this.isGuideFinish()) {
-                    oops.message.dispatchEvent(GameEvent.CloseLoadingUI);
-                    oops.gui.open(UIID.Guide);
-                    return;
-                }
-
+                // if (!await this.isGuideFinish()) {
+                //     oops.message.dispatchEvent(GameEvent.CloseLoadingUI);
+                //     oops.gui.open(UIID.Guide);
+                //     return;
+                // }
+                await this.checkGuideFinish();
                 console.log("3.新手教程完成");
                 this.add(AccountNetDataComp);
                 break;
@@ -112,7 +116,6 @@ export class Account extends ecs.Entity {
                 console.log("4.数据初始化完成");
                 oops.gui.openAsync(UIID.Map);
                 await oops.gui.openAsync(UIID.Main);
-                // await oops.gui.openAsync(UIID.CollectCoin);
                 AccountNetService.createWebSocket();
                 break;
 
@@ -145,11 +148,31 @@ export class Account extends ecs.Entity {
         }
         const res = await AccountNetService.getUserOfficial();
         if (res) {
-            const isFinish = res.scorpionReward == 0;   //是否领取过新手奖励,0-已领取，1-未领取
+            // 是否领取过新手奖励 关注频道+奖励未领取
+            const isFinish = res.joinOfficialChannel == 1 && res.joinOfficialGroup == 1 && res.joinX == 1 && res.scorpionReward == 0;
             console.warn("新手引导是否已完成:", isFinish);
             return isFinish;
         }
         return false;
+    }
+
+    private async checkGuideFinish(): Promise<void> {
+        return new Promise(async (resolve, reject) => {
+            const res = await GuideNetService.getRewardNew();
+            if (res && res.newUserRewardArr) {
+                var uic: UICallbacks = {
+                    onAdded: async (node: Node, params: any) => {
+                        node.getComponent(GuideReward)?.initUI(res.newUserRewardArr);
+                    }
+                };
+                let uiArgs: any;
+                oops.gui.open(UIID.GuideReward, uiArgs, uic);
+                console.log("打开新手奖励UI");
+                resolve();
+            } else {
+                resolve();
+            }
+        });
     }
 
     /** 领取奖励 */
@@ -194,13 +217,13 @@ export class Account extends ecs.Entity {
             let allList: number[] = [];      // 所有星兽
             let delList: number[] = [];     // 已删除星兽
             // 如果没有星兽数据
-            if(res.userInstbData.UserInstb) {
+            if (res.userInstbData.UserInstb) {
                 for (const stbItem of res.userInstbData.UserInstb) {
                     const stbId = stbItem.id;
                     const stbConfigID = stbItem.stbConfigID;
                     if (stbConfigID == null || stbConfigID == undefined || stbConfigID == 0)
                         continue;
-    
+
                     allList.push(stbId);
                     // 如果不存在，则添加
                     if (this.getUserSTBData(stbId, UserSTBType.InCome) == null) {

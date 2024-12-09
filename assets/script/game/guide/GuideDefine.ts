@@ -6,6 +6,7 @@ export class PresellInfo {
     public xUrl: string;                    // X链接
     public gameOnlineAt: number;            // 游戏上线时间
     public rewardNum: number;               // 奖励数量
+    public newUserRewardArr: GuideRewardInfo[] = [];
     
     constructor() {
         this.officialChannelUrl = 'https://t.me/StarBeastParkANN'; // Initialize officialChannelUrl property
@@ -27,6 +28,7 @@ export class UserOfficial {
     public joinOfficialChannel: boolean;    // 是否加入官方频道
     public joinOfficialGroup: boolean;        // 是否加入官方群组
     public joinX: boolean;                    // 是否加入X
+    public scorpionReward:number;            // 是否领取过新手奖励,0-已领取，1-未领取
     public rewards: GuideRewardInfo[] = [];
 
     constructor() {
@@ -35,3 +37,10 @@ export class UserOfficial {
         this.joinX = false; // Initialize isJoinX property
     }
 }
+
+// export class UserReward {
+//     rewardType: number = 0;          // 奖励类型
+//     rewardGoodsID: number = 0;      // 奖励物品ID
+//     goodName: string = '';          // 奖励名称
+//     rewardNum: number = 0           // 奖励数量
+// }
