@@ -24,6 +24,7 @@ import { GuideReward } from "../guide/GuideReward";
 import { _decorator, Component, Node } from 'cc';
 import { CollectCoin } from "../collectcoin/CollectCoin";
 import { CoinNetService } from "../coin/CoinNet";
+import { smc } from "../common/SingletonModuleComp";
 
 /** 账号模块 */
 @ecs.register('Account')
@@ -31,7 +32,6 @@ export class Account extends ecs.Entity {
     // 数据层Model
     AccountModel !: AccountModelComp;
     STBConfigMode!: STBConfigModeComp;
-    //CoinModel !: CoinModelComp;
 
     // 业务层System
     AccountNickName !: AccountNickNameComp;
@@ -72,7 +72,6 @@ export class Account extends ecs.Entity {
             case GameEvent.APPInitialized:
                 console.log("1.应用初始化成功");
                 this.add(AccountLoginComp);
-                //smc.coin.updateCoinData();
                 break;
 
             // 2. 登陆成功
@@ -80,6 +79,7 @@ export class Account extends ecs.Entity {
                 console.log("2.登陆成功");
                 oops.storage.setUser(this.AccountModel.userData.id.toString());
                 oops.audio.load();
+                 //smc.coin.updateCoinData();
 
                 if (this.AccountModel.noOperationMail) {
                     console.log("有未读邮件");
@@ -336,7 +336,7 @@ export class Account extends ecs.Entity {
                         onAdded: (node: Node, params: any) => {
                         const component = node.getComponent(CollectCoin);
                         if (component) {
-                            component.Init(data.goldCoin,data.gemsCoin)
+                            component.Init(data.goldCoin,data.allGoldCoin)
                         }}
                     };
                     let uiArgs: any;

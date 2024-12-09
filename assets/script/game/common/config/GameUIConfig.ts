@@ -99,5 +99,5 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.GuideReward]: { layer: LayerType.PopUp, prefab: "gui/guide/guideReward", mask: true },
     [UIID.LanguageUI]: { layer: LayerType.Dialog, prefab: "gui/setting/languageView", mask: true, vacancy: true },
     [UIID.Keyboard]: { layer: LayerType.System, prefab: "gui/keyboard/Keyboard", mask: true, vacancy: true},
-    [UIID.CollectCoin]: { layer: LayerType.System, prefab: "gui/collectcoin/prefab/collectcoin", mask: true }, 
+    [UIID.CollectCoin]: { layer: LayerType.PopUp, prefab: "gui/collectcoin/prefab/collectcoin", mask: true }, 
 }

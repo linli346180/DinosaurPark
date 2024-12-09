@@ -1,9 +1,11 @@
-import { Label, Button, _decorator, Component } from 'cc';
+import { Label, Button, _decorator, Component, Node } from 'cc';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
 import { AccountNetService } from '../account/AccountNet';
 import { smc } from '../common/SingletonModuleComp';
 import { AccountEvent } from '../account/AccountEvent';
+import { GemShop } from '../wallet/GemShop';
+import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
 const { ccclass, property } = _decorator;
 
 enum CollectCoinType { 
@@ -56,7 +58,28 @@ export class CollectCoin extends Component {
         this.collectCoin(CollectCoinType.Free);
     }
 
-    private gemGetCoin() {
-        this.collectCoin(CollectCoinType.Gem);
+    private async gemGetCoin() {
+        const res = await AccountNetService.getCollectCoinData();
+        if(smc.account.AccountModel.CoinData < res.offlineCoinConfig.payGoldCoinNum) {
+            // 关闭金币收集界面
+            oops.gui.remove(UIID.CollectCoin, false); 
+            
+            // 定义回调，当宝石商店被移除时重新打开金币收集界面
+            var uic: UICallbacks = {
+                onRemoved: (node: Node, params: any) => {
+                    const comp = node.getComponent(GemShop);
+                    if (comp) {
+                        oops.gui.open(UIID.CollectCoin);
+                    }
+                },
+            };
+
+            // 打开宝石商店界面并注册回调
+            oops.gui.open(UIID.GemShop, null, uic);
+        }
+        else{
+            this.collectCoin(CollectCoinType.Gem);
+        }
+
     }
 }
