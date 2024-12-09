@@ -7,6 +7,7 @@ import { StringUtil } from '../common/utils/StringUtil';
 import { smc } from '../common/SingletonModuleComp';
 import { UIID } from '../common/config/GameUIConfig';
 import { AccountEvent } from '../account/AccountEvent';
+import { AtlasUtil } from '../common/AtlasUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('STBPurItem')
@@ -31,9 +32,12 @@ export class STBPurItem extends Component {
         const stbType = StringUtil.combineNumbers(config.stbKinds, config.stbGrade, 2);
         this.STBConfig.init(stbType);
         if (this.STBConfig.puricon) {
-            oops.res.loadAsync(this.STBConfig.puricon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
-                if (spriteFrame)
-                    this.icon.spriteFrame = spriteFrame;
+            // oops.res.loadAsync(this.STBConfig.puricon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
+            //     if (spriteFrame)
+            //         this.icon.spriteFrame = spriteFrame;
+            // });
+            AtlasUtil.loadAtlasAsync(this.STBConfig.puricon).then((spriteFrame) => { 
+                this.icon.spriteFrame = spriteFrame;
             });
         }
         this.level.string = config.stbGrade.toString();

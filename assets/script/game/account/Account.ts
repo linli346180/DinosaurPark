@@ -129,9 +129,9 @@ export class Account extends ecs.Entity {
             // 6. 网络连接失败
             case GameEvent.NetConnectFail:
                 console.error("收到网络请求失败")
-                tips.alert(oops.language.getLangByID('net_tips_fetch_fail'), () => {
-                    // (window as any).Telegram.WebApp.close();
-                });
+                // tips.alert(oops.language.getLangByID('net_tips_fetch_fail'), () => {
+                //     // (window as any).Telegram.WebApp.close();
+                // });
                 break
 
             // 7. 网络请求失败

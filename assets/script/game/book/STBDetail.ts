@@ -9,6 +9,7 @@ import { Sprite } from 'cc';
 import { RichText } from 'cc';
 import { TableSTBConfig } from '../common/table/TableSTBConfig';
 import { ReportNetService } from './ReportNet';
+import { AtlasUtil } from '../common/AtlasUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('STBDetail')
@@ -27,9 +28,12 @@ export class STBDetail extends Component {
     public async InitUI(stbType: number, stbName: string, stbDesc: string) {
         this.STBConfig.init(stbType);
         if (this.STBConfig.bigicon) {
-            oops.res.loadAsync(this.STBConfig.bigicon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
-                if (spriteFrame)
-                    this.configIcon.spriteFrame = spriteFrame;
+            // oops.res.loadAsync(this.STBConfig.bigicon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
+            //     if (spriteFrame)
+            //         this.configIcon.spriteFrame = spriteFrame;
+            // });
+            AtlasUtil.loadAtlasAsync(this.STBConfig.bigicon).then((spriteFrame) => { 
+                this.configIcon.spriteFrame = spriteFrame;
             });
         }
         this.configName.string = stbName;
