@@ -332,7 +332,6 @@ export class Account extends ecs.Entity {
                 break;
             case NetCmd.OfflineIncomeType:
                 if (data.goldCoin > 0 || data.gemsCoin > 0) {
-                    oops.gui.open(UIID.CollectCoin);
                     var uic: UICallbacks = {
                         onAdded: (node: Node, params: any) => {
                         const component = node.getComponent(CollectCoin);
@@ -342,7 +341,7 @@ export class Account extends ecs.Entity {
                         },
                     };
                     let uiArgs: any;
-                    oops.gui.open(UIID.STBMerge, uiArgs, uic);
+                    oops.gui.open(UIID.CollectCoin, uiArgs, uic);
                 }
                 break;
         }

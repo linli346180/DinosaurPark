@@ -385,17 +385,17 @@ export namespace AccountNetService {
     }
 
     // /** 购买宝石配置 */
-    // export async function getBugGemConfig() {
-    //     const http = createHttpManager();
-    //     const response = await http.getUrl(`tgapp/api/user/buy/gems/config?token=${netConfig.Token}`);
-    //     if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
-    //         console.warn(`获取购买宝石配置:`, response.res);
-    //         return response.res;
-    //     } else {
-    //         console.error("获取购买宝石配置异常", response);
-    //         return null;
-    //     }
-    // }
+    export async function getBugGemConfig() {
+        const http = createHttpManager();
+        const response = await http.getUrl(`tgapp/api/user/buy/gems/config?token=${netConfig.Token}`);
+        if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
+            console.warn(`获取购买宝石配置:`, response.res);
+            return response.res;
+        } else {
+            console.error("获取购买宝石配置异常", response);
+            return null;
+        }
+    }
 
      /** 获取用户星兽价格 */
     export async function getUserPrize() {
