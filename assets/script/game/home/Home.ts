@@ -88,10 +88,10 @@ export class HomeView extends Component {
         } else {
             targetNode.getComponentInChildren(ReddotComp)?.setRead();
         }
-        if (uid == UIID.Invite) {
-            oops.gui.toast(oops.language.getLangByID("common_tips_Not_Enabled"));
-            return;
-        }
+        // if (uid == UIID.Invite) {
+        //     oops.gui.toast(oops.language.getLangByID("common_tips_Not_Enabled"));
+        //     return;
+        // }
         oops.gui.open(uid);
     }
 
