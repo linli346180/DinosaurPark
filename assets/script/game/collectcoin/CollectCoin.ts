@@ -1,4 +1,4 @@
-import { Label, Button, _decorator, Component, Node } from 'cc';
+import { Label, Button, _decorator, Component, Node, Animation } from 'cc';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
 import { AccountNetService } from '../account/AccountNet';
@@ -6,6 +6,7 @@ import { smc } from '../common/SingletonModuleComp';
 import { AccountEvent } from '../account/AccountEvent';
 import { GemShop } from '../wallet/GemShop';
 import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
+import { tween } from 'cc';
 const { ccclass, property } = _decorator;
 
 enum CollectCoinType { 
@@ -21,6 +22,10 @@ export class CollectCoin extends Component {
     @property(Label) freeCoinNum: Label = null!;
     @property(Label) gemCoinNum: Label = null!;
     @property(Label) expendGem: Label = null!;
+    @property(Node) goldAnimNode: Node = null!;
+    @property(Node) goldAnimBeginFreeNode: Node = null!;
+    @property(Node) goldAnimBeginGemsNode: Node = null!;
+    @property(Node) goldAnimEndNode: Node = null!;
 
     protected onLoad(): void {
         this.loadPayGem();
@@ -51,11 +56,12 @@ export class CollectCoin extends Component {
             smc.account.AccountModel.CoinData = res.userCoin;
             oops.message.dispatchEvent(AccountEvent.CoinDataChange);
         }
-        this.closeScreen();
+        //this.closeScreen();
     }
 
     private freeGetCoin() {
         this.collectCoin(CollectCoinType.Free);
+        this.showGoldAnim(CollectCoinType.Free);
     }
 
     private async gemGetCoin() {
@@ -79,7 +85,40 @@ export class CollectCoin extends Component {
         }
         else{
             this.collectCoin(CollectCoinType.Gem);
+            this.showGoldAnim(CollectCoinType.Gem);
         }
 
+    }
+
+    private showGoldAnim(type: CollectCoinType) {
+        this.goldAnimNode.active = true;
+        this.goldAnimNode.getComponent(Animation)?.play();
+        if(type === CollectCoinType.Free){
+            tween(this.goldAnimNode)
+                .call(() => {
+                    this.goldAnimNode.setWorldPosition(this.goldAnimBeginFreeNode.worldPosition);
+                })
+                .delay(0.5)
+                .to(0.5, { worldPosition: this.goldAnimEndNode.worldPosition })
+                .call(() => {
+                    this.goldAnimNode.active = false;
+                })
+                .start();  
+        }else if(type === CollectCoinType.Gem){
+            tween(this.goldAnimNode)
+                .call(() => {
+                    this.goldAnimNode.setWorldPosition(this.goldAnimBeginGemsNode.worldPosition);
+                })
+                .delay(0.5)
+                .to(0.5, { worldPosition: this.goldAnimEndNode.worldPosition })
+                .call(() => {
+                    this.goldAnimNode.active = false;
+                })
+                .start();
+        }  
+        // 1秒后执行关闭屏幕的方法
+        setTimeout(() => {
+            this.closeScreen();
+        }, 1000); // 1000毫秒等于1秒
     }
 }
