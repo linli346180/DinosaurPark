@@ -91,9 +91,9 @@ export class InviteVeiw extends Component {
         this.inviteContent.removeAllChildren();
         try {
             const res = await InviteNetService.getInviteList();
-            if (res && res.userInviteDetail != null) {
-                this.nofriend.active = res.userInviteDetail.length == 0;
-                for (const item of res.userInviteDetail) {
+            if (res && res.inviteList != null) {
+                this.nofriend.active = res.inviteList.length == 0;
+                for (const item of res.inviteList) {
                     const itemNode = instantiate(this.inviteItem);
                     if (itemNode) {
                         itemNode.setParent(this.inviteContent);
