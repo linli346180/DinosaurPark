@@ -1,4 +1,5 @@
 import { Logger } from "../../../core/common/log/Logger";
+import { oops } from "../../../core/Oops";
 import { LanguageData } from "./LanguageData";
 import { LanguagePack } from "./LanguagePack";
 
@@ -76,7 +77,9 @@ export class LanguageManager {
         //     language = language.toLowerCase();
         // }
 
-        let index = this.languages.indexOf(language);
+        // 将语言转换为小写进行比较
+        const lowerCaseLanguage = language.toLowerCase();
+        const index = this.languages.findIndex(lang => lang.toLowerCase() === lowerCaseLanguage);
         if (index < 0) {
             console.log(`当前不支持【${language}】语言，将自动切换到【${this._defaultLanguage}】语言`);
             language = this._defaultLanguage;
@@ -92,6 +95,8 @@ export class LanguageManager {
             LanguageData.current = language;
             this._languagePack.updateLanguage(language);
             this._languagePack.releaseLanguageAssets(oldLanguage);
+
+            oops.storage.setCommon("language", language);
             callback(true);
         });
     }

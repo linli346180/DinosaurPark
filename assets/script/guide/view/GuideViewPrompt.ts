@@ -7,6 +7,7 @@
 import { Component, Label, Node, Prefab, UITransform, Vec3, _decorator, instantiate } from "cc";
 import { GuideModelComp } from "../model/GuideModelComp";
 import { oops } from "../../../../extensions/oops-plugin-framework/assets/core/Oops";
+import { guideConfigs } from "../GuideConfig";
 
 const { ccclass, property } = _decorator;
 
@@ -42,9 +43,8 @@ export class GuideViewPrompt extends Component {
     }
 
     /** 显示提示词 */
-    showPrompt() {
-        var p = this.model.prompts[this.model.step];
-        this.content.string = p;
+    showPrompt(prompt: string) {
+        this.content.string = prompt;
     }
 
     hide() {

@@ -83,7 +83,7 @@ export class ModuleUtil {
      * @param isDestroy  是否释放界面缓存（默认为释放界面缓存）
      */
     public static removeViewUi(ent: ecs.Entity, ctor: CompType<ecs.IComp>, uiId: number, isDestroy: boolean = true) {
-        ent.remove(ctor, isDestroy);
+        ent?.remove(ctor, isDestroy);
         oops.gui.remove(uiId, isDestroy);
     }
 }

@@ -97,7 +97,7 @@ export class InviteVeiw extends Component {
                     const itemNode = instantiate(this.inviteItem);
                     if (itemNode) {
                         itemNode.setParent(this.inviteContent);
-                        itemNode.getComponent(InviteItemView)?.initItem(item.inviteeUserName, item.avatarUrl);
+                        itemNode.getComponent(InviteItemView)?.initItem(item.inviteeUserName, item.avatarUrl, item.successInvite);
                     }
                 }
             }

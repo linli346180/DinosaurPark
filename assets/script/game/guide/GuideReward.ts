@@ -1,7 +1,4 @@
-import { Prefab } from 'cc';
-import { Button } from 'cc';
-import { _decorator, Component, Node } from 'cc';
-import { instantiate } from 'cc';
+import { _decorator, Component, Node, Button, Prefab, instantiate } from 'cc';
 import { GuideRewardInfo } from './GuideDefine';
 import { GuideRewardItem } from './GuideRewardItem';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
@@ -10,29 +7,31 @@ const { ccclass, property } = _decorator;
 
 @ccclass('GuideReward')
 export class GuideReward extends Component {
-    @property(Button)
-    btn_sure: Button = null!;
-    @property(Node)
-    itemContain: Node = null!;
-    @property(Prefab)
-    itemPerfab: Prefab = null!;
+    @property(Button) btnSure: Button = null!;
+    @property(Node) itemContainer: Node = null!;
+    @property(Prefab) itemPrefab: Prefab = null!;
 
-    start() {
-        this.btn_sure.node.on(Button.EventType.CLICK, () => { oops.gui.remove(UIID.GuideReward, true); });
+    onLoad() {
+        this.btnSure.node.on(Button.EventType.CLICK, this.onClose, this);
     }
 
-    public initUI(rewards: GuideRewardInfo[]) {
+    onClose() {
+        oops.gui.remove(UIID.GuideReward, true);
+    }
 
+    initUI(rewards: GuideRewardInfo[]) {
         console.log("初始化奖励UI:", rewards);
+        this.itemContainer.removeAllChildren();
+        if (rewards){
+            rewards.forEach(reward => this.createItem(reward));
+        }
+    }
 
-        this.itemContain.removeAllChildren();
-        if (rewards == null || rewards.length == 0) { return; }
-        rewards.forEach((reward) => {
-            let itemNode = instantiate(this.itemPerfab);
-            if (itemNode) {
-                this.itemContain.addChild(itemNode);
-                itemNode.getComponent(GuideRewardItem)?.initItem(reward);
-            }
-        });
+    private createItem(reward: GuideRewardInfo) {
+        const itemNode = instantiate(this.itemPrefab);
+        if (itemNode) {
+            this.itemContainer.addChild(itemNode);
+            itemNode.getComponent(GuideRewardItem)?.initItem(reward);
+        }
     }
 }

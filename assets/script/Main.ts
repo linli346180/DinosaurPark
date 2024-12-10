@@ -13,6 +13,7 @@ import { Account } from './game/account/Account';
 import { smc } from './game/common/SingletonModuleComp';
 import { UIConfigData } from './game/common/config/GameUIConfig';
 import { Initialize } from './game/initialize/Initialize';
+import { GuideEntity } from './guide/entity/GuideEntity';
 
 const { ccclass, property } = _decorator;
 
@@ -27,6 +28,7 @@ export class Main extends Root {
     }
 
     protected run() {
+        smc.guide = ecs.getEntity<GuideEntity>(GuideEntity);
         smc.initialize = ecs.getEntity<Initialize>(Initialize);
         smc.account = ecs.getEntity<Account>(Account);
     }

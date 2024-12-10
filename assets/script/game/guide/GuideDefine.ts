@@ -25,17 +25,11 @@ export class GuideRewardInfo {
 }
 
 export class UserOfficial {
-    public joinOfficialChannel: boolean;    // 是否加入官方频道
-    public joinOfficialGroup: boolean;        // 是否加入官方群组
-    public joinX: boolean;                    // 是否加入X
+    public joinOfficialChannel: number;    // 是否加入官方频道
+    public joinOfficialGroup: number;        // 是否加入官方群组
+    public joinX: number;                    // 是否加入X
     public scorpionReward:number;            // 是否领取过新手奖励,0-已领取，1-未领取
     public rewards: GuideRewardInfo[] = [];
-
-    constructor() {
-        this.joinOfficialChannel = false; // Initialize isJoinChannel property
-        this.joinOfficialGroup = false; // Initialize isJoinGroup property
-        this.joinX = false; // Initialize isJoinX property
-    }
 }
 
 // export class UserReward {

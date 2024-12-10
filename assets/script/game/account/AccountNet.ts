@@ -108,7 +108,7 @@ export namespace AccountNetService {
         const response = await http.getUrl(`tgapp/api/presell/getUserOfficial?token=${netConfig.Token}`);
         if (response.isSucc && response.res.resultCode === NetErrorCode.Success) {
             console.warn("查询用户是否加入官方群组或频道:", response.res);
-            return response.res.userOfficial;
+            return response.res;
         } else {
             console.error("查询用户是否加入官方群组或频道置异常", response);
             return null;

@@ -14,9 +14,12 @@ export class InviteItemView extends Component {
     @property(Label)
     userName: Label = null!;
 
-    initItem(userName: string, userIcon: string) {
+    initItem(userName: string, userIcon: string, successInvite: number) {
         this.userName.string = userName;
         this.loadIcon(userIcon);
+        if(successInvite == 1) {
+            this.userIcon.grayscale = true;
+        }
     }
 
     private loadIcon(url: string) {

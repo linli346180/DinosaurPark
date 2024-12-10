@@ -29,7 +29,7 @@ export namespace InviteNetService {
         http.token = netConfig.Token;
         http.timeout = netConfig.Timeout;
 
-        const response = await http.getUrl("tgapp/api/presell/getUserInviteDetail?token=" + netConfig.Token);
+        const response = await http.getUrl(`/tgapp/api/user/invite/inviteList?token=${netConfig.Token}&pageSize=50&page=1`);
         if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
             console.warn("邀请名单:", response.res);
             return response.res;

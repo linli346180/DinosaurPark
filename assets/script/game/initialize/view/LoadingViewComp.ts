@@ -35,13 +35,20 @@ export class LoadingViewComp extends CCVMParentComp {
     private progress: number = 0;
 
     start() {
-        oops.message.on(GameEvent.CloseLoadingUI, this.onHandler, this);
         this.loadRes();
     }
 
-    onDestroy() {
+    onEnable() { 
+        oops.message.on(GameEvent.CloseLoadingUI, this.onHandler, this);
+    }
+
+    onDisable() { 
         oops.message.off(GameEvent.CloseLoadingUI, this.onHandler, this);
     }
+
+    // onDestroy() {
+      
+    // }
 
     private onHandler(event: string, args: any) {
         switch (event) {

@@ -78,9 +78,7 @@ export class Account extends ecs.Entity {
             case GameEvent.LoginSuccess:
                 console.log("2.登陆成功");
                 oops.storage.setUser(this.AccountModel.userData.id.toString());
-                oops.audio.load();
-                 //smc.coin.updateCoinData();
-
+                // oops.audio.load();
                 if (this.AccountModel.noOperationMail) {
                     console.log("有未读邮件");
                     oops.storage.remove(NetCmd.UserEmailType.toString());
@@ -91,15 +89,10 @@ export class Account extends ecs.Entity {
                     oops.storage.remove(NetCmd.UserTaskType.toString());
                 }
 
-                // 检查是否已完成新手引导
-                // if (!await this.isGuideFinish()) {
-                //     oops.message.dispatchEvent(GameEvent.CloseLoadingUI);
-                //     oops.gui.open(UIID.Guide);
-                //     return;
-                // }
-                await this.checkGuideFinish();
-                console.log("3.新手教程完成");
-                this.add(AccountNetDataComp);
+                if (await this.checkNewUserReward()) {
+                    console.log("3.新手教程完成");
+                    this.add(AccountNetDataComp);
+                }
                 break;
 
             // 2.1 登陆失败
@@ -145,36 +138,44 @@ export class Account extends ecs.Entity {
         }
     }
 
-    /** 新手引导是否已完成(奖励未领取) */
-    private async isGuideFinish(): Promise<boolean> {
-        if (DEBUG) {
-            return true;
-        }
-        const res = await AccountNetService.getUserOfficial();
-        if (res) {
-            // 是否领取过新手奖励 关注频道+奖励未领取
-            const isFinish = res.joinOfficialChannel == 1 && res.joinOfficialGroup == 1 && res.joinX == 1 && res.scorpionReward == 0;
-            console.warn("新手引导是否已完成:", isFinish);
-            return isFinish;
-        }
-        return false;
-    }
-
-    private async checkGuideFinish(): Promise<void> {
+    /** 是否领取过新手大礼包 */
+    private async checkNewUserReward(): Promise<boolean> {
         return new Promise(async (resolve, reject) => {
-            const res = await GuideNetService.getRewardNew();
-            if (res && res.newUserRewardArr) {
-                var uic: UICallbacks = {
-                    onAdded: async (node: Node, params: any) => {
-                        node.getComponent(GuideReward)?.initUI(res.newUserRewardArr);
+            const res = await AccountNetService.getUserOfficial();
+            if (res && res.userOfficial) {
+                let isJoinChannel = false;
+                let isReward = false;
+                isJoinChannel = res.userOfficial.joinOfficialChannel == 1 && res.userOfficial.joinOfficialGroup == 1 && res.userOfficial.joinX == 1;
+                isReward = res.userOfficial.scorpionReward == 0;
+                console.warn(`是否加入官方频道:${isJoinChannel}, 是否领取新手奖励:${isReward}`);
+
+                // 未加入官方频道
+                if(!isJoinChannel) {
+                    oops.gui.open(UIID.GuideChannel);
+                    oops.message.dispatchEvent(GameEvent.CloseLoadingUI);
+                    resolve(false)
+                } else {
+                    // 已加入官方频道,未领取新手奖励
+                    if (!isReward) {
+                        await GuideNetService.getRewardNew();
+                        const uic: UICallbacks = {
+                            onAdded: async (node: Node, params: any) => {
+                                node.getComponent(GuideReward)?.initUI(res.userOfficial.rewards);
+                            },
+                            onRemoved: (node: Node | null, params: any) => {
+                                // 开始新手引导
+                                smc.guide.startGuide(null);
+                            }
+                        };
+                        const uiArgs: any = {};
+                        oops.gui.open(UIID.GuideReward, uiArgs, uic);
+                        resolve(true)
+                    } else {
+                        resolve(true)
                     }
-                };
-                let uiArgs: any;
-                oops.gui.open(UIID.GuideReward, uiArgs, uic);
-                console.log("打开新手奖励UI");
-                resolve();
+                }
             } else {
-                resolve();
+                resolve(true)
             }
         });
     }
@@ -330,14 +331,16 @@ export class Account extends ecs.Entity {
                 console.log("USDT奖励:", data.bounsID, data.amount);
                 oops.message.dispatchEvent(AccountEvent.UserBounsUSTD, data.amount);
                 break;
+
             case NetCmd.OfflineIncomeType:
                 if (data.goldCoin > 0 || data.gemsCoin > 0) {
                     var uic: UICallbacks = {
                         onAdded: (node: Node, params: any) => {
-                        const component = node.getComponent(CollectCoin);
-                        if (component) {
-                            component.Init(data.goldCoin,data.allGoldCoin)
-                        }}
+                            const component = node.getComponent(CollectCoin);
+                            if (component) {
+                                component.Init(data.goldCoin, data.allGoldCoin)
+                            }
+                        }
                     };
                     let uiArgs: any;
                     oops.gui.open(UIID.CollectCoin, uiArgs, uic);

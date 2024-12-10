@@ -22,7 +22,7 @@ export namespace GuideNetService {
     }
 
     /** 查询用户是否加入官方群组或频道 */
-    export async function getUserOfficial(): Promise<UserOfficial | null> {
+    export async function getUserOfficial() {
         const http = createHttpManager();
         const response = await http.getUrl(`tgapp/api/presell/getUserOfficial?token=${netConfig.Token}`);
         if (response.isSucc && response.res.resultCode === NetErrorCode.Success) {
@@ -35,9 +35,9 @@ export namespace GuideNetService {
     }
 
     /** 离开页面时间 */
-    export async function getPresellLeave(leaveType: number): Promise<any | null> {
+    export async function getPresellLeave(): Promise<any | null> {
         const http = createHttpManager();
-        const response = await http.postUrl(`tgapp/api/presell/leave?leaveType=${leaveType}&token=${netConfig.Token}`);
+        const response = await http.postUrl(`tgapp/api/presell/leave?leaveType=${1}&token=${netConfig.Token}`);
         if (response.isSucc && response.res.resultCode === NetErrorCode.Success) {
             console.warn("离开页面时间:", response.res);
             return response.res;

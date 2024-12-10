@@ -47,7 +47,7 @@ export class AdoptionView extends Component {
 
     private loadConfigData() {
         this.getSTBConfig_PurGold();
-        this._index = oops.storage.getNumber("STBConfigIndex", 0);
+        // this._index = oops.storage.getNumber("STBConfigIndex", 0);
     }
 
     private loadSpriteFrames() {
@@ -66,11 +66,12 @@ export class AdoptionView extends Component {
         this.changeSTBConfig();
     }
 
-    private adoptStartBeast() {
-        this.btn_adopt_one.interactable = false;
+    /** 领养星兽(购买) */
+    public adoptStartBeast() {
         const config = this._configDataList[this._index];
         if (config) {
             console.log(`领养${config.stbName}`);
+            this.btn_adopt_one.interactable = false;
             smc.account.adopStartBeastNet(config.id, false, (success: boolean, msg: string) => {
                 this.btn_adopt_one.interactable = true;
             });
@@ -95,7 +96,7 @@ export class AdoptionView extends Component {
         if (this._spriteFrames.length > this._index) {
             this.beast.spriteFrame = this._spriteFrames[this._index];
         }
-        oops.storage.set("STBConfigIndex", this._index);
+        // oops.storage.set("STBConfigIndex", this._index);
     }
 
     /** 获取使用金币购买的黄金星兽配置 */

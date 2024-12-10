@@ -12,9 +12,9 @@ import { ecs } from "../../../../extensions/oops-plugin-framework/assets/libs/ec
 @ecs.register('GuideModel')
 export class GuideModelComp extends ecs.Comp {
     /** 当前引导步骤 */
-    step: number = 1;
+    curStep: number = 1;
     /** 最后一步索引 */
-    last: number = Number.MAX_VALUE;
+    lastStep: number = Number.MAX_VALUE;
     /** 引导的节点 */
     guides: Map<number, Node> = new Map();
 
@@ -27,26 +27,16 @@ export class GuideModelComp extends ecs.Comp {
 
     /** 当前准备引导的节点 */
     get current(): Node | undefined {
-        return this.guides.get(this.step);
+        return this.guides.get(this.curStep);
     }
 
     reset(): void {
-        this.step = 1;
-        this.last = Number.MAX_VALUE;
+        this.curStep = 1;
+        this.lastStep = Number.MAX_VALUE;
 
         this.guides.forEach(node => {
             if (node.isValid) node.getComponent(GuideViewItem)!.destroy();
         });
         this.guides.clear();
-    }
-
-    /** 提示词数据 */
-    prompts: any = {
-        1: "提示词1",
-        2: "提示词2",
-        4: "提示词3",
-        5: "提示词5",
-        6: "提示词6",
-        8: "提示词8",
     }
 }

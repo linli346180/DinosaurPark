@@ -15,36 +15,31 @@ export class GuideViewItem extends Component {
     @property({
         type: [CCInteger]
     })
-    step: Array<number> = [];
+    stepId: number = -1;
 
     start() {
         var gm = smc.guide?.GuideModel;
-        if (gm) {
-            this.step.forEach((step: number) => {
-                var gv = smc.guide.GuideView;
+        if (gm && smc.guide.GuideView) {
+            var gv = smc.guide.GuideView;
 
-                // 注册引导数据
-                gv.register(step, this.node);
+            // 注册引导数据
+            gv.register(this.stepId, this.node);
 
-                // 验证当前是否触发这个引导
-                if (gm.step == step) {
-                    gv.check();
-                }
-            });
+            // 验证当前是否触发这个引导
+            if (gm.curStep == this.stepId) {
+                gv.check();
+            }
         }
     }
 
     update(dt: number) {
         var gm = smc.guide?.GuideModel;
         if (gm) {
-            this.step.forEach((step: number) => {
-                var gv = smc.guide.GuideView;
-
-                // 验证当前是否触发这个引导
-                if (gm.step == step) {
-                    gv.refresh();
-                }
-            });
+            var gv = smc.guide.GuideView;
+            // 验证当前是否触发这个引导
+            if (gm.curStep == this.stepId) {
+                gv.refresh();
+            }
         }
     }
 }

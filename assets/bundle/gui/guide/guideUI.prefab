@@ -5876,19 +5876,19 @@
     "__prefab": {
       "__id__": 253
     },
-    "btn_close": {
+    "btnClose": {
       "__id__": 31
     },
-    "btn_continue": {
+    "btnContinue": {
       "__id__": 237
     },
-    "btn_joinChannel": {
+    "btnJoinChannel": {
       "__id__": 69
     },
-    "btn_joinGroup": {
+    "btnJoinGroup": {
       "__id__": 123
     },
-    "btn_joinX": {
+    "btnJoinX": {
       "__id__": 177
     },
     "_id": ""

@@ -36,8 +36,8 @@ export enum UIID {
     RankUI,         // 排行榜
     LanguageUI,     // 多语言设置
     Activity,       // USDT活动
-    Guide,          // 新手引导
-    GuideReward,    // 新手引导
+    GuideChannel,   // 新手引导关注频道
+    GuideReward,    // 新手大礼包
     Wallet,         // 钱包
     EmailVerify,    // 邮箱验证
     WalletDetail,   // 钱包详情
@@ -76,7 +76,7 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.Wallet]: { layer: LayerType.UI, prefab: "gui/wallet/walletUI", mask: true },
     [UIID.WalletDetail]: { layer: LayerType.UI, prefab: "gui/wallet/walletDetailUI", mask: true },
 
-    [UIID.Guide]: { layer: LayerType.PopUp, prefab: "gui/guide/guideUI", mask: true },
+    [UIID.GuideChannel]: { layer: LayerType.PopUp, prefab: "gui/guide/guideUI", mask: true },
     [UIID.Book]: { layer: LayerType.PopUp, prefab: "gui/book/prefab/stbReportUI", mask: true, vacancy: true },
     [UIID.STBDetail]: { layer: LayerType.Dialog, prefab: "gui/book/prefab/stbDetail", mask: true, vacancy: true },
 
@@ -96,7 +96,7 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.EmailDetail]: { layer: LayerType.Dialog, prefab: "gui/email/prefab/emailDetailUI", mask: true },
 
     [UIID.EmailVerify]: { layer: LayerType.Dialog, prefab: "gui/setting/emailVerify", mask: true },
-    [UIID.GuideReward]: { layer: LayerType.PopUp, prefab: "gui/guide/guideReward", mask: true },
+    [UIID.GuideReward]: { layer: LayerType.Dialog, prefab: "gui/guide/guideReward", mask: true },
     [UIID.LanguageUI]: { layer: LayerType.Dialog, prefab: "gui/setting/languageView", mask: true, vacancy: true },
     [UIID.Keyboard]: { layer: LayerType.System, prefab: "gui/keyboard/Keyboard", mask: true, vacancy: true},
     [UIID.CollectCoin]: { layer: LayerType.PopUp, prefab: "gui/collectcoin/prefab/collectcoin", mask: true }, 
