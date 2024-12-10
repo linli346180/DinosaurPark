@@ -41,10 +41,10 @@ export class InviteVeiw extends Component {
         this.btn_invite?.node.on(Button.EventType.CLICK, this.openInviteLink, this);
         this.btn_copy?.node.on(Button.EventType.CLICK, this.copyInviteLink, this);
         this.initQRCode();
-        this.initRewardList();
     }
 
     onEnable() {
+        this.initRewardList();
         this.initInviteList();
     }
 
@@ -107,15 +107,15 @@ export class InviteVeiw extends Component {
     }
 
     private openInviteLink() {
-        oops.gui.toast(oops.language.getLangByID("common_tips_Not_Enabled"));
-        return;
+        // oops.gui.toast(oops.language.getLangByID("common_tips_Not_Enabled"));
+        // return;
         const url = `https://t.me/share/url?url=${this.inviteLink}`;
         window.open(url);
     }
 
     private copyInviteLink() {
-        oops.gui.toast(oops.language.getLangByID("common_tips_Not_Enabled"));
-        return;
+        // oops.gui.toast(oops.language.getLangByID("common_tips_Not_Enabled"));
+        // return;
         if (navigator.clipboard) {
             navigator.clipboard.writeText(this.inviteLink).then(() => {
                 oops.gui.toast("invite_tips_copytoclipboard", true);

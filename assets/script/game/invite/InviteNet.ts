@@ -7,8 +7,6 @@ import { NetErrorCode } from '../../net/custom/NetErrorCode';
 export namespace InviteNetService {
     /** 复制邀请链接 */
     export async function getCopyLink() {
-        return null;
-
         const http = new HttpManager();
         http.server = netConfig.Server;
         http.token = netConfig.Token;
@@ -26,8 +24,6 @@ export namespace InviteNetService {
 
     /** 查询邀请名单 */
     export async function getInviteList() {
-        return null;
-
         const http = new HttpManager();
         http.server = netConfig.Server;
         http.token = netConfig.Token;
@@ -45,8 +41,6 @@ export namespace InviteNetService {
 
     /** 获取邀请奖励配置 */
     export async function getInviteReward() {
-        return null;
-
         const http = new HttpManager();
         http.server = netConfig.Server;
         http.token = netConfig.Token;
@@ -65,8 +59,6 @@ export namespace InviteNetService {
 
     /** 领取邀请任务奖励 */
     export async function clampInviteReward(id: number) {
-        return null;
-
         const http = new HttpManager();
         http.server = netConfig.Server;
         http.token = netConfig.Token;
