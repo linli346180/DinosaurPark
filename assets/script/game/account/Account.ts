@@ -175,6 +175,7 @@ export class Account extends ecs.Entity {
                 node.getComponent(GuideReward)?.initUI(rewards);
             },
             onRemoved: (node: Node | null, params: any) => {
+                oops.gui.remove(UIID.GuideChannel);
                 // 开始新手引导(默认完成)
                 smc.guide.startGuide(null);
                 smc.guide.isFinish = true;
