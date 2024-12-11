@@ -216,6 +216,7 @@
     "tips_account_withdrawal": "Rút tiền",
     "tips_account_exchange_gems": "Đổi ngọc",
 
+    "tips_exchange_sure": "Xác nhận đổi",
     "tips_exchange_record": "Lịch sử đổi",
     "tips_exchange_detail": "Chi tiết đổi",
     "tips_exchange_success": "Đổi thành công",
@@ -263,6 +264,20 @@
     "evolve_times_reduceonce":"Giảm một lần",
     "evolve_sucess":"Tiến hóa Thành công",
     "evolve_fail":"Tiến hóa Thất bại",
+
+    "guide_01":"Nhấp để nhận nuôi thú sao",
+    "guide_02":"Chuyển sang nhận nuôi thú sao",
+    "guide_03":"Chuyển sang nhận nuôi thú sao",
+    "guide_04":"Hợp nhất các thú sao cùng cấp",
+    "guide_05":"Nhấp để thu gọn",
+    "guide_06":"Nhấp để mở",
+    "guide_07":"Nhấp để vào tiến hóa",
+    "guide_08":"Chuyển sang tiến hóa thú sao",
+    "guide_09":"Chuyển sang tiến hóa thú sao",
+    "guide_10":"Tăng số lần tiến hóa",
+    "guide_11":"Giảm số lần tiến hóa",
+    "guide_12":"Nhấp để tiến hóa",
+    "guide_13":"Nhấp để đóng",
 
     "End": "Kết thúc"
 }

@@ -6,6 +6,7 @@ import { UserOfficial, PresellInfo, GuideRewardInfo } from './GuideDefine';
 import { GameEvent } from '../common/config/GameEvent';
 import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
 import { GuideReward } from './GuideReward';
+import { smc } from '../common/SingletonModuleComp';
 
 const { ccclass, property } = _decorator;
 
@@ -46,14 +47,16 @@ export class GuideView extends Component {
             this.btnContinue.interactable = true;
             if (data) {
                 this.updateJoinButtons(data);
-                const isJoinChannel = data.joinOfficialChannel === 1 && data.joinOfficialGroup === 1 && data.joinX === 1;
-                const isReward = data.scorpionReward === 0;
+                let isJoinChannel = data.joinOfficialChannel === 1 && data.joinOfficialGroup === 1 && data.joinX === 1;
+                let isReward = data.scorpionReward === 0;
                 console.warn(`是否加入官方频道:${isJoinChannel}, 是否领取新手奖励:${isReward}`);
+
+                // isJoinChannel = true;
+                // isReward = false;
+
                 if (!isJoinChannel) return;
                 if (!isReward) {
-                    await GuideNetService.getRewardNew();
-                    oops.message.dispatchEvent(GameEvent.GuideFinish);
-                    this.openGuideRewardUI(data.rewards);
+                    smc.account.openGuideRewardUI(data.rewards);
                 } else {
                     this.finishGuide();
                 }
@@ -70,32 +73,33 @@ export class GuideView extends Component {
         this.btnJoinX.node.active = !(data.joinX === 1);
     }
 
-    private openGuideRewardUI(rewards: GuideRewardInfo[]) {
-        const uic: UICallbacks = {
-            onAdded: async (node: Node, params: any) => {
-                node.getComponent(GuideReward)?.initUI(rewards);
-            },
-            onRemoved: (node: Node | null, params: any) => {
-                oops.gui.remove(UIID.GuideChannel);
-            }
-        };
-        const uiArgs: any = {};
-        oops.gui.open(UIID.GuideReward, uiArgs, uic);
-    }
+    // private openGuideRewardUI(rewards: GuideRewardInfo[]) {
+    //     const uic: UICallbacks = {
+    //         onAdded: async (node: Node, params: any) => {
+    //             node.getComponent(GuideReward)?.initUI(rewards);
+    //         },
+    //         onRemoved: (node: Node | null, params: any) => {
+    //             oops.gui.remove(UIID.GuideChannel);
+    //             smc.guide.startGuide(null);
+    //         }
+    //     };
+    //     const uiArgs: any = {};
+    //     oops.gui.open(UIID.GuideReward, uiArgs, uic);
+    // }
 
     private finishGuide() {
         oops.gui.remove(UIID.GuideChannel);
-        oops.message.dispatchEvent(GameEvent.GuideFinish);
+        oops.message.dispatchEvent(GameEvent.GuideAward);
     }
 
     private joinChannel(url: string) {
         console.log('跳转链接:', url);
-        if (sys.platform === sys.Platform.DESKTOP_BROWSER) {
-            const telegramWebApp = (window as any).Telegram.WebApp;
-            telegramWebApp.openLink(url);
-        } else {
+        // if (sys.platform === sys.Platform.DESKTOP_BROWSER) {
+        //     const telegramWebApp = (window as any).Telegram.WebApp;
+        //     telegramWebApp.openLink(url);
+        // } else {
             window.open(url);
-        }
+        // }
     }
 
     private onPresellLeave() {

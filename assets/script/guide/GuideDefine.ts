@@ -1,5 +1,11 @@
 import { Node, Vec3 } from 'cc';
+import exp from 'constants';
 
+export enum GuideState {
+    NONE = 0,       //无引导
+    GUIDING,        //引导中
+    FINISH,         //引导完成
+}
 
 //单次引导的类型
 export enum GuideStepType {     
@@ -26,11 +32,11 @@ export enum FinishConditon {
 
 //引导配置接口定义
 export interface GuideInfo {     
-    stepId: number;         //引导唯一id
-    prompt: string;         //引导描述，显示出来
-    targetNode: Node;       //目标节点
-    raiseClick: boolean;    //触发点击事件
-
-    condition: FinishConditon;   //触发类型
-    gameEvent: string;      //触发事件
+    stepId?: number;            // 引导唯一id
+    name:string;                // 引导名字，随意
+    prompt: string;             // 引导描述，显示出来
+    targetNode: Node;           // 目标节点
+    emitClickEvent?: boolean;   // 是否触发点击事件，点击事件需要使用UI绑定ClickEvents
+    gameEvent: string;          // 触发事件
+    condition?: FinishConditon;   //触发类型
 }

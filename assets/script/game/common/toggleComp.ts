@@ -1,18 +1,14 @@
-import { _decorator, Component, Node } from 'cc';
-import { Enum } from 'cc';
-import { Toggle } from 'cc';
-import { Label } from 'cc';
+import { CCInteger } from 'cc';
+import { _decorator, Component, Toggle, Label } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('toggleComp')
 export class toggleComp extends Component {
-    @property(Number)
-    public index: number = 0;
+    @property({ type: CCInteger })
+    index: number = 0;
+    @property(Toggle) toggle: Toggle = null!;
     public onToggleSelcted: (index: number) => void = () => { };
-    @property(Toggle)
-    private toggle: Toggle = null!;
-
-    private UnCheckLabel: Label| null;
+    private UnCheckLabel: Label | null;
 
     onLoad() {
         this.toggle?.node.on(Toggle.EventType.TOGGLE, this.onToggle, this);
@@ -21,21 +17,25 @@ export class toggleComp extends Component {
             this.UnCheckLabel.node.active = false;
     }
 
-    public setChecked(isChecked: boolean) { 
+    public onClick() {
+        this.toggle.isChecked = true;
+    }
+
+    public setChecked(isChecked: boolean) {
         this.toggle.isChecked = isChecked;
-        if(this.UnCheckLabel)
+        if (this.UnCheckLabel)
             this.UnCheckLabel.node.active = !isChecked;
     }
 
     private onToggle(toggle: Toggle) {
         if (toggle.isChecked) {
-            if(this.onToggleSelcted)
+            if (this.onToggleSelcted)
                 this.onToggleSelcted(this.index);
 
-            if(this.UnCheckLabel)
+            if (this.UnCheckLabel)
                 this.UnCheckLabel.node.active = false;
         } else {
-            if(this.UnCheckLabel)
+            if (this.UnCheckLabel)
                 this.UnCheckLabel.node.active = true;
         }
     }

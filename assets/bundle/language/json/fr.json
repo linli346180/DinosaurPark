@@ -216,6 +216,7 @@
     "tips_account_withdrawal": "Retrait",
     "tips_account_exchange_gems": "Échanger contre des gemmes",
 
+    "tips_exchange_sure":"Confirmer l'échange",
     "tips_exchange_record": "Historique des échanges",
     "tips_exchange_detail": "Détails de l'échange",
     "tips_exchange_success": "Échange réussi",
@@ -263,6 +264,20 @@
     "evolve_times_reduceonce":"Réduire une fois",
     "evolve_sucess":"Évolution Réussie",
     "evolve_fail":"Évolution Échouée",
+
+    "guide_01":"Cliquez pour adopter la bête étoile",
+    "guide_02":"Passer à l'adoption de la bête étoile",
+    "guide_03":"Passer à l'adoption de la bête étoile",
+    "guide_04":"Fusionner les bêtes étoilées de même niveau",
+    "guide_05":"Cliquez pour réduire",
+    "guide_06":"Cliquez pour ouvrir",
+    "guide_07":"Cliquez pour entrer en évolution",
+    "guide_08":"Passer à l'évolution de la bête étoile",
+    "guide_09":"Passer à l'évolution de la bête étoile",
+    "guide_10":"Augmenter le nombre d'évolutions",
+    "guide_11":"Diminuer le nombre d'évolutions",
+    "guide_12":"Cliquez pour évoluer",
+    "guide_13":"Cliquez pour fermer",
 
     "End": "Fin"
 }

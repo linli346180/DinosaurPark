@@ -216,6 +216,7 @@
     "tips_account_withdrawal": "Withdrawal",
     "tips_account_exchange_gems": "Exchange Gems",
 
+    "tips_exchange_sure":"Confirm Exchange",
     "tips_exchange_record": "Exchange Record",
     "tips_exchange_detail": "Exchange Details",
     "tips_exchange_success": "Exchange Successful",
@@ -263,6 +264,20 @@
     "evolve_times_reduceonce":"Reduce one",
     "evolve_sucess":"Evolution Successful",
     "evolve_fail":"Evolution Failed",
+    
+    "guide_01":"Click to adopt the star beast",
+    "guide_02":"Switch to adopt the star beast",
+    "guide_03":"Switch to adopt the star beast",
+    "guide_04":"Merge star beasts of the same level",
+    "guide_05":"Click to collapse",
+    "guide_06":"Click to open",
+    "guide_07":"Click to enter evolution",
+    "guide_08":"Switch to evolve the star beast",
+    "guide_09":"Switch to evolve the star beast",
+    "guide_10":"Increase evolution count",
+    "guide_11":"Decrease evolution count",
+    "guide_12":"Click to evolve",
+    "guide_13":"Click to close",
 
     "End": "End"
 }

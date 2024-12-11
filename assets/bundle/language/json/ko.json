@@ -216,6 +216,7 @@
     "tips_account_withdrawal": "출금",
     "tips_account_exchange_gems": "보석 교환",
 
+    "tips_exchange_sure":"교환 확인",
     "tips_exchange_record": "교환 기록",
     "tips_exchange_detail": "교환 내역",
     "tips_exchange_success": "교환 성공",
@@ -263,6 +264,20 @@
     "evolve_times_reduceonce":"한 번 감소",
     "evolve_sucess":"진화 성공",
     "evolve_fail":"진화 실패",
+
+    "guide_01":"별 짐승 입양을 클릭하세요",
+    "guide_02":"별 짐승 입양 전환",
+    "guide_03":"별 짐승 입양 전환",
+    "guide_04":"같은 레벨의 별 짐승 합치기",
+    "guide_05":"접으려면 클릭하세요",
+    "guide_06":"열려면 클릭하세요",
+    "guide_07":"진화에 들어가려면 클릭하세요",
+    "guide_08":"별 짐승 진화로 전환",
+    "guide_09":"별 짐승 진화로 전환",
+    "guide_10":"진화 횟수 증가",
+    "guide_11":"진화 횟수 감소",
+    "guide_12":"진화하려면 클릭하세요",
+    "guide_13":"닫으려면 클릭하세요",
 
     "End": "종료"
 }

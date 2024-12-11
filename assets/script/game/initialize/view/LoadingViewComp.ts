@@ -109,7 +109,7 @@ export class LoadingViewComp extends CCVMParentComp {
         // 获取用户信息的多语言提示文本
         // this.data.prompt = oops.language.getLangByID("loading_load_player");
         console.log("进度条加载完成");
-        oops.message.dispatchEvent(GameEvent.OnLoadingUIClosed);
+        // oops.message.dispatchEvent(GameEvent.OnLoadingUIClosed);
     }
 
     private CloseUI() {

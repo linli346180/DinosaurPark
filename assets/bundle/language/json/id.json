@@ -216,6 +216,7 @@
     "tips_account_withdrawal": "Penarikan",
     "tips_account_exchange_gems": "Tukar Berlian",
 
+    "tips_exchange_sure":"Konfirmasi Tukar",
     "tips_exchange_record": "Rekaman Tukar",
     "tips_exchange_detail": "Detail Tukar",
     "tips_exchange_success": "Tukar Berhasil",
@@ -263,6 +264,20 @@
     "evolve_times_reduceonce":"Kurangi satu kali",
     "evolve_sucess":"Evolusi Berhasil",
     "evolve_fail":"Evolusi Gagal",
+
+    "guide_01":"Klik untuk mengadopsi binatang bintang",
+    "guide_02":"Beralih untuk mengadopsi binatang bintang",
+    "guide_03":"Beralih untuk mengadopsi binatang bintang",
+    "guide_04":"Gabungkan binatang bintang dengan level yang sama",
+    "guide_05":"Klik untuk mengecilkan",
+    "guide_06":"Klik untuk membuka",
+    "guide_07":"Klik untuk memasuki evolusi",
+    "guide_08":"Beralih untuk mengembangkan binatang bintang",
+    "guide_09":"Beralih untuk mengembangkan binatang bintang",
+    "guide_10":"Tingkatkan jumlah evolusi",
+    "guide_11":"Kurangi jumlah evolusi",
+    "guide_12":"Klik untuk berkembang",
+    "guide_13":"Klik untuk menutup",
     
     "End": "Selesai"
 }

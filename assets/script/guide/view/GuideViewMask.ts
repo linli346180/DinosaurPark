@@ -79,7 +79,7 @@ export class GuideViewMask extends Component {
 
     /** 事件模拟触发目标按钮触摸事件 */
     private onTouchEnd(event: EventTouch) {
-        var btn = this.model.current;
+        var btn = this.model.curNode;
         if (btn) {
             var touchPos = ViewUtil.calculateScreenPosToSpacePos(event, this.node);
             touchPos = ViewUtil.calculateASpaceToBSpacePos(this.node, btn.parent!, touchPos);

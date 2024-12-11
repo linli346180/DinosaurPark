@@ -216,6 +216,7 @@
     "tips_account_withdrawal": "Retirar",
     "tips_account_exchange_gems": "Intercambiar gemas",
 
+    "tips_exchange_sure":"Confirmar intercambio",
     "tips_exchange_record": "Registro de intercambio",
     "tips_exchange_detail": "Detalles del intercambio",
     "tips_exchange_success": "Intercambio exitoso",
@@ -263,6 +264,20 @@
     "evolve_times_reduceonce":"Reducir una",
     "evolve_sucess":"Evolución Exitosa",
     "evolve_fail":"Evolución Fallida",
+
+    "guide_01":"Haga clic para adoptar la bestia estelar",
+    "guide_02":"Cambiar para adoptar la bestia estelar",
+    "guide_03":"Cambiar para adoptar la bestia estelar",
+    "guide_04":"Fusionar bestias estelares del mismo nivel",
+    "guide_05":"Haga clic para colapsar",
+    "guide_06":"Haga clic para abrir",
+    "guide_07":"Haga clic para entrar en evolución",
+    "guide_08":"Cambiar para evolucionar la bestia estelar",
+    "guide_09":"Cambiar para evolucionar la bestia estelar",
+    "guide_10":"Aumentar el conteo de evolución",
+    "guide_11":"Disminuir el conteo de evolución",
+    "guide_12":"Haga clic para evolucionar",
+    "guide_13":"Haga clic para cerrar",
 
     "End": "Fin"
 }

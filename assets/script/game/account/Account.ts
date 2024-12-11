@@ -25,6 +25,7 @@ import { _decorator, Component, Node } from 'cc';
 import { CollectCoin } from "../collectcoin/CollectCoin";
 import { CoinNetService } from "../coin/CoinNet";
 import { smc } from "../common/SingletonModuleComp";
+import { GuideRewardInfo } from "../guide/GuideDefine";
 
 /** 账号模块 */
 @ecs.register('Account')
@@ -49,7 +50,7 @@ export class Account extends ecs.Entity {
         oops.message.on(GameEvent.APPInitialized, this.onHandler, this);
         oops.message.on(GameEvent.LoginSuccess, this.onHandler, this);
         oops.message.on(GameEvent.DataInitialized, this.onHandler, this);
-        oops.message.on(GameEvent.GuideFinish, this.onHandler, this);
+        oops.message.on(GameEvent.GuideAward, this.onHandler, this);
         oops.message.on(GameEvent.WebSocketConnected, this.onHandler, this);
         oops.message.on(GameEvent.NetConnectFail, this.onHandler, this);
         oops.message.on(GameEvent.WebRequestFail, this.onHandler, this);
@@ -59,7 +60,7 @@ export class Account extends ecs.Entity {
         oops.message.off(GameEvent.APPInitialized, this.onHandler, this);
         oops.message.off(GameEvent.LoginSuccess, this.onHandler, this);
         oops.message.off(GameEvent.DataInitialized, this.onHandler, this);
-        oops.message.off(GameEvent.GuideFinish, this.onHandler, this);
+        oops.message.off(GameEvent.GuideAward, this.onHandler, this);
         oops.message.off(GameEvent.WebSocketConnected, this.onHandler, this);
         oops.message.off(GameEvent.NetConnectFail, this.onHandler, this);
         oops.message.off(GameEvent.WebRequestFail, this.onHandler, this);
@@ -79,31 +80,17 @@ export class Account extends ecs.Entity {
                 console.log("2.登陆成功");
                 oops.storage.setUser(this.AccountModel.userData.id.toString());
                 // oops.audio.load();
-                if (this.AccountModel.noOperationMail) {
-                    console.log("有未读邮件");
-                    oops.storage.remove(NetCmd.UserEmailType.toString());
-                }
-
-                if (this.AccountModel.noOperationTask) {
-                    console.log("有未领取任务");
-                    oops.storage.remove(NetCmd.UserTaskType.toString());
-                }
+                this.checkRedDot();
 
                 if (await this.checkNewUserReward()) {
-                    console.log("3.新手教程完成");
+                    console.log("3.领取新手大礼包");
                     this.add(AccountNetDataComp);
+                    smc.guide.isFinish = true;
                 }
-                break;
-
-            // 2.1 登陆失败
-            case GameEvent.LoginFail:
-                tips.alert(oops.language.getLangByID('net_tips_fetch_fail'), () => {
-                    // (window as any).Telegram.WebApp.close();
-                });
                 break;
 
             // 3. 新手教程完成
-            case GameEvent.GuideFinish:
+            case GameEvent.GuideAward:
                 console.log("3.新手教程完成");
                 this.add(AccountNetDataComp);
                 break
@@ -113,13 +100,8 @@ export class Account extends ecs.Entity {
                 console.log("4.数据初始化完成");
                 oops.gui.openAsync(UIID.Map);
                 await oops.gui.openAsync(UIID.Main);
-                AccountNetService.createWebSocket();
-                break;
-
-            // 5. WebSocket连接成功
-            case GameEvent.WebSocketConnected:
-                console.log("5.WebSocket连接成功");
                 tonConnect.initTonConnect();
+                this.WebSocketConnect()
                 oops.message.dispatchEvent(GameEvent.CloseLoadingUI);
                 break;
 
@@ -138,6 +120,18 @@ export class Account extends ecs.Entity {
         }
     }
 
+    private checkRedDot() {
+        if (this.AccountModel.noOperationMail) {
+            console.log("有未读邮件");
+            oops.storage.set(NetCmd.UserEmailType.toString(), false);
+        }
+
+        if (this.AccountModel.noOperationTask) {
+            console.log("有未领取任务");
+            oops.storage.set(NetCmd.UserTaskType.toString(), false);
+        }
+    }
+
     /** 是否领取过新手大礼包 */
     private async checkNewUserReward(): Promise<boolean> {
         return new Promise(async (resolve, reject) => {
@@ -149,28 +143,20 @@ export class Account extends ecs.Entity {
                 isReward = res.userOfficial.scorpionReward == 0;
                 console.warn(`是否加入官方频道:${isJoinChannel}, 是否领取新手奖励:${isReward}`);
 
+                isJoinChannel = true; // 测试代码
+                isReward = false; // 测试代码
+
                 // 未加入官方频道
-                if(!isJoinChannel) {
-                    oops.gui.open(UIID.GuideChannel);
+                if (!isJoinChannel) {
+                    await oops.gui.openAsync(UIID.GuideChannel);
                     oops.message.dispatchEvent(GameEvent.CloseLoadingUI);
                     resolve(false)
                 } else {
                     // 已加入官方频道,未领取新手奖励
                     if (!isReward) {
-                        await GuideNetService.getRewardNew();
-                        const uic: UICallbacks = {
-                            onAdded: async (node: Node, params: any) => {
-                                node.getComponent(GuideReward)?.initUI(res.userOfficial.rewards);
-                            },
-                            onRemoved: (node: Node | null, params: any) => {
-                                // 开始新手引导
-                                smc.guide.startGuide(null);
-                            }
-                        };
-                        const uiArgs: any = {};
-                        oops.gui.open(UIID.GuideReward, uiArgs, uic);
-                        resolve(true)
+                        this.openGuideRewardUI(res.userOfficial.rewards);
                     } else {
+                        smc.guide.isFinish = true;
                         resolve(true)
                     }
                 }
@@ -178,6 +164,25 @@ export class Account extends ecs.Entity {
                 resolve(true)
             }
         });
+    }
+
+    /** 显示奖励UI */
+    public async openGuideRewardUI(rewards: GuideRewardInfo[]) {
+        await GuideNetService.getRewardNew();
+        smc.guide.isFinish = false;
+        const uic: UICallbacks = {
+            onAdded: async (node: Node, params: any) => {
+                node.getComponent(GuideReward)?.initUI(rewards);
+            },
+            onRemoved: (node: Node | null, params: any) => {
+                // 开始新手引导(默认完成)
+                smc.guide.startGuide(null);
+                smc.guide.isFinish = true;
+            }
+        };
+        const uiArgs: any = {};
+        oops.gui.open(UIID.GuideReward, uiArgs, uic);
+        oops.message.dispatchEvent(GameEvent.GuideAward);
     }
 
     /** 领取奖励 */
@@ -285,6 +290,38 @@ export class Account extends ecs.Entity {
         callback(false, res.resultMsg);
     }
 
+    /** 创建WebSocket连接 */
+    private WebSocketConnect(connect: boolean = true) {
+        const cmds = [
+            NetCmd.UserNinstbType,
+            NetCmd.DownLineType,
+            NetCmd.UserIncomeType,
+            NetCmd.UserCoinType,
+            NetCmd.NinstbDeathType,
+            NetCmd.IncomeStbDeathType,
+            NetCmd.UserHatchType,
+            NetCmd.InvitedType,
+            NetCmd.UserDebrisType,
+            NetCmd.UserEmailType,
+            NetCmd.UserTaskType,
+            NetCmd.RankingType,
+            NetCmd.WithDrawalType,
+            NetCmd.StbGurideType,
+            NetCmd.UserBounsType,
+            NetCmd.OfflineIncomeType
+        ];
+
+        if (connect) {
+            netChannel.gameCreate();
+            netChannel.gameConnect();
+            cmds.forEach(cmd => {
+                netChannel.game.on(cmd, '', (data) => {
+                    this.OnRecevieMessage(cmd, data);
+                });
+            });
+        }
+    }
+
     public OnRecevieMessage(cmd: number, data: any) {
         switch (cmd) {
             case NetCmd.UserNinstbType:
@@ -317,7 +354,6 @@ export class Account extends ecs.Entity {
 
             case NetCmd.UserCoinType:
                 this.updateCoinData();
-
             case NetCmd.UserHatchType:
             case NetCmd.InvitedType:
             case NetCmd.UserDebrisType:
@@ -325,6 +361,8 @@ export class Account extends ecs.Entity {
             case NetCmd.UserTaskType:
             case NetCmd.RankingType:
             case NetCmd.StbGurideType:
+                console.log("激活红点:", NetCmd[cmd]);
+                oops.storage.set(cmd.toString(), true);  // 激活红点
                 oops.message.dispatchEvent(AccountEvent.RedDotCmd, cmd);
                 break;
             case NetCmd.UserBounsType:
@@ -333,7 +371,7 @@ export class Account extends ecs.Entity {
                 break;
 
             case NetCmd.OfflineIncomeType:
-                if (data.goldCoin > 0 || data.gemsCoin > 0) {
+                if (smc.guide.isFinish && data.goldCoin > 0 || data.gemsCoin > 0) {
                     var uic: UICallbacks = {
                         onAdded: (node: Node, params: any) => {
                             const component = node.getComponent(CollectCoin);

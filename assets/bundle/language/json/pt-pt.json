@@ -216,6 +216,7 @@
     "tips_account_withdrawal": "Saque",
     "tips_account_exchange_gems": "Trocar por Pedras Preciosas",
 
+    "tips_exchange_sure":"Confirmar Troca",
     "tips_exchange_record": "Histórico de Trocas",
     "tips_exchange_detail": "Detalhes da Troca",
     "tips_exchange_success": "Troca bem-sucedida",
@@ -263,6 +264,20 @@
     "evolve_times_reduceonce":"Reduzir uma",
     "evolve_sucess":"Evolução Bem-sucedida",
     "evolve_fail":"Evolução Falhou",
+
+    "guide_01":"Clique para adotar a besta estelar",
+    "guide_02":"Troque para adotar a besta estelar",
+    "guide_03":"Troque para adotar a besta estelar",
+    "guide_04":"Mesclar bestas estelares do mesmo nível",
+    "guide_05":"Clique para recolher",
+    "guide_06":"Clique para abrir",
+    "guide_07":"Clique para entrar na evolução",
+    "guide_08":"Troque para evoluir a besta estelar",
+    "guide_09":"Troque para evoluir a besta estelar",
+    "guide_10":"Aumentar a contagem de evolução",
+    "guide_11":"Diminuir a contagem de evolução",
+    "guide_12":"Clique para evoluir",
+    "guide_13":"Clique para fechar",
     
     "End": "Fim"
 }

@@ -96,7 +96,7 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.EmailDetail]: { layer: LayerType.Dialog, prefab: "gui/email/prefab/emailDetailUI", mask: true },
 
     [UIID.EmailVerify]: { layer: LayerType.Dialog, prefab: "gui/setting/emailVerify", mask: true },
-    [UIID.GuideReward]: { layer: LayerType.Dialog, prefab: "gui/guide/guideReward", mask: true },
+    [UIID.GuideReward]: { layer: LayerType.PopUp, prefab: "gui/guide/guideReward", mask: true },
     [UIID.LanguageUI]: { layer: LayerType.Dialog, prefab: "gui/setting/languageView", mask: true, vacancy: true },
     [UIID.Keyboard]: { layer: LayerType.System, prefab: "gui/keyboard/Keyboard", mask: true, vacancy: true},
     [UIID.CollectCoin]: { layer: LayerType.PopUp, prefab: "gui/collectcoin/prefab/collectcoin", mask: true }, 

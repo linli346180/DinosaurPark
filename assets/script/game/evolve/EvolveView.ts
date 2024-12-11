@@ -72,10 +72,11 @@ export class EvolveView extends Component {
                 comp.onToggleSelcted = this.onToggleSelcted.bind(this);
             }
         });
-        this.btn_close.node.on(Button.EventType.CLICK, this.onClose, this);
-        this.btn_evolve.node.on(Button.EventType.CLICK, this.onEvolveClick, this);
-        this.btn_reduceonce.node.on(Button.EventType.CLICK, this.onReduceOnceClick, this);
-        this.btn_addonce.node.on(Button.EventType.CLICK, this.onAddOnceClick, this);
+        // this.btn_close.node.on(Button.EventType.CLICK, this.onClose, this);
+        // this.btn_evolve.node.on(Button.EventType.CLICK, this.onEvolveClick, this);
+        // this.btn_reduceonce.node.on(Button.EventType.CLICK, this.onReduceOnceClick, this);
+        // this.btn_addonce.node.on(Button.EventType.CLICK, this.onAddOnceClick, this);
+
         this.btn_tips.node.on(Button.EventType.CLICK, this.showTips, this);
         this.btn_buy.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.GemShop) }, this);
 

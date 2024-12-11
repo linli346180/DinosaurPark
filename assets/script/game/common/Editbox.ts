@@ -8,13 +8,15 @@ import Keyboard from '../keyboard/Keyboard';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { UIID } from './config/GameUIConfig';
 import { Enum } from 'cc';
+import { CCInteger } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Editbox')
 export class Editbox extends Component {
     @property(Label) textLabel: Label = null;
     @property(Label) placeholderLabel: Label = null;
-    @property(Number) maxLength: number = 20;
+    @property({ type: CCInteger })
+    maxLength: number = 20;
     @property({ type: Enum(InputMode), displayName: "输入模式" })
     inputMode: InputMode = InputMode.ANY;
 

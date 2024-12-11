@@ -63,7 +63,6 @@ export class ReddotComp extends Component {
     }
 
     private onHandler(event: string, args: any) {
-        oops.storage.remove(args.toString());
         if (args == this.cmd) {
             this.node.active = true;
         }

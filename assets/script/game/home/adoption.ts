@@ -27,10 +27,9 @@ export class AdoptionView extends Component {
     private _spriteFrames: SpriteFrame[] = [];
 
     start() {
-        this.setupButtonHandlers();
+        // this.setupButtonHandlers();
         this.loadConfigData();
         this.loadSpriteFrames();
-
         oops.message.on(AccountEvent.CoinExtraPrizeChange, this.CoinExtraPrizeChange, this);
     }
 

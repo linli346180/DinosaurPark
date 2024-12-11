@@ -52,10 +52,7 @@ export class InitResSystem extends ecs.ComblockSystem implements ecs.IEntityEnte
     /** 加载远程资源配置 */
     private loadBundle(queue: AsyncQueue) {
         queue.push(async (next: NextFunction, params: any, args: any) => {
-            // 设置默认加载的外部资源包名
             oops.res.defaultBundleName = oops.config.game.bundleName;
-
-            // 加载外部资源包
             if (oops.config.game.bundleEnable) {
                 console.log("启用远程资源运行游戏");
                 await oops.res.loadBundle(oops.config.game.bundleServer, oops.config.game.bundleVersion);
@@ -71,7 +68,6 @@ export class InitResSystem extends ecs.ComblockSystem implements ecs.IEntityEnte
     /** 加载自定义内容（可选） */
     private loadCustom(queue: AsyncQueue) {
         queue.push(async (next: NextFunction, params: any, args: any) => {
-            // 加载多语言对应字体
             oops.res.load("language/font/" + oops.language.current, next);
             await JsonUtil.loadAsync(TableItemConfig.TableName);
             await JsonUtil.loadAsync(TablePrimaryDebrisConfig.TableName);
@@ -104,9 +100,11 @@ export class InitResSystem extends ecs.ComblockSystem implements ecs.IEntityEnte
     /** 加载完成进入游戏内容加载界面 */
     private onComplete(queue: AsyncQueue, e: Initialize) {
         queue.complete = async () => {
+            console.log("0.资源加载完成");
+            // 应用初始化完成
+            oops.message.dispatchEvent(GameEvent.APPInitialized)
             // 加载进度提示界面
             ModuleUtil.addViewUi(e, LoadingViewComp, UIID.Loading);
-            oops.message.dispatchEvent(GameEvent.APPInitialized)
             e.remove(InitResComp);
         };
     }

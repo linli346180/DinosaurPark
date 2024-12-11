@@ -16,6 +16,18 @@ export namespace AnimUtil {
             .start();
     }
 
+    /** 播放上下动画 */
+    export function playAnim_UpAndDown(targetNode: Node, targetPos: Vec3 = v3(0, 50, 0)): void { 
+        const originalPos = targetNode.position.clone(); // 保存原始位置
+        tween(targetNode)
+            .repeatForever(
+                tween()
+                    .to(1, { position: targetPos }, { easing: 'fade' }) // 使用传入的 targetPos
+                    .to(1, { position: originalPos }, { easing: 'fade' }) // 恢复到原始位置
+            )
+            .start();
+    }
+
     /**
      * 播放移动和透明度动画
      * @param targetNode - 目标节点

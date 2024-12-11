@@ -216,6 +216,7 @@
     "tips_account_withdrawal":"提现",
     "tips_account_exchange_gems":"兑换宝石",
 
+    "tips_exchange_sure":"确认兑换",
     "tips_exchange_record":"兑换记录",
     "tips_exchange_detail":"兑换明细",
     "tips_exchange_success":"兑换成功",
@@ -263,6 +264,20 @@
     "evolve_times_reduceonce":"减少一次",
     "evolve_sucess":"进化成功",
     "evolve_fail":"进化失败",
+
+    "guide_01":"点击领养星兽",
+    "guide_02":"切换领养星兽",
+    "guide_03":"切换领养星兽",
+    "guide_04":"合并相同等级星兽",
+    "guide_05":"点击收起",
+    "guide_06":"点击打开",
+    "guide_07":"点击进入进化",
+    "guide_08":"切换进化星兽",
+    "guide_09":"切换进化星兽",
+    "guide_10":"增加进化次数",
+    "guide_11":"减少进化次数",
+    "guide_12":"点击进化",
+    "guide_13":"点击关闭",
     
     "End":"结束"
 }

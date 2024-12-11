@@ -216,6 +216,7 @@
     "tips_account_withdrawal": "Withdraw",
     "tips_account_exchange_gems": "Palitan ng Gems",
 
+    "tips_exchange_sure":"Confirm Exchange",
     "tips_exchange_record": "Exchange Record",
     "tips_exchange_detail": "Exchange Details",
     "tips_exchange_success": "Matagumpay na Palitan",
@@ -263,6 +264,20 @@
     "evolve_times_reduceonce":"Bawasan ng isa",
     "evolve_sucess":"Matagumpay na Ebolusyon",
     "evolve_fail":"Nabigong Ebolusyon",
+
+    "guide_01":"I-click upang ampunin ang bituing hayop",
+    "guide_02":"Lumipat upang ampunin ang bituing hayop",
+    "guide_03":"Lumipat upang ampunin ang bituing hayop",
+    "guide_04":"Pagsamahin ang mga bituing hayop sa parehong antas",
+    "guide_05":"I-click upang tiklop",
+    "guide_06":"I-click upang buksan",
+    "guide_07":"I-click upang pumasok sa ebolusyon",
+    "guide_08":"Lumipat upang mag-evolve ng bituing hayop",
+    "guide_09":"Lumipat upang mag-evolve ng bituing hayop",
+    "guide_10":"Dagdagan ang bilang ng ebolusyon",
+    "guide_11":"Bawasan ang bilang ng ebolusyon",
+    "guide_12":"I-click upang mag-evolve",
+    "guide_13":"I-click upang isara",
 
     "End": "Wakas"
 }

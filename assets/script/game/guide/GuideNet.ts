@@ -2,9 +2,6 @@ import { _decorator, Component, Node } from 'cc';
 import { HttpManager } from '../../net/HttpManager';
 import { netConfig } from '../../net/custom/NetConfig';
 import { NetErrorCode } from '../../net/custom/NetErrorCode';
-import { UserOfficial, PresellInfo } from './GuideDefine';
-import exp from 'constants';
-const { ccclass, property } = _decorator;
 
 export namespace GuideNetService {
 

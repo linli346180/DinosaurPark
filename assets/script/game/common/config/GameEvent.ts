@@ -20,8 +20,8 @@ export enum GameEvent {
     /** 新手教程开始 */
     GuideBegin = "GuideBegin",
 
-    /** 新手教程完成 */
-    GuideFinish = "GuideFinish",
+    /** 领取新手礼包 */
+    GuideAward = "GuideAward",
 
     /** 数据初始化完成 */
     DataInitialized = "DataInitialized",

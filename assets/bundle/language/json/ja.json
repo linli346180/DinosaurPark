@@ -216,6 +216,7 @@
     "tips_account_withdrawal": "出金",
     "tips_account_exchange_gems": "ジェムを交換",
 
+    "tips_exchange_sure":"交換を確認",
     "tips_exchange_record": "交換記録",
     "tips_exchange_detail": "交換詳細",
     "tips_exchange_success": "交換成功",
@@ -263,6 +264,20 @@
     "evolve_times_reduceonce":"1回減らす",
     "evolve_sucess":"進化成功",
     "evolve_fail":"進化失敗",
+
+    "guide_01":"星獣を採用するにはクリック",
+    "guide_02":"星獣を採用に切り替え",
+    "guide_03":"星獣を採用に切り替え",
+    "guide_04":"同じレベルの星獣をマージ",
+    "guide_05":"折りたたむにはクリック",
+    "guide_06":"開くにはクリック",
+    "guide_07":"進化に入るにはクリック",
+    "guide_08":"星獣の進化に切り替え",
+    "guide_09":"星獣の進化に切り替え",
+    "guide_10":"進化回数を増やす",
+    "guide_11":"進化回数を減らす",
+    "guide_12":"進化するにはクリック",
+    "guide_13":"閉じるにはクリック",
 
     "End": "終了"
 }

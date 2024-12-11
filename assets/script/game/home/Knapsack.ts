@@ -16,26 +16,30 @@ export class KnapsackView extends Component {
     @property(Node)
     KnapsackPanel: Node = null!;
 
-    start() {
-        this.btn_fold?.node.on(Button.EventType.CLICK, this.hideSubBtns, this);
-        this.btn_expand?.node.on(Button.EventType.CLICK, this.showSubBtns, this);
-    }
+    // start() {
+    //     this.btn_fold?.node.on(Button.EventType.CLICK, this.hideSubBtns, this);
+    //     this.btn_expand?.node.on(Button.EventType.CLICK, this.showSubBtns, this);
+    // }
 
-    private hideSubBtns() {
+    hideSubBtns() {
         oops.message.dispatchEvent(AccountEvent.HideUserOperation);
         this.subBtnsAnim.play('sub_fold');
+        this.btn_fold.interactable = false;
         this.subBtnsAnim.once(Animation.EventType.FINISHED, () => {
             this.btn_expand.node.active = true;
             this.btn_fold.node.active = false;
+            this.btn_fold.interactable = true;
         });
     }
 
-    private showSubBtns() {
+    showSubBtns() {
         oops.message.dispatchEvent(AccountEvent.HideUserOperation);
         this.subBtnsAnim.play('sub_pop');
+        this.btn_expand.interactable = false;
         this.subBtnsAnim.once(Animation.EventType.FINISHED, () => {
             this.btn_expand.node.active = false;
             this.btn_fold.node.active = true;
+            this.btn_expand.interactable = true;
         });
     }
 }

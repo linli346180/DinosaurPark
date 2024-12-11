@@ -116,61 +116,36 @@ export namespace AccountNetService {
     }
 
     /** 创建WebSocket连接 */
-    export async function createWebSocket() {
-        netChannel.gameCreate();
-        netChannel.gameConnect();
-        netChannel.game.on(NetCmd.UserNinstbType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.UserNinstbType, data);
-        });
-        netChannel.game.on(NetCmd.DownLineType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.DownLineType, data);
-        });
-        netChannel.game.on(NetCmd.UserIncomeType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.UserIncomeType, data);
-        });
+    // export async function WebSocketConnect(connect: boolean = true) {
+    //     const cmds = [
+    //         NetCmd.UserNinstbType,
+    //         NetCmd.DownLineType,
+    //         NetCmd.UserIncomeType,
+    //         NetCmd.UserCoinType,
+    //         NetCmd.NinstbDeathType,
+    //         NetCmd.IncomeStbDeathType,
+    //         NetCmd.UserHatchType,
+    //         NetCmd.InvitedType,
+    //         NetCmd.UserDebrisType,
+    //         NetCmd.UserEmailType,
+    //         NetCmd.UserTaskType,
+    //         NetCmd.RankingType,
+    //         NetCmd.WithDrawalType,
+    //         NetCmd.StbGurideType,
+    //         NetCmd.UserBounsType,
+    //         NetCmd.OfflineIncomeType
+    //     ];
 
-        netChannel.game.on(NetCmd.UserCoinType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.UserCoinType, data);
-        });
-
-        netChannel.game.on(NetCmd.NinstbDeathType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.NinstbDeathType, data);
-        });
-        netChannel.game.on(NetCmd.IncomeStbDeathType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.IncomeStbDeathType, data);
-        });
-        netChannel.game.on(NetCmd.UserHatchType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.UserHatchType, data);
-        });
-        netChannel.game.on(NetCmd.InvitedType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.InvitedType, data);
-        });
-        netChannel.game.on(NetCmd.UserDebrisType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.UserDebrisType, data);
-        });
-        netChannel.game.on(NetCmd.UserEmailType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.UserEmailType, data);
-        });
-        netChannel.game.on(NetCmd.UserTaskType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.UserTaskType, data);
-        });
-        netChannel.game.on(NetCmd.RankingType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.RankingType, data);
-        });
-        netChannel.game.on(NetCmd.WithDrawalType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.WithDrawalType, data);
-        });
-        netChannel.game.on(NetCmd.StbGurideType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.StbGurideType, data);
-        });
-        netChannel.game.on(NetCmd.UserBounsType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.UserBounsType, data);
-        });
-        netChannel.game.on(NetCmd.OfflineIncomeType, '', (data) => {
-            smc.account.OnRecevieMessage(NetCmd.OfflineIncomeType, data);
-        });
-        oops.message.dispatchEvent(GameEvent.WebSocketConnected);
-    }
+    //     if (connect) {
+    //         netChannel.gameCreate();
+    //         netChannel.gameConnect();
+    //         cmds.forEach(cmd => {
+    //             netChannel.game.on(cmd, '', (data) => {
+    //                 smc.account.OnRecevieMessage(cmd, data);
+    //             });
+    //         });
+    //     }
+    // }
 
     /** 获取星兽配置 */
     export async function getStartBeastConfig() {

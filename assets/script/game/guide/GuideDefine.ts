@@ -1,5 +1,4 @@
 
-
 export class PresellInfo {
     public officialChannelUrl: string;    // 官方频道链接
     public officialGroupUrl: string;        // 官方群链接
@@ -31,10 +30,3 @@ export class UserOfficial {
     public scorpionReward:number;            // 是否领取过新手奖励,0-已领取，1-未领取
     public rewards: GuideRewardInfo[] = [];
 }
-
-// export class UserReward {
-//     rewardType: number = 0;          // 奖励类型
-//     rewardGoodsID: number = 0;      // 奖励物品ID
-//     goodName: string = '';          // 奖励名称
-//     rewardNum: number = 0           // 奖励数量
-// }

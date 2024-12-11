@@ -6,10 +6,6 @@
  */
 import { Component, ResolutionPolicy, UITransform, _decorator, math, screen, view } from "cc";
 import { oops } from "../Oops";
-import { macro } from "cc";
-import { SystemEvent } from "cc";
-import { systemEvent } from "cc";
-import { input } from "cc";
 
 const { ccclass } = _decorator;
 
@@ -18,7 +14,6 @@ const { ccclass } = _decorator;
 export class GUI extends Component {
     /** 是否为竖屏显示 */
     portrait!: boolean;
-
     /** 竖屏设计尺寸 */
     private portraitDrz: math.Size = null!;
     /** 横屏设计尺寸 */
@@ -30,24 +25,9 @@ export class GUI extends Component {
         this.init();
     }
 
-    
-    update() { 
-       // 设置游戏朝向为竖屏
-        // view.setOrientation(macro.ORIENTATION_PORTRAIT);
-
-        // console.log("update");
-
-        // screen.exitFullScreen()
-    }
-
     /** 初始化引擎 */
     protected init() {
-
-        // view.enableAutoFullScreen(false)
-        // screen.exitFullScreen()
-
         this.transform = this.getComponent(UITransform)!;
-
         if (view.getDesignResolutionSize().width > view.getDesignResolutionSize().height) {
             this.landscapeDrz = view.getDesignResolutionSize();
             this.portraitDrz = new math.Size(this.landscapeDrz.height, this.landscapeDrz.width);
