@@ -44,12 +44,14 @@ export class HomeView extends Component {
         oops.message.on(AccountEvent.EvolveUnIncomeSTB, this.onHandler, this);
         oops.message.on(AccountEvent.UserCollectGold, this.onHandler, this);
         oops.message.on(AccountEvent.UserBounsUSTD, this.onHandler, this);
+        oops.message.on(AccountEvent.CoinDataChange, this.onHandler, this);
     }
 
     onDestroy() {
         oops.message.off(AccountEvent.EvolveUnIncomeSTB, this.onHandler, this);
         oops.message.off(AccountEvent.UserCollectGold, this.onHandler, this);
         oops.message.off(AccountEvent.UserBounsUSTD, this.onHandler, this);
+        oops.message.off(AccountEvent.CoinDataChange, this.onHandler, this);
     }
 
     private initializeButtonMap() {
@@ -105,6 +107,9 @@ export class HomeView extends Component {
                 break;
             case AccountEvent.UserBounsUSTD:
                 this.showUSTDAnim(args as number);
+                break;
+            case AccountEvent.CoinDataChange:
+                this.showGoldAnim();
                 break;
         }
     }
