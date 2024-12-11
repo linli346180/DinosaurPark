@@ -143,8 +143,8 @@ export class Account extends ecs.Entity {
                 isReward = res.userOfficial.scorpionReward == 0;
                 console.warn(`是否加入官方频道:${isJoinChannel}, 是否领取新手奖励:${isReward}`);
 
-                isJoinChannel = true; // 测试代码
-                isReward = false; // 测试代码
+                // isJoinChannel = true; // 测试代码
+                // isReward = false; // 测试代码
 
                 // 未加入官方频道
                 if (!isJoinChannel) {
