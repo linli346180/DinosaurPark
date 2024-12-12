@@ -17,7 +17,7 @@ const KEY_ARR_V = [
 
 const KEY_ARR_SHIFT = [
     [KeyBoardCode.NUM_1, KeyBoardCode.NUM_2, KeyBoardCode.NUM_3, KeyBoardCode.NUM_4, KeyBoardCode.NUM_5, KeyBoardCode.NUM_6, KeyBoardCode.NUM_7, KeyBoardCode.NUM_8, KeyBoardCode.NUM_9, KeyBoardCode.NUM_0, KeyBoardCode.NUM_DECIMAL],
-    [KeyBoardCode.KEY_GRAVE, KeyBoardCode.KEY_TILDE, KeyBoardCode.KEY_EXCLAMATION, KeyBoardCode.KEY_AT, KeyBoardCode.KEY_HASH, KeyBoardCode.KEY_DOLLAR, KeyBoardCode.KEY_PERCENT, KeyBoardCode.KEY_CARET, KeyBoardCode.KEY_AMPERSAND, KeyBoardCode.KEY_ASTERISK],
+    [KeyBoardCode.KEY_GRAVE, KeyBoardCode.KEY_TILDE, KeyBoardCode.KEY_EXCLAMATION, KeyBoardCode.KEY_AT, KeyBoardCode.KEY_HASH, KeyBoardCode.KEY_DOLLAR, KeyBoardCode.KEY_PERCENT, KeyBoardCode.KEY_CARET, KeyBoardCode.KEY_AMPERSAND, KeyBoardCode.KEY_ASTERISK,KeyBoardCode.KEY_UNDERLINE],
     [KeyBoardCode.Caps, KeyBoardCode.KEY_LEFT_PARENTHESIS, KeyBoardCode.KEY_RIGHT_PARENTHESIS, KeyBoardCode.KEY_MINUS, KeyBoardCode.KEY_PLUS, KeyBoardCode.KEY_LEFT_BRACE, KeyBoardCode.KEY_RIGHT_BRACE, KeyBoardCode.KEY_LEFT_BRACKET, KeyBoardCode.KEY_RIGHT_BRACKET, KeyBoardCode.KEY_PIPE, KeyBoardCode.DELETE],
     [KeyBoardCode.Shift, KeyBoardCode.KEY_COLON, KeyBoardCode.KEY_SEMICOLON, KeyBoardCode.KEY_QUOTE, KeyBoardCode.KEY_LESS, KeyBoardCode.KEY_GREATER, KeyBoardCode.KEY_SLASH, KeyBoardCode.KEY_QUESTION, KeyBoardCode.Enter]
 ];
