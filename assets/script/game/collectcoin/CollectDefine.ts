@@ -14,5 +14,6 @@ export interface offlineCoinConfig {
 
 
 export class CollectInfo {
-    startPos: Vec3 = new Vec3();
+    startPos: Vec3 = new Vec3();    // 开始位置
+    updateCoin: boolean = true;     // 是否更新金币
 }

@@ -52,9 +52,11 @@ export class CollectCoin extends Component {
     private async collectCoin(type: CollectCoinType) {
         const res = await AccountNetService.collectCoinPool(type);
         if (res && res.userCoin) {
-            smc.account.AccountModel.CoinData = res.userCoin;
+            // smc.account.AccountModel.CoinData = res.userCoin;
+            // oops.message.dispatchEvent(AccountEvent.CoinDataChange);
             let info = new CollectInfo();
             info.startPos = type==CollectCoinType.Free? this.btnFree.node.worldPosition : this.btnGem.node.worldPosition;
+            info.updateCoin = true;
             oops.message.dispatchEvent(AccountEvent.UserCollectGold, JSON.stringify(info));
             this.onClose();
         }
@@ -73,10 +75,7 @@ export class CollectCoin extends Component {
             // 定义回调，当宝石商店被移除时重新打开金币收集界面
             var uic: UICallbacks = {
                 onRemoved: (node: Node, params: any) => {
-                    const comp = node.getComponent(GemShop);
-                    if (comp) {
-                        oops.gui.open(UIID.CollectCoin);
-                    }
+                    oops.gui.open(UIID.CollectCoin);
                 },
             };
 

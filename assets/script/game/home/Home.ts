@@ -98,9 +98,8 @@ export class HomeView extends Component {
                 console.log("收集金币", args);
                 const info: CollectInfo = JSON.parse(args);
                 if (info) {
-                    this.showGoldAnim(info.startPos);
+                    this.showGoldAnim(info);
                 }
-
                 break;
             case AccountEvent.EvolveUnIncomeSTB:
                 this.showStartAnim(args);
@@ -112,15 +111,16 @@ export class HomeView extends Component {
     }
 
     /** 显示金币收集动画 */
-    private showGoldAnim(startPos: Vec3) {
+    private showGoldAnim(info: CollectInfo) {
         if (!this.goldAnimNode) {
             console.error("金币动画节点不存在");
             return;
         }
 
+        const endPos = this.goldAnimEndNode.worldPosition.clone();
         const targetNode = instantiate(this.goldAnimNode);
         this.node.addChild(targetNode);
-        targetNode.setWorldPosition(startPos);
+        targetNode.setWorldPosition(info.startPos);
         const anim = targetNode.getComponent(Animation);
         const uiOpacity = targetNode.getComponent(UIOpacity);
         if (!anim || !uiOpacity) {
@@ -131,20 +131,34 @@ export class HomeView extends Component {
         tween(targetNode)
             .call(() => { uiOpacity.opacity = 255; anim.play(); })
             .delay(0.5)
-            .to(1, { worldPosition: this.goldAnimEndNode.worldPosition })
-            .call(() => { targetNode.destroy(); })
+            .to(1, { worldPosition: endPos })
+            .call(() => { 
+                if(info.updateCoin) smc.account.updateCoinData();
+                targetNode.destroy(); 
+            })
             .start();
     }
 
+    /** 显示USDT福利领取动画 */
     private showUSTDAnim(count: number = 0) {
-        this.usdtCount.string = "+" + count;
-        AnimUtil.playAnim_Move_Opacity(this.usdtAnimNode, this.usdtAnimEndNode.worldPosition, () => {
+        if (!this.usdtAnimNode) {
+            console.error("usdt动画节点不存在");
+            return;
+        }
+
+        const endPos = this.usdtAnimEndNode.worldPosition.clone();
+        const targetNode = instantiate(this.usdtAnimNode);
+        targetNode.getChildByName("count").getComponent(Label).string = "+" + count;
+        this.node.addChild(targetNode);
+
+        AnimUtil.playAnim_Move_Opacity(this.usdtAnimNode, endPos, () => {
             smc.account.updateCoinData();
+            targetNode.removeFromParent();
+            targetNode.destroy();
         });
     }
 
     private showStartAnim(stbId: number) {
-        // oops.gui.toast("星兽进化成功");
         const endPos = this.btn_book.node.worldPosition;
         for (const slotNode of KnapsackControlle.instance.SlotNodes) {
             const slotComp = slotNode.getComponent<KnapsackSlot>(KnapsackSlot);

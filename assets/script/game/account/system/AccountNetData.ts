@@ -8,6 +8,7 @@ import { TGNetService } from '../../../telegram/TGNet';
 import { GameEvent } from '../../common/config/GameEvent';
 import { EDITOR } from 'cc/env';
 import { sys } from 'cc';
+import { userStbPrizeArr } from '../AccountDefine';
 
 
 /** 请求玩家游戏数据 */
@@ -36,21 +37,16 @@ export class AccountNetData extends ecs.ComblockSystem implements ecs.IEntityEnt
             configDataRes.userInstbData.sort((a, b) => a.id - b.id);
             entity.STBConfigMode.instbConfigData = configDataRes.userInstbData;
 
-            // 获取用户星兽价格
+            // 获取玩家动态购买价格
             const UserPrizeRes = await AccountNetService.getUserPrize();
             if (UserPrizeRes && UserPrizeRes.userStbPrizeArr) {
-                let i = 0;
-                entity.STBConfigMode.instbConfigData.forEach(item => {
-                    let purConCoinNumArray = Number(item.purConCoinNum);
-                    let userStbPrizeArrExtraPrize = 0;
-                    if (i < UserPrizeRes.userStbPrizeArr.length) {
-                        userStbPrizeArrExtraPrize = Number(UserPrizeRes.userStbPrizeArr[i].extraPrize);
-                        i++;
-                        item.purConCoinNum = userStbPrizeArrExtraPrize;
-                    } else {
-                        item.purConCoinNum = purConCoinNumArray;
+                for(const prizeItem of UserPrizeRes.userStbPrizeArr){
+                    for(const item of entity.STBConfigMode.instbConfigData){
+                        if(prizeItem.stbConfigID == item.id){
+                            item.purConCoinNum = prizeItem.extraPrize;
+                        }
                     }
-                });
+                }
             }
         }
 

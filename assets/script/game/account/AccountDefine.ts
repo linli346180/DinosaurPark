@@ -72,3 +72,11 @@ export class MergeRespose {
     isSucc: boolean = false;    //合成是否成功，false：合成失败，true：合成成功，并且userInStb会返回新星兽数据
     isGainNum: boolean = false;      //合成成功后，获得的星兽数量
 }
+
+/** 用户星兽额外价格 */
+export interface userStbPrizeArr {
+    id: number;
+    stbConfigID: number;        // 星兽配置ID
+    coinType: AccountCoinType;  // 货币类型
+    extraPrize: number;         // 额外奖励
+}

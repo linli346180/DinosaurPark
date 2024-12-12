@@ -3,7 +3,6 @@ import { DEBUG } from "cc/env";
 
 /** 网络配置 */
 export class NetConfig {
-
     constructor() { 
         if(DEBUG) {
             this.curEnvironment = EnvironmentType.Development;
@@ -29,29 +28,31 @@ export class NetConfig {
         return this.ServerConfigList[this.curEnvironment].BotToken;
     }
 
-    public get ReturnUrl() {
-        return this.ServerConfigList[this.curEnvironment].returnUrl;
-    }
-
-    private curEnvironment: EnvironmentType = EnvironmentType.Production;
+    private curEnvironment: EnvironmentType = EnvironmentType.PreRelease;
     private ServerConfigList = {
         [EnvironmentType.Development]: {
+            Desc: "开发环境",
             Server: "https://konglong.live/",
             WebSock: "konglong.live/wss",
             BotToken: '7512648791:AAGsR1Qbuh-A-B_l1SrizMdSBIm1MmZLuZQ',
-            returnUrl:'https://app.unsgc.com'
         },
-        [EnvironmentType.PreRelease]: {
+        [EnvironmentType.Testing]: {
+            Desc: "测试环境",
             Server: "https://kong-long.cyou/",
             WebSock: "kong-long.cyou/wss",
             BotToken: '7175903697:AAGqeX_Z5N1GC0HWyGS_WZE8nzzJiTZGwa0',
-            returnUrl:'https://app.unsgc.com'
+        },
+        [EnvironmentType.PreRelease]: {
+            Desc: "预生产环境",
+            Server: "https://starbeast.top/",
+            WebSock: "starbeast.top/wss",
+            BotToken: '8174040141:AAE3Yr7FB-ioO1ZiJlyuVGVO15_epY-1WWA',
         },
         [EnvironmentType.Production]: {
+            Desc: "生产环境",
             Server: "https://yu.sbpc-api.com/",
             WebSock: "yu.sbpc-api.com/wss",
             BotToken: '7973801647:AAFNZ83b8hf0s2kyAyzkRI1r09QvQYkmh5s',
-            returnUrl:'https://app.starbeastpark.com'
         }
     };
 
@@ -75,7 +76,8 @@ export class NetConfig {
 /** 网络配置 */
 enum EnvironmentType {
     Development = '开发环境',
-    PreRelease = '测试环境',
+    Testing = '测试环境',
+    PreRelease = '预生产环境',
     Production = '发布环境'
 }
 

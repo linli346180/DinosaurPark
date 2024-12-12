@@ -27,11 +27,9 @@ export enum AccountEvent {
     AutoAddUnIncomeSTB = "AutoAddUnIncomeSTB",  // 添加无收益星兽(空投)
     DelUnIncomeSTB = "DelUnIncomeSTB",          // 删除无收益星兽
     UpdateUnIncomeSTB = "UpdateUnIncomeSTB",    // 更新无收益星兽(更新背包)
-
     UserCollectGold = "UserCollectCoin",        // 用户收集金币
-    UserBounsUSTD = "UserBounsSTD",             // stb奖励
-
-    CoinDataChange = "CoinDataChange",  // 货币数据变化
+    UserBounsUSTD = "UserBounsSTD",             // USDT奖励
+    CoinDataChange = "CoinDataChange",          // 用户货币数据变化
 
     CoinExtraPrizeChange = "CoinExtraPrizeChange",  // 金币浮动价格变化
     GemExtraPrizeChange = "GemExtraPrizeChange",  // 

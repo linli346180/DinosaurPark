@@ -153,6 +153,7 @@ export class ActorController extends Component {
         this.scheduleOnce(() => {
             let info = new CollectInfo();
             info.startPos = this.node.worldPosition;
+            info.updateCoin = false
             oops.message.dispatchEvent(AccountEvent.UserCollectGold, JSON.stringify(info));
             this.randomCollect(); // 再次调用自己
         }, randomInterval);
