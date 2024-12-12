@@ -189,15 +189,15 @@ export namespace AccountNetService {
         }
     }
 
-    /** 获取收集金币数据 */
+    /** 离线收集货币配置 */
     export async function getCollectCoinData() {
         const http = createHttpManager();
         const rescoin = await http.getUrl("tgapp/api/stb/ol/coin/cg?token=" + netConfig.Token);
         if (rescoin.isSucc && rescoin.res.resultCode == NetErrorCode.Success && rescoin.res.offlineCoinConfig != null) {
-            console.warn("收集金币数据请求成功", rescoin.res);
+            console.warn("离线收集货币配置", rescoin.res);
             return rescoin.res;
         } else {
-            console.error("收集金币数据请求异常", rescoin);
+            console.error("离线收集货币配置", rescoin);
             return null;
         }
     }

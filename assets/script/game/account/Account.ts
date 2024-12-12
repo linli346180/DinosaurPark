@@ -100,6 +100,9 @@ export class Account extends ecs.Entity {
                 console.log("4.数据初始化完成");
                 oops.gui.openAsync(UIID.Map);
                 await oops.gui.openAsync(UIID.Main);
+
+                // oops.gui.open(UIID.CollectCoin);
+
                 tonConnect.initTonConnect();
                 this.WebSocketConnect()
                 oops.message.dispatchEvent(GameEvent.CloseLoadingUI);
@@ -226,33 +229,39 @@ export class Account extends ecs.Entity {
         const res = await AccountNetService.GetUserSTBData();
         if (res && res.userInstbData != null) {
             let allList: number[] = [];      // 所有星兽
-            let delList: number[] = [];     // 已删除星兽
-            // 如果没有星兽数据
+            let delList: number[] = [];      // 已删除星兽
+
+            // 更新收益星兽
             if (res.userInstbData.UserInstb) {
                 for (const stbItem of res.userInstbData.UserInstb) {
                     const stbId = stbItem.id;
                     const stbConfigID = stbItem.stbConfigID;
-                    if (stbConfigID == null || stbConfigID == undefined || stbConfigID == 0)
-                        continue;
-
+                    if (!stbConfigID || stbConfigID == 0) {
+                        console.error("收益星兽配置异常:", stbId, stbConfigID);
+                    }
                     allList.push(stbId);
-                    // 如果不存在，则添加
                     if (this.getUserSTBData(stbId, UserSTBType.InCome) == null) {
                         this.AccountModel.addInComeSTBData(stbItem);
                         oops.message.dispatchEvent(AccountEvent.AddInComeSTB, stbId);
                     }
                 }
-            }
 
-            // 删除已删除的星兽
-            for (const stbItem of this.AccountModel.getUserInstb()) {
-                if (!allList.includes(stbItem.id)) {
-                    delList.push(stbItem.id);
+                for (const stbItem of this.AccountModel.getUserInstb()) {
+                    if (!allList.includes(stbItem.id)) {
+                        delList.push(stbItem.id);
+                    }
+                }
+                for (const delId of delList) {
+                    this.delUserSTBData(delId, UserSTBType.InCome);
                 }
             }
-            for (const delId of delList) {
-                this.delUserSTBData(delId);
+
+            // 更新无收益星兽
+            if (res.userInstbData.UserNinstb) {
+                this.AccountModel.setUserNinstb(res.userInstbData.UserNinstb);
+                oops.message.dispatchEvent(AccountEvent.UpdateUnIncomeSTB);
             }
+            
             if (callback) callback();
         }
     }
@@ -340,12 +349,12 @@ export class Account extends ecs.Entity {
 
             case NetCmd.NinstbDeathType:
                 console.error("无收益星兽死亡:", data.id);
-                this.delUserSTBData(data.id);
+                this.delUserSTBData(data.id, UserSTBType.UnInCome);
                 break;
 
             case NetCmd.IncomeStbDeathType:
                 console.error("收益星兽死亡:", data.id);
-                this.delUserSTBData(data.id);
+                this.delUserSTBData(data.id, UserSTBType.InCome);
                 break;
 
             case NetCmd.UserIncomeType:
@@ -526,16 +535,16 @@ export class Account extends ecs.Entity {
      * @param stbId - 星兽ID
      * @returns 是否删除成功
      */
-    delUserSTBData(stbId: number): boolean {
-        if (this.AccountModel.delUserInComeSTB(stbId)) {
-            oops.message.dispatchEvent(AccountEvent.DelIncomeSTB, stbId);
-            return true;
+    delUserSTBData(stbId: number, stbType: UserSTBType = UserSTBType.UnInCome) {
+        if (stbType == UserSTBType.InCome) {
+            if (this.AccountModel.delUserInComeSTB(stbId)) {
+                oops.message.dispatchEvent(AccountEvent.DelIncomeSTB, stbId);
+            }
+        } else {
+            if (this.AccountModel.delUserUnIncomeSTB(stbId)) {
+                oops.message.dispatchEvent(AccountEvent.DelUnIncomeSTB, stbId);
+            }
         }
-        if (this.AccountModel.delUserUnIncomeSTB(stbId)) {
-            oops.message.dispatchEvent(AccountEvent.DelUnIncomeSTB, stbId);
-            return true;
-        }
-        return false;
     }
 
     /** 获取指定类型的星兽数据 */

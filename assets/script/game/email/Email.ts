@@ -52,6 +52,8 @@ export class EmailView extends Component {
 
     private closeUI() {
         oops.gui.remove(UIID.Email, false);
+        // smc.account.updateCoinData();
+        // smc.account.updateInstbData();
     }
 
     private async initUI() {

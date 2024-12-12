@@ -7,9 +7,11 @@ import { AccountEvent } from '../account/AccountEvent';
 import { GemShop } from '../wallet/GemShop';
 import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
 import { tween } from 'cc';
+import { CollectInfo, offlineCoinConfig } from './CollectDefine';
+import { Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
 
-enum CollectCoinType { 
+enum CollectCoinType {
     Free = 2,
     Gem = 1
 }
@@ -25,7 +27,7 @@ export class CollectCoin extends Component {
 
     protected onLoad(): void {
         this.loadPayGem();
-        this.btnClose.node.on(Button.EventType.CLICK, this.closeScreen, this);
+        this.btnClose.node.on(Button.EventType.CLICK, this.onClose, this);
         this.btnFree.node.on(Button.EventType.CLICK, this.freeGetCoin, this);
         this.btnGem.node.on(Button.EventType.CLICK, this.gemGetCoin, this);
     }
@@ -37,22 +39,25 @@ export class CollectCoin extends Component {
 
     private async loadPayGem() {
         const res = await AccountNetService.getCollectCoinData();
-        if(res && res.offlineCoinConfig) {
+        if (res && res.offlineCoinConfig) {
+            let config: offlineCoinConfig = res.offlineCoinConfig;
             this.expendGem.string = res.offlineCoinConfig.payGoldCoinNum;
         }
     }
 
-    private closeScreen() {
-        oops.gui.remove(UIID.CollectCoin);
+    private onClose() {
+        oops.gui.remove(UIID.CollectCoin, true);
     }
 
     private async collectCoin(type: CollectCoinType) {
         const res = await AccountNetService.collectCoinPool(type);
-        if(res && res.userCoin) {
+        if (res && res.userCoin) {
             smc.account.AccountModel.CoinData = res.userCoin;
-            oops.message.dispatchEvent(AccountEvent.CoinDataChange);
+            let info = new CollectInfo();
+            info.startPos = type==CollectCoinType.Free? this.btnFree.node.worldPosition : this.btnGem.node.worldPosition;
+            oops.message.dispatchEvent(AccountEvent.UserCollectGold, JSON.stringify(info));
+            this.onClose();
         }
-        this.closeScreen();
     }
 
     private freeGetCoin() {
@@ -61,10 +66,10 @@ export class CollectCoin extends Component {
 
     private async gemGetCoin() {
         const res = await AccountNetService.getCollectCoinData();
-        if(smc.account.AccountModel.CoinData < res.offlineCoinConfig.payGoldCoinNum) {
+        if (smc.account.AccountModel.CoinData < res.offlineCoinConfig.payGoldCoinNum) {
             // 关闭金币收集界面
-            oops.gui.remove(UIID.CollectCoin, false); 
-            
+            oops.gui.remove(UIID.CollectCoin, false);
+
             // 定义回调，当宝石商店被移除时重新打开金币收集界面
             var uic: UICallbacks = {
                 onRemoved: (node: Node, params: any) => {
@@ -78,7 +83,7 @@ export class CollectCoin extends Component {
             // 打开宝石商店界面并注册回调
             oops.gui.open(UIID.GemShop, null, uic);
         }
-        else{
+        else {
             this.collectCoin(CollectCoinType.Gem);
         }
 

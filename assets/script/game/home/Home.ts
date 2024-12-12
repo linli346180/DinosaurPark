@@ -11,6 +11,8 @@ import { AnimUtil } from '../common/utils/AnimUtil';
 import { smc } from '../common/SingletonModuleComp';
 import { RedDotCmd } from '../reddot/ReddotDefine';
 import { ReddotComp } from '../reddot/ReddotComp';
+import { CollectInfo } from '../collectcoin/CollectDefine';
+import { instantiate } from 'cc';
 
 const { ccclass, property } = _decorator;
 
@@ -28,7 +30,6 @@ export class HomeView extends Component {
     @property(Button) btn_activity: Button = null!;
     @property(Node) goldAnimNode: Node = null!;
     @property(Node) goldAnimEndNode: Node = null!;
-    @property(Node) goldAnimBeginNode: Node = null!;
     @property(Node) usdtAnimNode: Node = null!;
     @property(Label) usdtCount: Label = null!;
     @property(Node) usdtAnimEndNode: Node = null!;
@@ -44,14 +45,12 @@ export class HomeView extends Component {
         oops.message.on(AccountEvent.EvolveUnIncomeSTB, this.onHandler, this);
         oops.message.on(AccountEvent.UserCollectGold, this.onHandler, this);
         oops.message.on(AccountEvent.UserBounsUSTD, this.onHandler, this);
-        oops.message.on(AccountEvent.CoinDataChange, this.onHandler, this);
     }
 
     onDestroy() {
         oops.message.off(AccountEvent.EvolveUnIncomeSTB, this.onHandler, this);
         oops.message.off(AccountEvent.UserCollectGold, this.onHandler, this);
         oops.message.off(AccountEvent.UserBounsUSTD, this.onHandler, this);
-        oops.message.off(AccountEvent.CoinDataChange, this.onHandler, this);
     }
 
     private initializeButtonMap() {
@@ -90,17 +89,18 @@ export class HomeView extends Component {
         } else {
             targetNode.getComponentInChildren(ReddotComp)?.setRead();
         }
-        // if (uid == UIID.Invite) {
-        //     oops.gui.toast(oops.language.getLangByID("common_tips_Not_Enabled"));
-        //     return;
-        // }
         oops.gui.open(uid);
     }
 
     private onHandler(event: string, args: any) {
         switch (event) {
             case AccountEvent.UserCollectGold:
-                this.showGoldAnim();
+                console.log("收集金币", args);
+                const info: CollectInfo = JSON.parse(args);
+                if (info) {
+                    this.showGoldAnim(info.startPos);
+                }
+
                 break;
             case AccountEvent.EvolveUnIncomeSTB:
                 this.showStartAnim(args);
@@ -108,24 +108,31 @@ export class HomeView extends Component {
             case AccountEvent.UserBounsUSTD:
                 this.showUSTDAnim(args as number);
                 break;
-            case AccountEvent.CoinDataChange:
-                this.showGoldAnim();
-                break;
         }
     }
 
-    private showGoldAnim() {
-        this.goldAnimNode.active = true;
-        this.goldAnimNode.getComponent(Animation)?.play();
-        tween(this.goldAnimNode)
-            .call(() => {
-                this.goldAnimNode.setWorldPosition(this.goldAnimBeginNode.worldPosition);
-            })
+    /** 显示金币收集动画 */
+    private showGoldAnim(startPos: Vec3) {
+        if (!this.goldAnimNode) {
+            console.error("金币动画节点不存在");
+            return;
+        }
+
+        const targetNode = instantiate(this.goldAnimNode);
+        this.node.addChild(targetNode);
+        targetNode.setWorldPosition(startPos);
+        const anim = targetNode.getComponent(Animation);
+        const uiOpacity = targetNode.getComponent(UIOpacity);
+        if (!anim || !uiOpacity) {
+            console.error("金币动画组件不存在");
+            return
+        }
+
+        tween(targetNode)
+            .call(() => { uiOpacity.opacity = 255; anim.play(); })
             .delay(0.5)
-            .to(0.5, { worldPosition: this.goldAnimEndNode.worldPosition })
-            .call(() => {
-                this.goldAnimNode.active = false;
-            })
+            .to(1, { worldPosition: this.goldAnimEndNode.worldPosition })
+            .call(() => { targetNode.destroy(); })
             .start();
     }
 

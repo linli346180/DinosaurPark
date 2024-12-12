@@ -29,6 +29,8 @@ export class AccountModelComp extends ecs.Comp {
 
     public setUserNinstb(value: StartBeastData[]) {
         this.UserNinstb = value;
+        this.UserNinstb.sort((a, b) => a.stbPosition - b.stbPosition);
+        console.log("刷新无收益星兽列表:", this.UserNinstb);
     }
 
     public createGuideData() {
@@ -115,7 +117,7 @@ export class StartBeastData {
     readonly id: number = 0;                        //星兽ID
     stbConfigID: number = 0;                        //星兽配置ID
     readonly stbPosition: number = 0;               //星兽位置
-    readonly userID: number| null = 0;                    //用户ID
+    readonly userID: number| null = 0;              //用户ID
     readonly createdAt: number | null = 0;          //创建时间
     readonly lastIncomeTime: number | null = 0;     //最后收益时间
 }

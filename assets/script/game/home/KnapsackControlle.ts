@@ -37,7 +37,6 @@ export class KnapsackControlle extends Component {
     private fromSlot: KnapsackSlot | null = null;
     private toSlot: KnapsackSlot | null = null;
     private interval = 30;  // 自动领养星兽时间间隔
-
     private canChangeSlot: boolean = true;  // 是否可以交换星
 
     protected onLoad(): void {
@@ -52,6 +51,7 @@ export class KnapsackControlle extends Component {
         oops.message.on(AccountEvent.AutoAddUnIncomeSTB, this.onHandler, this);
         oops.message.on(AccountEvent.UserNoOperation, this.onHandler, this);
         oops.message.on(AccountEvent.UserOperation, this.onHandler, this);
+        oops.message.on(AccountEvent.UpdateUnIncomeSTB, this.onHandler, this);
         this.InitUI()
     }
 
@@ -62,6 +62,7 @@ export class KnapsackControlle extends Component {
         oops.message.off(AccountEvent.AutoAddUnIncomeSTB, this.onHandler, this);
         oops.message.off(AccountEvent.UserNoOperation, this.onHandler, this);
         oops.message.off(AccountEvent.UserOperation, this.onHandler, this);
+        oops.message.off(AccountEvent.UpdateUnIncomeSTB, this.onHandler, this);
     }
 
     InitUI() {
@@ -70,13 +71,17 @@ export class KnapsackControlle extends Component {
         for (let i = 1; i <= this.maxslotNum; i++) {
             this.CreateSlotItem(i);
         }
-        smc.account.AccountModel.getUserNinstb().forEach(element => {
-            this.updateSTBItem(element);
-        });
+        this.updateSlotItems();
 
         // if (EDITOR) {
         //     this.autoAdoptBeast();
         // }
+    }
+
+    private updateSlotItems() {
+        smc.account.AccountModel.getUserNinstb().forEach(element => {
+            this.updateSTBItem(element);
+        });
     }
 
     private onHandler(event: string, args: any) {
@@ -98,6 +103,9 @@ export class KnapsackControlle extends Component {
                 break;
             case AccountEvent.UserOperation:
                 this.showIdleTipAnim(false);
+                break;
+            case AccountEvent.UpdateUnIncomeSTB:
+                this.updateSlotItems();
                 break;
         }
     }

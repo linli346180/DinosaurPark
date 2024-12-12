@@ -26,15 +26,16 @@ export class AccountNetData extends ecs.ComblockSystem implements ecs.IEntityEnt
     async entityEnter(entity: Account): Promise<void> {
         // 获取用户货币数据
         const coinDataRes = await AccountNetService.getUserCoinData();
-        if (coinDataRes && coinDataRes.userCoin != null) {
+        if (coinDataRes && coinDataRes.userCoin) {
             entity.AccountModel.CoinData = coinDataRes.userCoin;
         }
 
         // 获取星兽配置数据
         const configDataRes = await AccountNetService.getStartBeastConfig();
-        if (configDataRes && configDataRes.userInstbData != null) {
+        if (configDataRes && configDataRes.userInstbData) {
             configDataRes.userInstbData.sort((a, b) => a.id - b.id);
             entity.STBConfigMode.instbConfigData = configDataRes.userInstbData;
+
             // 获取用户星兽价格
             const UserPrizeRes = await AccountNetService.getUserPrize();
             if (UserPrizeRes && UserPrizeRes.userStbPrizeArr) {
@@ -42,12 +43,11 @@ export class AccountNetData extends ecs.ComblockSystem implements ecs.IEntityEnt
                 entity.STBConfigMode.instbConfigData.forEach(item => {
                     let purConCoinNumArray = Number(item.purConCoinNum);
                     let userStbPrizeArrExtraPrize = 0;
-                    if(i<UserPrizeRes.userStbPrizeArr.length)
-                    {
+                    if (i < UserPrizeRes.userStbPrizeArr.length) {
                         userStbPrizeArrExtraPrize = Number(UserPrizeRes.userStbPrizeArr[i].extraPrize);
                         i++;
                         item.purConCoinNum = userStbPrizeArrExtraPrize;
-                    }else{
+                    } else {
                         item.purConCoinNum = purConCoinNumArray;
                     }
                 });
@@ -57,33 +57,14 @@ export class AccountNetData extends ecs.ComblockSystem implements ecs.IEntityEnt
         // 获取用户星兽数据
         const res = await AccountNetService.GetUserSTBData();
         if (res && res.userInstbData) {
-            // 收益星兽
             if (res.userInstbData.UserInstb) {
                 entity.AccountModel.setUserInstb(res.userInstbData.UserInstb);
-            } 
-
+            }
             if (res.userInstbData.UserNinstb) {
-                for (const stbItem of res.userInstbData.UserNinstb) {
-                    if (stbItem.position > 12 || stbItem.position < 1) {
-                        console.error("星兽位置错误", stbItem);
-                        continue
-                    }
-                    entity.AccountModel.addUserUnInComeSTB(stbItem);
-                }
+                entity.AccountModel.setUserNinstb(res.userInstbData.UserNinstb);
             }
         }
         oops.message.dispatchEvent(GameEvent.DataInitialized);
         entity.remove(AccountNetDataComp);
     }
 }
-
-// @ecs.register('Account')
-// export class AccountGuideComp extends ecs.ComblockSystem implements ecs.IEntityEnterSystem {
-//     filter(): ecs.IMatcher {
-//         return ecs.allOf(AccountNetDataComp, AccountModelComp);
-//     }
-
-//     async entityEnter(entity: Account): Promise<void> {
-//         entity.AccountModel.createGuideData();
-//     }
-// }

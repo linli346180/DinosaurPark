@@ -1,5 +1,5 @@
 import { _decorator, Component, math, v3, Vec2, Vec3, Color, UITransform, size, Sprite, Quat, macro } from 'cc';
-import { StartBeastData } from '../../account/model/AccountModelComp';
+import { StartBeastData, UserSTBType } from '../../account/model/AccountModelComp';
 import { RvoCollider } from '../../../RVO/RvoCollider';
 import { GridCollider } from '../../../RVO/Collision/GridCollider';
 import { GridGroup } from '../../../RVO/Collision/GridColliderMgr';
@@ -13,6 +13,10 @@ import { smc } from '../../common/SingletonModuleComp';
 import { UIOpacity } from 'cc';
 import { tween } from 'cc';
 import { Collider2D } from 'cc';
+import { StbKinds } from '../../account/model/STBConfigModeComp';
+import { CollectInfo } from '../../collectcoin/CollectDefine';
+import { AccountEvent } from '../../account/AccountEvent';
+import { oops } from '../../../../../extensions/oops-plugin-framework/assets/core/Oops';
 
 const { ccclass, property } = _decorator;
 
@@ -21,7 +25,7 @@ const tmpP0 = new Vec2();
 @ccclass('ActorController')
 export class ActorController extends Component {
     public stbId: number = 0;  // 星兽ID
-    public stbData: StartBeastData | undefined; // 星兽数据
+    // public stbData: StartBeastData | undefined; // 星兽数据
     public widthLimit: Vec2 = new Vec2();
     public heightLimit: Vec2 = new Vec2();
     public actor: Actor = null!;
@@ -42,6 +46,7 @@ export class ActorController extends Component {
 
     private isSurvival: boolean = true; // 是否存活
     private survivalSec: number = 0;    //生命周期
+    private incomeCycle: number = 0; // 收益周期
 
     public init(pos: Vec3, vec: Vec3): void {
         this.runTime = 0;
@@ -53,6 +58,7 @@ export class ActorController extends Component {
         this.node.setPosition(this.curPos);
 
         this.initCollider();
+        this.initCoinCollect();
     }
 
     public reset() {
@@ -121,6 +127,35 @@ export class ActorController extends Component {
             this.actor.updateSurvivalDisplay(this.survivalSec);
             this.schedule(this.updateSurvival, 1.0, this.survivalSec, 0);
         }
+    }
+
+    private initCoinCollect() {
+        const stbData = smc.account.getUserSTBData(this.stbId, UserSTBType.InCome);
+        if (stbData) {
+            const stbConfigID = stbData.stbConfigID;
+            const stbConfig = smc.account.getSTBConfigById(stbConfigID);
+            if (stbConfig) {
+                if (stbConfig.stbKinds == StbKinds.gold && stbConfig.isIncome == 1) {
+                    this.incomeCycle = stbConfig.incomeCycle;
+                    // this.incomeCycle = 10;
+                    if (this.incomeCycle > 0) {
+                        console.log(`开启自动收集 星兽ID: ${this.stbId} 收益周期: ${this.incomeCycle} 秒`);
+                        this.randomCollect();
+                    }
+                }
+            }
+        }
+    }
+
+    private randomCollect() {
+        const randomInterval = this.incomeCycle + Math.random() * this.incomeCycle / 2;
+        console.log(`执行定时任务，间隔时间: ${randomInterval.toFixed(2)} 秒`);
+        this.scheduleOnce(() => {
+            let info = new CollectInfo();
+            info.startPos = this.node.worldPosition;
+            oops.message.dispatchEvent(AccountEvent.UserCollectGold, JSON.stringify(info));
+            this.randomCollect(); // 再次调用自己
+        }, randomInterval);
     }
 
     /** 更新生命周期 */

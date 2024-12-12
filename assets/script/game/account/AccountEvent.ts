@@ -18,18 +18,18 @@ export enum AccountEvent {
 
     RedDotCmd = "RedDotCmd",  // 红点命令
 
-    AddUnIncomeSTB = "AddUnIncomeSTB",  // 添加无收益星兽
-    DelUnIncomeSTB = "DelUnIncomeSTB",  // 移除无收益星兽
-    
-    LevelUpUnIncomeSTB = "UpdateUnIncomeSTB",   // 无收益星兽升级
+    LevelUpUnIncomeSTB = "LevelUpUnIncomeSTB",  // 无收益星兽升级
     EvolveUnIncomeSTB = "EvolveUnIncomeSTB",    // 无收益星兽进化
-    AutoAddUnIncomeSTB = "AutoAddUnIncomeSTB",  // 系统添加无收益星兽
 
-    AddInComeSTB = "AddInComeSTB",  // 添加收益星兽
-    DelIncomeSTB = "DelIncomeSTB",  // 删除收益星兽
+    AddInComeSTB = "AddInComeSTB",              // 添加收益星兽
+    DelIncomeSTB = "DelIncomeSTB",              // 删除收益星兽
+    AddUnIncomeSTB = "AddUnIncomeSTB",          // 添加无收益星兽
+    AutoAddUnIncomeSTB = "AutoAddUnIncomeSTB",  // 添加无收益星兽(空投)
+    DelUnIncomeSTB = "DelUnIncomeSTB",          // 删除无收益星兽
+    UpdateUnIncomeSTB = "UpdateUnIncomeSTB",    // 更新无收益星兽(更新背包)
 
-    UserCollectGold = "UserCollectCoin",  // 用户收集金币
-    UserBounsUSTD = "UserBounsSTD",  // stb奖励
+    UserCollectGold = "UserCollectCoin",        // 用户收集金币
+    UserBounsUSTD = "UserBounsSTD",             // stb奖励
 
     CoinDataChange = "CoinDataChange",  // 货币数据变化
 
