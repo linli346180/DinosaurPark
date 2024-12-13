@@ -1,38 +1,32 @@
-import { _decorator, Component, Node, Vec3, Button } from 'cc';
-import { IMapConfig, MapConfigData, MapID } from './MapConfig';
+import { _decorator, Component, Node, Vec3, Button, Collider2D, math, v3 } from 'cc';
+import { mapConfig } from './MapConfig';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { AccountEvent } from '../account/AccountEvent';
 import { smc } from '../common/SingletonModuleComp';
-import { ISTBConfigData, STBConfigData } from '../character/STBConfig';
 import { ViewUtil } from '../../../../extensions/oops-plugin-framework/assets/core/utils/ViewUtil';
 import { StartBeastData, UserSTBType } from '../account/model/AccountModelComp';
 import { ActorController } from '../character/state/ActorController';
 import { RvoMgr } from '../../RVO/RvoMgr';
-import { Logger } from '../../Logger';
-import { v3 } from 'cc';
-import { math } from 'cc';
 import { StringUtil } from '../common/utils/StringUtil';
-import { Collider2D } from 'cc';
-import { UIID } from '../common/config/GameUIConfig';
+import { TableSTBConfig } from '../common/table/TableSTBConfig';
 const { ccclass, property } = _decorator;
 
 const tmpP0 = v3();
 const tmpP1 = v3();
 
-/** 地图管理:1.10级环境星兽和稀有星兽的地图管理 */
 @ccclass('MapComponent')
 export class MapComponent extends Component {
     @property(Node) mapRoot: Node = null!;
-    private mapNodes: Map<number, Node> = new Map();  // 地图节点 1:Map1 2:Map2
-    private timeoutIds: number[] = []; // 延迟ID列表
-    private delList: number[] = [];  // 删除列表
+    @property(Node) delNode: Node = null!;
+    private delList: number[] = [];
+    private waitList: number[] = [];
 
     onLoad(): void {
-        RvoMgr.radius = 90; // 星兽半径
-        RvoMgr.neighborDist = RvoMgr.radius * 1.8;    // 碰撞距离
-        RvoMgr.maxSpeed = 100;  // 最大移动速度
-        RvoMgr.updateCd = 0.05; // 更新频率
-        RvoMgr.initSimulator(); // 初始化模拟器
+        RvoMgr.radius = 80;
+        RvoMgr.neighborDist = RvoMgr.radius * 1.7;
+        RvoMgr.maxSpeed = 100;
+        RvoMgr.updateCd = 0.05;
+        RvoMgr.initSimulator();
     }
 
     start() {
@@ -41,28 +35,25 @@ export class MapComponent extends Component {
         this.initUI();
     }
 
-    protected onDestroy(): void {
+    onDestroy() {
+        RvoMgr.reset();
         oops.message.off(AccountEvent.AddInComeSTB, this.onHandler, this);
         oops.message.off(AccountEvent.DelIncomeSTB, this.onHandler, this);
     }
 
     update(dt: number) {
         RvoMgr.update(dt);
-    }
-
-    onDisable() {
-        RvoMgr.reset();
-    }
-
-    private clearTimeouts() {
-        this.timeoutIds.forEach(timeoutId => clearTimeout(timeoutId));
-        this.timeoutIds = [];
+        // 防止超出个数限制
+        if (this.waitList.length > 0) {
+            const stbId = this.waitList.shift();    // 移除并返回第一个元素
+            this.createUserSTB(stbId);
+        }
     }
 
     private onHandler(event: string, args: any) {
         switch (event) {
             case AccountEvent.AddInComeSTB:
-                this.createSTBItem(args);
+                this.waitList.push(args);
                 break;
 
             case AccountEvent.DelIncomeSTB:
@@ -74,133 +65,106 @@ export class MapComponent extends Component {
     }
 
     private initUI() {
-        // 初始化地图节点 存储不同地图的根节点
-        Object.keys(MapConfigData).forEach((key) => {
-            const mapConfig: IMapConfig = MapConfigData[Number(key)];
-            let mapNode = this.mapRoot.getChildByPath(mapConfig.path);
-            if (mapNode) this.mapNodes.set(Number(key), mapNode);
-        });
         this.delList = [];
         this.fillUserSTB();
     }
 
-    /** 自填充星兽 */
     private fillUserSTB() {
-        this.timeoutIds = [];
-        this.fillUserSTBMap(MapID.Map1, this.getMapSTBIds(MapID.Map1));
-        this.fillUserSTBMap(MapID.Map2, this.getMapSTBIds(MapID.Map2));
-    }
-
-    private getMapSTBIds(mapID: MapID): number[] {
-        let stbIds: number[] = [];
-        Object.keys(STBConfigData).forEach((key) => {
-            const config: ISTBConfigData = STBConfigData[Number(key)];
-            if (config.mapID == mapID) {
-                stbIds.push(Number(key));
-            }
-        });
-        return stbIds;
-    }
-
-    private fillUserSTBMap(mapID: MapID, stbConfigIds: number[]) {
-        const mapConfig = MapConfigData[mapID];         // 地图配置
-        const mapNode = this.mapNodes.get(mapID);       // 地图节点
-        if (mapNode == undefined) return;
-
-        // 获取所有执行类型的星兽列表
-        const stbDataList = smc.account.getSTBDataByConfigType(stbConfigIds);
-        const instNum = stbDataList.length;             // 用户拥有的星兽数量
-        const showNum = this.getChildCount(mapNode);    // 地图已显示数量
-        const limitNum = mapConfig.ItemLimit;           // 地图限制数量
-
-        if (instNum > showNum && showNum < limitNum) {
-            let maxCount = Math.min(instNum - showNum, limitNum - showNum);
-            for (let i = 0; i < maxCount; i++) {
-                for (let j = 0; j < stbDataList.length; j++) {
-                    const stbData = stbDataList[j];
-                    if (mapNode.getChildByName(stbData.id.toString()) == null) {
-                        stbDataList.splice(j, 1);   // 删除已经添加的星兽
-                        // 延迟添加星兽
-                        let timeoutId = window.setTimeout(() => {
-                            this.createSTBItem(stbData.id);
-                        }, 0.1 * i * 1000);
-                        this.timeoutIds.push(timeoutId);
-                        // this.createSTBItem(stbData.id);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    /** 创建星兽对象 */
-    private async createSTBItem(stbId: number) {
-        const stbData: StartBeastData | null = smc.account.getUserSTBData(stbId, UserSTBType.InCome);
-        if (stbData) {
-            const stbConfig = smc.account.getSTBConfigById(stbData.stbConfigID);
-            if (!stbConfig) {
-                console.error('星兽配置不存在:', stbData.stbConfigID);
-                return;
-            }
-            const stbType = StringUtil.combineNumbers(stbConfig.stbKinds, stbConfig.stbGrade, 2);
-            const prefabPath = STBConfigData[stbType].perfab; // 预制体路径
-            const mapID = STBConfigData[stbType].mapID; // 地图ID
-
-            const mapNode = this.mapNodes.get(mapID); // 地图节点
-            if (mapNode == undefined) return;
-
-            const showNum = this.getChildCount(mapNode);  // 已显示数量
-            const mapConfig = MapConfigData[mapID]; // 地图配置
-            if (showNum >= mapConfig.ItemLimit) {
-                console.warn(`地图上的星兽数量${showNum} 达到上限${mapConfig.ItemLimit}`);
-                return;
-            }
-
-            let itemNode = await ViewUtil.createPrefabNodeAsync(prefabPath);
-            if (itemNode && mapNode) {
-                itemNode.name = stbData.id.toString();
-                itemNode.setParent(mapNode);
-
-                tmpP0.x = math.randomRange(mapConfig.widthLimit.x, mapConfig.widthLimit.y)
-                tmpP0.y = math.randomRange(mapConfig.heightLimit.x, mapConfig.heightLimit.y)
-                itemNode.setPosition(tmpP0);
-
-                const cmp = itemNode.getComponent(ActorController);
-                if (cmp) {
-                    cmp.stbId = stbData.id;
-                    cmp.widthLimit = mapConfig.widthLimit;
-                    cmp.heightLimit = mapConfig.heightLimit;
-                    cmp.init(tmpP0, Vec3.ZERO);
-                }
-                return;
-            }
-        }
-
-        console.error('添加新的STB失败');
-    }
-
-    /** 删除星兽对象 */
-    private delUserSTBItem(stb: number) {
-        this.mapNodes.forEach((value, key) => {
-            value.children.forEach((node) => {
-                const cmp = node.getComponent(ActorController);
-                if (cmp && cmp.stbId == stb) {
-                    node.getComponent(Collider2D).enabled = false;
-                    this.delList.push(stb);
-                    cmp.onActorDeath();
-                    return;
-                }
-            });
+        const stbConfigTypes = [110, 201, 301, 302, 303, 401];
+        stbConfigTypes.forEach(type => {
+            const limitNum = type === 110 ? 5 : 1;
+            this.fillUserSTBMap(type, limitNum, limitNum);
         });
     }
 
-    private getChildCount(node: Node): number {
-        let count = 0;
-        for (const child of node.children) {
-            if (!this.delList.includes(Number(child.name))) {
-                count += 1;
-            }
+    /** 自动填充玩家星兽 */
+    private fillUserSTBMap(stbConfigType: number, limitNum: number, createNum: number = 1) {
+        const stbDataList = smc.account.getSTBDataByConfigType(stbConfigType);
+        const stbNum = stbDataList.length;
+        if (stbNum === 0) return;
+
+        const stbConfig = smc.account.getSTBConfigByType(stbConfigType);
+        const existList = this.getChildCount(stbConfigType, stbConfig.id);
+        if (existList.length >= limitNum) {
+            console.warn('星兽已满,不再显示:', stbConfigType);
+            return;
         }
-        return count;
+        const stbTable = new TableSTBConfig();
+        stbTable.init(stbConfigType);
+        let fillNum = Math.min(stbNum, limitNum - existList.length);
+        fillNum = Math.min(fillNum, createNum);
+
+        console.log('创建星兽:', stbConfigType, '已有:', existList.length, '需要:', fillNum);
+
+        stbDataList.forEach(stbData => {
+            if (!existList.includes(stbData.id) && fillNum > 0) {
+                this.createSTBItem(stbConfigType, stbData, stbTable.perfab);
+                fillNum--;
+            }
+        });
+    }
+
+    private createUserSTB(stbId: number) {
+        const stbData = smc.account.getUserSTBData(stbId, UserSTBType.InCome);
+        if (!stbData) {
+            console.error('创建星兽失败:', stbId);
+            return;
+        }
+        const stbConfig = smc.account.getSTBConfigById(stbData.stbConfigID);
+        if (!stbConfig) {
+            console.error('创建星兽失败:', stbId);
+            return;
+        }
+        const stbConfigType = StringUtil.combineNumbers(stbConfig.stbKinds, stbConfig.stbGrade, 2);
+        const limitNum = stbConfigType === 110 ? 5 : 1;
+        this.fillUserSTBMap(stbConfigType, limitNum, 1);
+    }
+
+    private async createSTBItem(stbConfigType: number, stbData: StartBeastData, prefabPath: string) {
+        const itemNode = await ViewUtil.createPrefabNodeAsync(prefabPath);
+        if (itemNode) {
+            itemNode.name = stbData.id.toString();
+            itemNode.setParent(this.mapRoot);
+
+            tmpP0.x = math.randomRange(mapConfig.widthLimit.x, mapConfig.widthLimit.y);
+            tmpP0.y = math.randomRange(mapConfig.heightLimit.x, mapConfig.heightLimit.y);
+            itemNode.setPosition(tmpP0);
+
+            const cmp = itemNode.getComponent(ActorController);
+            if (cmp) {
+                cmp.stbId = stbData.id;
+                cmp.stbConfigType = stbConfigType;
+                cmp.widthLimit = mapConfig.widthLimit;
+                cmp.heightLimit = mapConfig.heightLimit;
+                cmp.init(tmpP0, Vec3.ZERO);
+            }
+        } else {
+            console.error('创建星兽失败:', stbData.id);
+        }
+    }
+
+    private delUserSTBItem(stbId: number) {
+        const childNode = this.mapRoot.children.find(child => {
+            const cmp = child.getComponent(ActorController);
+            return cmp && cmp.stbId === stbId;
+        });
+
+        if (childNode) {
+            childNode.getComponent(Collider2D).enabled = false;
+            this.delList.push(stbId);
+            childNode.getComponent(ActorController).onActorDeath();
+        } else {
+            console.error('删除星兽失败:', stbId);
+        }
+    }
+
+    /** 获取指定星兽类型的数量 */
+    private getChildCount(stbConfigType: number, stbId: number): number[] {
+        return this.mapRoot.children
+            .filter(child => {
+                const cmp = child.getComponent(ActorController);
+                return cmp && cmp.stbConfigType === stbConfigType && !this.delList.includes(stbId);
+            })
+            .map(child => stbId);
     }
 }

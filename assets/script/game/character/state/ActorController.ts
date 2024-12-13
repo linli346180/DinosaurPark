@@ -25,6 +25,8 @@ const tmpP0 = new Vec2();
 @ccclass('ActorController')
 export class ActorController extends Component {
     public stbId: number = 0;  // 星兽ID
+    public stbConfigType : number = 0; // 星兽配置类型
+    
     // public stbData: StartBeastData | undefined; // 星兽数据
     public widthLimit: Vec2 = new Vec2();
     public heightLimit: Vec2 = new Vec2();

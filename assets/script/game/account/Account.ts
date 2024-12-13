@@ -548,10 +548,10 @@ export class Account extends ecs.Entity {
     }
 
     /** 获取指定类型的星兽数据 */
-    getSTBDataByConfigType(configIds: number[]): StartBeastData[] {
+    getSTBDataByConfigType(...configIds: number[]): StartBeastData[] {
         let dataList: StartBeastData[] = [];
         this.AccountModel.getUserNinstb().forEach((element) => {
-            const config = this.getSTBConfigById(element.stbConfigID)
+            const config = this.getSTBConfigById(element.stbConfigID);
             if (config) {
                 const itemID = StringUtil.combineNumbers(config.stbKinds, config.stbGrade, 2);
                 if (configIds.includes(itemID)) {
@@ -559,9 +559,9 @@ export class Account extends ecs.Entity {
                 }
             }
         });
-
+    
         this.AccountModel.getUserInstb().forEach((element) => {
-            const config = this.getSTBConfigById(element.stbConfigID)
+            const config = this.getSTBConfigById(element.stbConfigID);
             if (config) {
                 const itemID = StringUtil.combineNumbers(config.stbKinds, config.stbGrade, 2);
                 if (configIds.includes(itemID)) {

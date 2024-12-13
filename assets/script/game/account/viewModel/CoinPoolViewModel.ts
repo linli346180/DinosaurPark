@@ -37,7 +37,7 @@ export class CoinPoolViewModel {
             return 0;
 
         this.gold_speed = 0;
-        const goldstbList = smc.account.getSTBDataByConfigType([STBTypeID.STB_Gold_Level10]);
+        const goldstbList = smc.account.getSTBDataByConfigType(STBTypeID.STB_Gold_Level10);
         let surNum = 0;
         goldstbList.forEach((stbData) => {
         if (surNum < 10 && smc.account.getSTBSurvivalSec(stbData.id) != 0) {
@@ -56,7 +56,7 @@ export class CoinPoolViewModel {
             return 0;
 
         this.gem_speed = 0;
-        const gemstbList = smc.account.getSTBDataByConfigType([STBTypeID.STB_Gem]);
+        const gemstbList = smc.account.getSTBDataByConfigType(STBTypeID.STB_Gem);
         let surNum = 0;
         gemstbList.forEach((stbData) => {
             if (smc.account.getSTBSurvivalSec(stbData.id) != 0) {
