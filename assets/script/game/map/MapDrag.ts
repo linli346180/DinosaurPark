@@ -21,8 +21,8 @@ export class MapDrag extends Component {
 
     private moveSpeed: number = 1.5;
     private slowSpeed: number = 0.05;
-    private _hovMax: number = 540;
-    private _hovMin: number = -540;
+    //private _hovMax: number = 540;
+    //private _hovMin: number = -540;
     private _lastPos: Vec2 = new Vec2();
     private _elasticClamp: number = 50;
     private _isFastSwipe: SwipeDirection = SwipeDirection.None;
@@ -32,19 +32,19 @@ export class MapDrag extends Component {
     start() {
         this.node.on(Node.EventType.TOUCH_START, this.onNodeTouchStart, this);
         this.node.on(Node.EventType.TOUCH_MOVE, this.onNodeTouchMove, this);
-        this.node.on(Node.EventType.TOUCH_END, this.onNodeTouchEnd, this);
-        this.node.on(Node.EventType.TOUCH_CANCEL, this.onNodeTouchEnd, this);
+        //this.node.on(Node.EventType.TOUCH_END, this.onNodeTouchEnd, this);
+        //this.node.on(Node.EventType.TOUCH_CANCEL, this.onNodeTouchEnd, this);
         this.btn_right?.node.on(Button.EventType.CLICK, this.onRightClick, this);
         this.btn_left?.node.on(Button.EventType.CLICK, this.onLeftClick, this);
-        this.switchMap(this.currentMapID);
+        //this.switchMap(this.currentMapID);
     }
 
     private onRightClick() {
-        this.switchMap(this.currentMapID + 1);
+        //this.switchMap(this.currentMapID + 1);
     }
 
     private onLeftClick() {
-        this.switchMap(this.currentMapID - 1);
+        //this.switchMap(this.currentMapID - 1);
     }
 
     private onNodeTouchStart(event: EventTouch) {
@@ -59,46 +59,46 @@ export class MapDrag extends Component {
         const curTime = Date.now(); // 使用 Date.now() 获取当前时间戳
         const deltaTime = curTime - this._lastTime;
         let deltaX = (curPos.x - this._lastPos.x) * this.moveSpeed;
-        if (this.node.position.x > this._hovMax || this.node.position.x < this._hovMin) {
-            deltaX = deltaX * this.slowSpeed;
-        }
+        // if (this.node.position.x > this._hovMax || this.node.position.x < this._hovMin) {
+        //     deltaX = deltaX * this.slowSpeed;
+        // }
 
         const speedX = Math.abs(deltaX / deltaTime);
         if (speedX > this.fastSwipeThreshold) {
             this._isFastSwipe = deltaX > 0 ? SwipeDirection.Right : SwipeDirection.Left;
         }
 
-        const xPos = math.clamp(this.node.position.x + deltaX, this._hovMin - this._elasticClamp, this._hovMax + this._elasticClamp);
-        this.node.setPosition(xPos, this.node.position.y, this.node.position.z);
+        // const xPos = math.clamp(this.node.position.x + deltaX, this._hovMin - this._elasticClamp, this._hovMax + this._elasticClamp);
+        // this.node.setPosition(xPos, this.node.position.y, this.node.position.z);
         this._lastPos = curPos;
     }
 
-    private onNodeTouchEnd(event: EventTouch) {
-        // 重置最后位置
-        this._lastPos = new Vec2();
-        if (this._isFastSwipe) {
-            let mapId = this._isFastSwipe == SwipeDirection.Left ? this.currentMapID + 1 : this.currentMapID - 1;
-            this.switchMap(mapId);
-            return;
-        }
-        this.switchMap(this.getClosestMapID());
-    }
+    // private onNodeTouchEnd(event: EventTouch) {
+    //     // 重置最后位置
+    //     this._lastPos = new Vec2();
+    //     if (this._isFastSwipe) {
+    //         let mapId = this._isFastSwipe == SwipeDirection.Left ? this.currentMapID + 1 : this.currentMapID - 1;
+    //         this.switchMap(mapId);
+    //         return;
+    //     }
+    //     this.switchMap(this.getClosestMapID());
+    // }
 
     /** 切换地图 */
-    public switchMap(mapID: MapID) {
-        let mapConfig = MapConfigData[mapID];
-        if (mapConfig == null){
-            mapID = this.currentMapID;
-            mapConfig = MapConfigData[this.currentMapID];
-        }
-        if (mapConfig) {
-            const targetPosition = new Vec3(mapConfig.center, this.node.position.y, this.node.position.z);
-            tween(this.node)
-                .to(0.25, { position: targetPosition }, { easing: 'sineOut' })
-                .start();
-            this.currentMapID = mapID;
-        }
-    }
+    // public switchMap(mapID: MapID) {
+    //     let mapConfig = MapConfigData[mapID];
+    //     if (mapConfig == null){
+    //         mapID = this.currentMapID;
+    //         mapConfig = MapConfigData[this.currentMapID];
+    //     }
+    //     if (mapConfig) {
+    //         const targetPosition = new Vec3(mapConfig.center, this.node.position.y, this.node.position.z);
+    //         tween(this.node)
+    //             .to(0.25, { position: targetPosition }, { easing: 'sineOut' })
+    //             .start();
+    //         this.currentMapID = mapID;
+    //     }
+    // }
 
     /** 获取地图最大值 */
     private getMaxCenter(): number {

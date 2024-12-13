@@ -3,6 +3,7 @@ import { RankType } from './RankDefine';
 import { Enum } from 'cc';
 import { Toggle } from 'cc';
 import { Label } from 'cc';
+import { Sprite } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('RankToggle')
@@ -13,11 +14,11 @@ export class RankToggle extends Component {
     public onToggleSelcted: (type: RankType) => void = () => { };
 
     private toggle: Toggle = null!;
-    private UnCheckLabel: Label = null!;
+    private UnCheckLabel: Sprite = null!;
 
     start() {
         this.toggle = this.node.getComponent(Toggle)!;
-        this.UnCheckLabel = this.node.getChildByName("Label_UnCheck")?.getComponent(Label)!;
+        this.UnCheckLabel = this.node.getChildByName("Label_UnCheck")?.getComponent(Sprite)!;
         this.toggle?.node.on(Toggle.EventType.TOGGLE, this.onToggle, this);
 
         if (this.toggle.isChecked)

@@ -1,7 +1,7 @@
 import { _decorator, Component, Node, Button, Prefab, instantiate } from 'cc';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
-import { UserRankData, RankData, RankGroup, RankType } from './RankDefine';
+import { UserRankData, RankData, RankGroup, RankType, RankEvent } from './RankDefine';
 import { RankNetService } from './RankNet';
 import { RankItem } from './RankItem';
 import { smc } from '../common/SingletonModuleComp';
@@ -29,6 +29,12 @@ export class RankView extends Component {
     title: Label = null!;
     @property(Node)
     emptyNode: Node = null!;
+    @property(Node)
+    top1: Node = null!;
+    @property(Node)
+    top2: Node = null!;
+    @property(Node)
+    top3: Node = null!;
 
     private curRankGroup = RankGroup.Rich;
     private curRankType = RankType.day;
@@ -46,10 +52,25 @@ export class RankView extends Component {
             }
         });
     }
-
+    start() {
+        oops.message.on(RankEvent.SwitchLists, this.onHandler, this);
+    }
     onEnable() {
         this.title.string = this.getRankGroupTitle(this.curRankGroup);
         this.initUI();
+    }
+
+    onDestroy() {
+        oops.message.off(RankEvent.SwitchLists, this.onHandler, this);
+    }
+
+    private onHandler(event: string, args: any) {
+        switch (event) {
+            case RankEvent.SwitchLists:
+                this.curRankGroup = args;
+                this.setRankGroupList();
+                break;
+        }
     }
 
     private closeUI() {
@@ -108,6 +129,14 @@ export class RankView extends Component {
         this.initUI();
     }
 
+    private setRankGroupList() {
+        const rankGroups = Object.values(RankGroup).filter(value => typeof value === 'number') as number[];
+        const currentIndex = rankGroups.indexOf(this.curRankGroup);
+        this.curRankGroup = rankGroups[currentIndex];
+        this.title.string = this.getRankGroupTitle(this.curRankGroup);
+        this.initUI();
+    }
+
     private getRankGroupTitle(rankGroup: RankGroup): string {
         switch (rankGroup) {
             case RankGroup.Invite:
@@ -119,4 +148,5 @@ export class RankView extends Component {
                 return "未知榜";
         }
     }
+
 }

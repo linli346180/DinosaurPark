@@ -38,7 +38,7 @@ export class TaskItem extends Component {
     initItem(taskData: TaskData) {
         this.taskData = taskData;
         this.title.string = taskData.taskName;
-        this.completed.string = `(${taskData.completedQuantity}/${taskData.requiredQuantity})`;   // 任务进度
+        this.completed.string = `${taskData.completedQuantity}/${taskData.requiredQuantity}`;   // 任务进度
 
         this.btn_incomplete.node.active = this.taskData.taskState == TaskStatus.Incomplete;
         this.btn_available.node.active = this.taskData.taskState == TaskStatus.Available;

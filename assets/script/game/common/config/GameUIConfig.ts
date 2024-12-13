@@ -44,6 +44,7 @@ export enum UIID {
     STBDetail,      // 星兽详情
 
     GemShop,        // 宝石商店
+    PropShop,       // 道具商店
     WalletPaySelect, // 钱包支付选择
     Keyboard,       // 虚拟键盘
 

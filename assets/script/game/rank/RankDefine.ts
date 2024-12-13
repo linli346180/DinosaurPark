@@ -4,6 +4,7 @@
 export enum RankGroup {
     Invite = 0,         // 拉新排行榜
     Rich,               // 富豪榜
+    STB,               // 星兽榜
 }
 
 export enum RankType {
@@ -34,4 +35,8 @@ export class RankData {
         this.userName = '';
         this.inviteCount = 0;
     }
+}
+
+export enum RankEvent {
+    SwitchLists = "SwitchLists",  // 切换榜单
 }

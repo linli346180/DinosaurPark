@@ -42,8 +42,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
+      "x": -242.5,
+      "y": -106.0685,
       "z": 0
     },
     "_lrot": {
@@ -100,7 +100,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 40,
+      "y": 16.0685,
       "z": 0
     },
     "_lrot": {
@@ -478,8 +478,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 110,
-      "height": 110
+      "width": 74,
+      "height": 73
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -515,12 +515,12 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "215f0289-37e5-40ce-a796-1a31dc3d0e2b@f9941",
+      "__uuid__": "9cd21c42-1869-42c2-82a9-abf00ce7b235@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
     "_fillType": 0,
-    "_sizeMode": 0,
+    "_sizeMode": 1,
     "_fillCenter": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -553,7 +553,7 @@
     "_target": null,
     "_left": 0,
     "_right": 0,
-    "_top": 5,
+    "_top": 23.5,
     "_bottom": 0,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
@@ -650,8 +650,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 150,
-      "height": 37.8
+      "width": 100,
+      "height": 47.711
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -681,25 +681,25 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 112,
+      "g": 34,
+      "b": 7,
       "a": 255
     },
-    "_string": "碎片1",
+    "_string": "星兽碎片星兽碎片AAAAAAA",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 30,
+    "_actualFontSize": 15,
     "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 30,
-    "_overflow": 3,
+    "_overflow": 2,
     "_enableWrapText": true,
     "_font": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_isItalic": false,
-    "_isBold": false,
+    "_isBold": true,
     "_isUnderline": false,
     "_underlineHeight": 2,
     "_cacheMode": 0,
@@ -760,7 +760,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 120,
-      "height": 200
+      "height": 152.137
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -851,7 +851,6 @@
       "__id__": 0
     },
     "fileId": "4dhcitrzFFo7aKo2c/XIH2",
-    "instance": null,
     "targetOverrides": null
   }
 ]
