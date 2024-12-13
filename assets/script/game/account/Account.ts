@@ -180,7 +180,7 @@ export class Account extends ecs.Entity {
             onRemoved: (node: Node | null, params: any) => {
                 oops.gui.remove(UIID.GuideChannel);
                 // 开始新手引导(默认完成)
-                smc.guide.startGuide(null);
+                smc.guide.startGuide();
                 smc.guide.isFinish = true;
             }
         };

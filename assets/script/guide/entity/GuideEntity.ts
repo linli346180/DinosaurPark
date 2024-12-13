@@ -7,7 +7,7 @@ import { GuideViewComp } from "../view/GuideViewComp";
 export class GuideEntity extends ecs.Entity {
     GuideModel!: GuideModelComp;
     GuideView!: GuideViewComp;
-
+    isInit = false;
     protected init() {
         this.addComponents<ecs.Comp>(GuideModelComp);
     }
@@ -23,20 +23,25 @@ export class GuideEntity extends ecs.Entity {
     }
 
     /** 开启新手引导 */
-    startGuide(callback: Function) {
-        oops.res.loadDir(this.GuideModel.res_dir, (err: Error | null) => {
-            if (err) {
-                console.error("引手引导资源加载失败");
-            }
-            // 注册显示对象到 ECS 实体中
-            var gv = oops.gui.guide.addComponent(GuideViewComp);
-            this.add(gv);
-            gv.init(this.GuideModel);
-            if(callback) callback();
-        });
+    startGuide() {
+        if (!this.isInit) {
+            this.isInit = true;
+            oops.res.loadDir(this.GuideModel.res_dir, (err: Error | null) => {
+                if (err) {
+                    console.error("引手引导资源加载失败");
+                }
+                // 注册显示对象到 ECS 实体中
+                var gv = oops.gui.guide.addComponent(GuideViewComp);
+                this.add(gv);
+                gv.startCheck(this.GuideModel);
+            });
+        } else {
+            this.GuideView.startCheck(this.GuideModel);
+        }
     }
 
     destroy(): void {
+        this.isFinish = true;
         oops.res.releaseDir(this.GuideModel.res_dir);
         this.remove(GuideViewComp);
         this.remove(GuideModelComp);

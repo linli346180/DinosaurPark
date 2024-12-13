@@ -19,27 +19,15 @@ export class GuideViewItem extends CCComp {
     start() {
         console.log("guide register", this.node.name);
         // 注册引导数据
-        var gm = smc.guide?.GuideModel;
-        if (gm) {
-            gm.register(this.stepId, this);
-        }
-        var gv = smc.guide.GuideView;
-        if (gv) {
-            if(gm.curStep == this.stepId) {
-                gv.check(this.stepId);
-            }
-        }
+        smc.guide.GuideModel?.register(this.stepId, this);
+    }
+
+    onEnable() { 
+        smc.guide.GuideView?.check(this.stepId);
     }
 
     update(dt: number) {
-        var gm = smc.guide?.GuideModel;
-        var gv = smc.guide.GuideView;
-        if (gm && gv) {
-            // 验证当前是否触发这个引导
-            if (gm.curStep == this.stepId) {
-                gv.refresh();
-            }
-        }
+        smc.guide.GuideView?.refresh(this.stepId);
     }
 
     reset(): void {

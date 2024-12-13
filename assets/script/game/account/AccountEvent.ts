@@ -32,11 +32,10 @@ export enum AccountEvent {
     CoinDataChange = "CoinDataChange",          // 用户货币数据变化
 
     CoinExtraPrizeChange = "CoinExtraPrizeChange",  // 金币浮动价格变化
-    GemExtraPrizeChange = "GemExtraPrizeChange",  // 
+    GemExtraPrizeChange = "GemExtraPrizeChange",    // 
+    OfflineIncome = "OfflineIncome",                // 离线收益
 
-    OfflineIncome = "OfflineIncome",  // 离线收益
-
-    UserNoOperation = "UserNoOperation",  // 长时间无操作
-    UserOperation = "UserOperation",  // 用户操作
-    HideUserOperation = "HideUserOperation",  // 用户操作
+    UserNoOperation = "UserNoOperation",        // 用户长时间无操作(背包显示引导动画)
+    UserOperation = "UserOperation",            // 用户操作(背包隐藏引导动画)
+    ShowKnapsackView = "ShowKnapsackView",      // 是否显示背包
 }

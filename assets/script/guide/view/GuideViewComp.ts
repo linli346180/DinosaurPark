@@ -31,7 +31,7 @@ export class GuideViewComp extends CCComp {
 
     private readonly startIndex = 1;    // 引导开始索引
 
-    init(model: GuideModelComp) {
+    startCheck(model: GuideModelComp) {
         this.model = model;
         this.prompt.model = this.model;
         this.mask.model = this.model;
@@ -55,7 +55,7 @@ export class GuideViewComp extends CCComp {
         if (this.model.curStep > this.model.lastStep) {
             this.mask.hide();
             this.prompt.hide();
-            this.ent.destroy();
+            // this.ent.destroy();  // 释放引导实体
             smc.guide.isFinish = true;
             oops.log.logView(`全部结束`);
         }
@@ -72,7 +72,7 @@ export class GuideViewComp extends CCComp {
         // 延时处理是为了避免与cc.Widget组件冲突，引导遮罩出现后，组件位置变了
         this.scheduleOnce(() => {
             let curNode = this.model.curNode;
-            if (curNode == null) {
+            if (curNode == null || curNode.active == false) {
                 this.mask.hide();
                 this.prompt.hide();
                 oops.log.logView(`暂无引导`)
@@ -95,7 +95,7 @@ export class GuideViewComp extends CCComp {
     }
 
     private onTransformChanged() {
-        this.refresh();
+        this.refresh(this.model.curStep);
     }
 
     private onTouchEnd(event: EventTouch) {
@@ -120,7 +120,10 @@ export class GuideViewComp extends CCComp {
     }
 
     /** 刷新引导位置 */
-    refresh() {
+    refresh(index: number) {
+        if (this.model.curStep != index) {
+            return;
+        }
         let btn = this.model.guides.get(this.model.curStep)?.node;
         if (btn) {
             this.mask.draw(btn);

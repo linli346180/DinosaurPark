@@ -1,5 +1,4 @@
 import { Node, Vec3 } from 'cc';
-import exp from 'constants';
 
 export enum GuideState {
     NONE = 0,       //无引导
@@ -8,14 +7,14 @@ export enum GuideState {
 }
 
 //单次引导的类型
-export enum GuideStepType {     
+export enum GuideStepType {
     MUST = 1,       //强制引导
     FREE,           //非强制性
 }
 
 //引导配置单个step的接口定义
 export interface GuideStepConfigInterface {     //引导stepConfig
-    stepId: number                              
+    stepId: number
     name: string                                //引导名字，随意
     desc: string                                //引导描述，显示出来
     btnPath: string                             //按钮的路径
@@ -31,11 +30,11 @@ export enum FinishConditon {
 }
 
 //引导配置接口定义
-export interface GuideInfo {     
+export interface GuideInfo {
     stepId?: number;            // 引导唯一id
-    name:string;                // 引导名字，随意
+    name: string;                // 引导名字，随意
     prompt: string;             // 引导描述，显示出来
-    targetNode: Node;           // 目标节点
+    targetNode?: Node;           // 目标节点
     emitClickEvent?: boolean;   // 是否触发点击事件，点击事件需要使用UI绑定ClickEvents
     gameEvent: string;          // 触发事件
     condition?: FinishConditon;   //触发类型

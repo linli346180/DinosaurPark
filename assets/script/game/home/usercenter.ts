@@ -157,6 +157,8 @@ export class usercenter extends Component {
 
     private onGuide() {
        // 初始化引导模块
+       smc.guide.startGuide();
+       this.closeUI();
     }
 
     private onService() {

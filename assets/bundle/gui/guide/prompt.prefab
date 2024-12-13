@@ -130,8 +130,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 60.4
+      "width": 32.5,
+      "height": 66.7
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -169,10 +169,10 @@
     "_string": "↓",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 40,
-    "_fontSize": 40,
+    "_actualFontSize": 45,
+    "_fontSize": 45,
     "_fontFamily": "Arial",
-    "_lineHeight": 40,
+    "_lineHeight": 45,
     "_overflow": 0,
     "_enableWrapText": true,
     "_font": null,
@@ -308,7 +308,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 400,
-      "height": 60.4
+      "height": 66.7
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -346,10 +346,10 @@
     "_string": "提示词",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 30,
-    "_fontSize": 30,
+    "_actualFontSize": 40,
+    "_fontSize": 40,
     "_fontFamily": "Arial",
-    "_lineHeight": 40,
+    "_lineHeight": 45,
     "_overflow": 3,
     "_enableWrapText": true,
     "_font": null,

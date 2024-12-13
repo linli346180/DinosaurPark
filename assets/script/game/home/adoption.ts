@@ -9,18 +9,12 @@ const { ccclass, property } = _decorator;
 
 @ccclass('AdoptionView')
 export class AdoptionView extends Component {
-    @property(Button)
-    private btn_adopt_one: Button = null!;
-    @property(Button)
-    private btn_left: Button = null!;
-    @property(Button)
-    private btn_right: Button = null!;
-    @property(Label)
-    private price: Label = null!;
-    @property(Sprite)
-    private beast: Sprite = null!;
-    @property(Label)
-    private level: Label = null!;
+    @property(Button) btn_adopt_one: Button = null!;
+    @property(Button) btn_left: Button = null!;
+    @property(Button) btn_right: Button = null!;
+    @property(Label) price: Label = null!;
+    @property(Sprite) beast: Sprite = null!;
+    @property(Label) level: Label = null!;
 
     private _index: number = 0;
     private _configDataList: UserInstbConfigData[] = [];
@@ -67,6 +61,7 @@ export class AdoptionView extends Component {
 
     /** 领养星兽(购买) */
     public adoptStartBeast() {
+        oops.message.dispatchEvent(AccountEvent.ShowKnapsackView, true);
         const config = this._configDataList[this._index];
         if (config) {
             console.log(`领养${config.stbName}`);
@@ -74,7 +69,7 @@ export class AdoptionView extends Component {
             smc.account.adopStartBeastNet(config.id, false, (success: boolean, msg: string) => {
                 this.btn_adopt_one.interactable = true;
             });
-        } 
+        }
     }
 
     private onLeft() {
