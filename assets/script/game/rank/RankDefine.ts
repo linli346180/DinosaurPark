@@ -11,6 +11,12 @@ export enum RankType {
     day = 0,
     week = 1,
     month = 2,
+    invite = 3,         
+    rich = 4,               
+    STB = 5, 
+    primarySTB = 6,
+    intermediateSTB = 7,
+    seniorSTB = 8,
 }
 
 export class UserRankData {
@@ -35,8 +41,4 @@ export class RankData {
         this.userName = '';
         this.inviteCount = 0;
     }
-}
-
-export enum RankEvent {
-    SwitchLists = "SwitchLists",  // 切换榜单
 }

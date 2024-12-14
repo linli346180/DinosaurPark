@@ -25,6 +25,14 @@ export class RankItem extends Component {
     inviteIcon: Node = null!;
     @property(Node)
     richIcon: Node = null!;
+    @property(Node)
+    STBIcon: Node = null!;
+    @property(Node)
+    primarySTB: Node = null!;
+    @property(Node)
+    intermediateSTB: Node = null!;
+    @property(Node)
+    seniorSTB: Node = null!;
 
     initItem(data: RankData, rankGroup: RankGroup) {
         // console.log('排行榜数据:', data);
@@ -34,9 +42,12 @@ export class RankItem extends Component {
         this.inviteCount.string =  StringUtil.formatMoney(data.inviteCount,2).toString();
         this.inviteIcon.active = rankGroup === RankGroup.Invite;
         this.richIcon.active = rankGroup === RankGroup.Rich;
+        this.STBIcon.active = rankGroup === RankGroup.STB;
 
         this.updateRankingDisplay(Math.floor(data.ranking));
     }
+
+    
 
     private updateRankingDisplay(ranking: number) {
         const isTopThree = ranking > 0 && ranking <= 3;

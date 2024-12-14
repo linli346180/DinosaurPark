@@ -1,12 +1,13 @@
 import { _decorator, Component, Node, Button, Prefab, instantiate } from 'cc';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
-import { UserRankData, RankData, RankGroup, RankType, RankEvent } from './RankDefine';
+import { UserRankData, RankData, RankGroup, RankType, } from './RankDefine';
 import { RankNetService } from './RankNet';
 import { RankItem } from './RankItem';
 import { smc } from '../common/SingletonModuleComp';
 import { RankToggle } from './RankToggle';
 import { Label } from 'cc';
+import { ListToggle } from './ListToggle';
 const { ccclass, property } = _decorator;
 
 @ccclass('RankView')
@@ -20,7 +21,11 @@ export class RankView extends Component {
     @property(RankItem)
     selfRankItem: RankItem = null!;
     @property(Node)
+    rankToggleGroup: Node = null!;
+    @property(Node)
     toggleGroup: Node = null!;
+    @property(Node)
+    STBToggleGroup: Node = null!;
     @property(Button)
     btn_left: Button = null!;
     @property(Button)
@@ -35,6 +40,8 @@ export class RankView extends Component {
     top2: Node = null!;
     @property(Node)
     top3: Node = null!;
+    @property(Button)
+    btn_instruction: Button = null!;
 
     private curRankGroup = RankGroup.Rich;
     private curRankType = RankType.day;
@@ -45,32 +52,29 @@ export class RankView extends Component {
         this.btn_close?.node.on(Button.EventType.CLICK, this.closeUI, this);
         this.btn_left?.node.on(Button.EventType.CLICK, this.onLeftClicked, this);
         this.btn_right?.node.on(Button.EventType.CLICK, this.onRightClicked, this);
+        this.btn_instruction?.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.EvolveTips)}, this);
         this.toggleGroup.children.forEach((childNode, index) => {
             let comp = childNode.getComponent(RankToggle);
             if (comp) {
                 comp.onToggleSelcted = this.onToggleSelcted.bind(this);
             }
         });
-    }
-    start() {
-        oops.message.on(RankEvent.SwitchLists, this.onHandler, this);
+        this.STBToggleGroup.children.forEach((childNode, index) => {
+            let comp = childNode.getComponent(RankToggle);
+            if (comp) {
+                comp.onToggleSelcted = this.onToggleSelcted.bind(this);
+            }
+        });
+        this.rankToggleGroup.children.forEach((childNode, index) => {
+            let comp = childNode.getComponent(RankToggle);
+            if (comp) {
+                comp.onToggleSelcted = this.onToggleSelcted.bind(this);
+            }
+        });
     }
     onEnable() {
         this.title.string = this.getRankGroupTitle(this.curRankGroup);
         this.initUI();
-    }
-
-    onDestroy() {
-        oops.message.off(RankEvent.SwitchLists, this.onHandler, this);
-    }
-
-    private onHandler(event: string, args: any) {
-        switch (event) {
-            case RankEvent.SwitchLists:
-                this.curRankGroup = args;
-                this.setRankGroupList();
-                break;
-        }
     }
 
     private closeUI() {
@@ -90,6 +94,9 @@ export class RankView extends Component {
             this.rankData = await RankNetService.getInviteRankData(this.curRankType);
         }
         if (this.curRankGroup == RankGroup.Rich) {
+            this.rankData = await RankNetService.getCoinRankData();
+        }
+        if (this.curRankGroup == RankGroup.STB) {
             this.rankData = await RankNetService.getCoinRankData();
         }
 

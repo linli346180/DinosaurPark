@@ -17,6 +17,8 @@ export class HatchReward extends Component {
     btn_reward: Button = null!;
     @property(Node)
     container: Node = null!;
+    @property(Node)
+    layoutItem: Node = null!;
 
     private rewardData: RewardConfig[] = [];
 
@@ -39,12 +41,26 @@ export class HatchReward extends Component {
         }
     }
 
+    // InitUI(rewardList: RewardConfig[]) {
+    //     this.rewardData = rewardList;
+    //     this.container.removeAllChildren();
+    //     rewardList.forEach(reward => {
+    //         const itemNode = instantiate(this.itemPrefab);
+    //         itemNode.parent = this.container;
+    //         itemNode.getComponent<RewardItem>(RewardItem)?.initItem(reward);
+    //     });
+    // }
+
     InitUI(rewardList: RewardConfig[]) {
         this.rewardData = rewardList;
+        const num =  Math.ceil(this.rewardData.length / 5.0); //添加节点数量
         this.container.removeAllChildren();
-        rewardList.forEach(reward => {
+        for (let i = 0; i < num; i++) {
+            this.container.addChild(this.layoutItem);
+        }
+        rewardList.forEach((reward,index) => {
             const itemNode = instantiate(this.itemPrefab);
-            itemNode.parent = this.container;
+            itemNode.parent = this.container.children[Math.floor(index / 5)];
             itemNode.getComponent<RewardItem>(RewardItem)?.initItem(reward);
         });
     }

@@ -1,5 +1,5 @@
 import { _decorator, Component, Node } from 'cc';
-import { RankEvent, RankGroup } from './RankDefine';
+import { RankGroup } from './RankDefine';
 import { Enum } from 'cc';
 import { Toggle } from 'cc';
 import { Label } from 'cc';
@@ -30,7 +30,6 @@ export class ListToggle extends Component {
         if (toggle.isChecked) {
             this.onToggleSelcted(this.ListType);
             this.UnCheckLabel.node.active = false;
-            oops.message.dispatchEvent(RankEvent.SwitchLists,this.ListType)
         } else {
             this.UnCheckLabel.node.active = true;
         }
