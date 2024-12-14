@@ -37,7 +37,7 @@ export enum STBName {
 }
 
 // 星兽配置ID
-export enum STBTypeID {
+export enum STBConfigType {
     STB_Gold_Level1     = 101,
     STB_Gold_Level2     = 102,
     STB_Gold_Level3     = 103,

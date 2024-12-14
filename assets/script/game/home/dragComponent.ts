@@ -12,7 +12,7 @@ export class ActorDragComponent extends Component {
 
     // @property(Node)
     public dragNode: Node = null!;
-    public slotId: number = 0;  // 插槽ID
+    public slotId: number = 0;                  // 插槽ID
     private _orgParent: Node | null = null;
     private _orgPosition: Vec3 = new Vec3();
     private offset: Vec3 = new Vec3();

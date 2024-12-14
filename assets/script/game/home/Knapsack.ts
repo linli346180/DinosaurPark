@@ -5,7 +5,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('KnapsackView')
 export class KnapsackView extends Component {
-    @property(Animation) subBtnsAnim: Animation = null!;
+    @property(Animation) animation: Animation = null!;
     @property(Button) btn_expand: Button = null!;
     @property(Button) btn_fold: Button = null!;
 
@@ -16,9 +16,9 @@ export class KnapsackView extends Component {
     set IsShow(value: boolean) {
         if (this.IsShow === value) return;
         if (value) {
-            this.showSubBtns();
+            this.onKnapsackShow();
         } else {
-            this.hideSubBtns();
+            this.onKnapsackHide();
         }
     }
 
@@ -42,23 +42,11 @@ export class KnapsackView extends Component {
         }
     }
 
-    private hideSubBtns() {
-        this.subBtnsAnim.play('sub_fold');
-        this.btn_fold.interactable = false;
-        this.subBtnsAnim.once(Animation.EventType.FINISHED, () => {
-            this.btn_expand.node.active = true;
-            this.btn_fold.node.active = false;
-            this.btn_fold.interactable = true;
-        });
+    private onKnapsackHide() {
+        this.animation.play('knapsack_hide');
     }
 
-    private showSubBtns() {
-        this.subBtnsAnim.play('sub_pop');
-        this.btn_expand.interactable = false;
-        this.subBtnsAnim.once(Animation.EventType.FINISHED, () => {
-            this.btn_expand.node.active = false;
-            this.btn_fold.node.active = true;
-            this.btn_expand.interactable = true;
-        });
+    private onKnapsackShow() {
+        this.animation.play('knapsack_open');
     }
 }

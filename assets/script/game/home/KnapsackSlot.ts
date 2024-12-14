@@ -25,7 +25,7 @@ export class KnapsackSlot extends Component {
     @property(Label)
     stbConfigIdLabel: Label = null!;
 
-    public slotId: number = 0;  // 插槽ID
+    public slotId: number = 0;                      // 插槽ID
     public stbData: StartBeastData | null = null;
     private idleAnim: ActorAnimComp = null!;        // 待机动画
     private landingAnim: Animation = null!;         // 着陆动画

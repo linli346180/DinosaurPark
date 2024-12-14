@@ -50,8 +50,10 @@ export enum UIID {
 
     Evolve,         // 星兽进化
     EvolveTips,     // 星兽进化提示
-    EvolveResult,     // 星兽进化提示
+    EvolveResult,   // 星兽进化提示
     CollectCoin,    // 收集金币
+
+    Accelerate,     // 加速
 }
 
 /** 打开界面方式的配置数据 */
@@ -101,4 +103,7 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.LanguageUI]: { layer: LayerType.Dialog, prefab: "gui/setting/languageView", mask: true, vacancy: true },
     [UIID.Keyboard]: { layer: LayerType.System, prefab: "gui/keyboard/Keyboard", mask: true, vacancy: true},
     [UIID.CollectCoin]: { layer: LayerType.PopUp, prefab: "gui/collectcoin/prefab/collectcoin", mask: true }, 
+
+
+    [UIID.Accelerate]: { layer: LayerType.PopUp, prefab: "gui/accelerate/prefab/accelerate", mask: true },
 }

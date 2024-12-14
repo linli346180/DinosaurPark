@@ -607,7 +607,7 @@ export class Account extends ecs.Entity {
         }
     }
 
-    /** 获取星兽数量(类型101)  */
+    /** 获取星兽数量  */
     public getUserInstbCount(stbConfigId: number): number {
         const stbConfig = this.getSTBConfigById(stbConfigId);
         let count = 0;

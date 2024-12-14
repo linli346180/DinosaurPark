@@ -2,7 +2,7 @@
   "ver": "1.0.27",
   "importer": "image",
   "imported": true,
-  "uuid": "215f0289-37e5-40ce-a796-1a31dc3d0e2b",
+  "uuid": "3aa270e8-b97e-4f14-9395-89b0c194dd83",
   "files": [
     ".json",
     ".png"
@@ -10,8 +10,8 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "215f0289-37e5-40ce-a796-1a31dc3d0e2b@6c48a",
-      "displayName": "金币",
+      "uuid": "3aa270e8-b97e-4f14-9395-89b0c194dd83@6c48a",
+      "displayName": "矩形 10 拷贝 3",
       "id": "6c48a",
       "name": "texture",
       "userData": {
@@ -22,7 +22,7 @@
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "215f0289-37e5-40ce-a796-1a31dc3d0e2b",
+        "imageUuidOrDatabaseUri": "3aa270e8-b97e-4f14-9395-89b0c194dd83",
         "visible": false
       },
       "ver": "1.0.22",
@@ -34,22 +34,22 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "215f0289-37e5-40ce-a796-1a31dc3d0e2b@f9941",
-      "displayName": "金币",
+      "uuid": "3aa270e8-b97e-4f14-9395-89b0c194dd83@f9941",
+      "displayName": "矩形 10 拷贝 3",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
         "offsetY": 0,
-        "trimX": 0,
-        "trimY": 0,
-        "width": 421,
-        "height": 422,
-        "rawWidth": 421,
-        "rawHeight": 422,
+        "trimX": 5,
+        "trimY": 5,
+        "width": 168,
+        "height": 43,
+        "rawWidth": 178,
+        "rawHeight": 53,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
@@ -61,17 +61,17 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-            -210.5,
-            -211,
+            -84,
+            -21.5,
             0,
-            210.5,
-            -211,
+            84,
+            -21.5,
             0,
-            -210.5,
-            211,
+            -84,
+            21.5,
             0,
-            210.5,
-            211,
+            84,
+            21.5,
             0
           ],
           "indexes": [
@@ -83,38 +83,38 @@
             3
           ],
           "uv": [
-            0,
-            422,
-            421,
-            422,
-            0,
-            0,
-            421,
-            0
+            5,
+            48,
+            173,
+            48,
+            5,
+            5,
+            173,
+            5
           ],
           "nuv": [
-            0,
-            0,
-            1,
-            0,
-            0,
-            1,
-            1,
-            1
+            0.028089887640449437,
+            0.09433962264150944,
+            0.9719101123595506,
+            0.09433962264150944,
+            0.028089887640449437,
+            0.9056603773584906,
+            0.9719101123595506,
+            0.9056603773584906
           ],
           "minPos": [
-            -210.5,
-            -211,
+            -84,
+            -21.5,
             0
           ],
           "maxPos": [
-            210.5,
-            211,
+            84,
+            21.5,
             0
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "215f0289-37e5-40ce-a796-1a31dc3d0e2b@6c48a",
+        "imageUuidOrDatabaseUri": "3aa270e8-b97e-4f14-9395-89b0c194dd83@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.12",
@@ -129,9 +129,6 @@
     "hasAlpha": true,
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": false,
-    "redirect": "215f0289-37e5-40ce-a796-1a31dc3d0e2b@6c48a",
-    "compressSettings": {
-      "useCompressTexture": false
-    }
+    "redirect": "3aa270e8-b97e-4f14-9395-89b0c194dd83@6c48a"
   }
 }

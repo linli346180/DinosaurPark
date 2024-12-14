@@ -1,6 +1,6 @@
 import { _decorator } from "cc";
 import { smc } from "../../common/SingletonModuleComp";
-import { STBTypeID } from "../../character/STBDefine";
+import { STBConfigType } from "../../character/STBDefine";
 import { oops } from "../../../../../extensions/oops-plugin-framework/assets/core/Oops";
 import { UserInstbConfigData } from "../model/STBConfigModeComp";
 
@@ -37,7 +37,7 @@ export class CoinPoolViewModel {
             return 0;
 
         this.gold_speed = 0;
-        const goldstbList = smc.account.getSTBDataByConfigType(STBTypeID.STB_Gold_Level10);
+        const goldstbList = smc.account.getSTBDataByConfigType(STBConfigType.STB_Gold_Level10);
         let surNum = 0;
         goldstbList.forEach((stbData) => {
         if (surNum < 10 && smc.account.getSTBSurvivalSec(stbData.id) != 0) {
@@ -56,7 +56,7 @@ export class CoinPoolViewModel {
             return 0;
 
         this.gem_speed = 0;
-        const gemstbList = smc.account.getSTBDataByConfigType(STBTypeID.STB_Gem);
+        const gemstbList = smc.account.getSTBDataByConfigType(STBConfigType.STB_Gem);
         let surNum = 0;
         gemstbList.forEach((stbData) => {
             if (smc.account.getSTBSurvivalSec(stbData.id) != 0) {
@@ -73,8 +73,8 @@ export class CoinPoolViewModel {
         this.gold_num = smc.account.AccountModel.coinPoolData.goldCoin;
         this.gem_num = smc.account.AccountModel.coinPoolData.gemsCoin;
 
-        this.goldConfig = smc.account.getSTBConfigByType(STBTypeID.STB_Gold_Level10);
-        this.gemConfig = smc.account.getSTBConfigByType(STBTypeID.STB_Gem);
+        this.goldConfig = smc.account.getSTBConfigByType(STBConfigType.STB_Gold_Level10);
+        this.gemConfig = smc.account.getSTBConfigByType(STBConfigType.STB_Gem);
         if (this.goldConfig == null || this.gemConfig == null) {
             console.error("星兽配置为空");
             return;

@@ -5,7 +5,6 @@ import { AccountEvent } from '../account/AccountEvent';
 import { KnapsackControlle } from './KnapsackControlle';
 import { KnapsackSlot } from './KnapsackSlot';
 import { UserCoinView } from './UserCoinView';
-import { AccountCoinType } from '../account/AccountDefine';
 import { Label } from 'cc';
 import { AnimUtil } from '../common/utils/AnimUtil';
 import { smc } from '../common/SingletonModuleComp';
@@ -19,15 +18,17 @@ const { ccclass, property } = _decorator;
 @ccclass('HomeView')
 export class HomeView extends Component {
     @property(Button) btn_user: Button = null!;
-    @property(Button) btn_email: Button = null!;
-    @property(Button) btn_task: Button = null!;
-    @property(Button) btn_rank: Button = null!;
     @property(Button) btn_book: Button = null!;
-    @property(Button) btn_revivei: Button = null!;
+    @property(Button) btn_email: Button = null!;
+    @property(Button) btn_rank: Button = null!;
+    @property(Button) btn_activity: Button = null!;
+    @property(Button) btn_pk: Button = null!;
+
+    @property(Button) btn_task: Button = null!;
     @property(Button) btn_store: Button = null!;
     @property(Button) btn_hatch: Button = null!;
-    @property(Button) btn_invite: Button = null!;
-    @property(Button) btn_activity: Button = null!;
+    @property(Button) btn_invite: Button = null!   
+   
     @property(Node) goldAnimNode: Node = null!;
     @property(Node) goldAnimEndNode: Node = null!;
     @property(Node) usdtAnimNode: Node = null!;
@@ -60,7 +61,6 @@ export class HomeView extends Component {
             [UIID.Task]: this.btn_task,
             [UIID.RankUI]: this.btn_rank,
             [UIID.Book]: this.btn_book,
-            [UIID.Revive]: this.btn_revivei,
             [UIID.STBShop]: this.btn_store,
             [UIID.Hatch]: this.btn_hatch,
             [UIID.Invite]: this.btn_invite,

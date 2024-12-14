@@ -19,6 +19,7 @@ export class AdoptionView extends Component {
     private _index: number = 0;
     private _configDataList: UserInstbConfigData[] = [];
     private _spriteFrames: SpriteFrame[] = [];
+    private _canClick: boolean = true;
 
     start() {
         // this.setupButtonHandlers();
@@ -62,12 +63,16 @@ export class AdoptionView extends Component {
     /** 领养星兽(购买) */
     public adoptStartBeast() {
         oops.message.dispatchEvent(AccountEvent.ShowKnapsackView, true);
+        if (!this._canClick) {
+            return;
+        }
+
         const config = this._configDataList[this._index];
         if (config) {
             console.log(`领养${config.stbName}`);
-            this.btn_adopt_one.interactable = false;
+            this._canClick = false;
             smc.account.adopStartBeastNet(config.id, false, (success: boolean, msg: string) => {
-                this.btn_adopt_one.interactable = true;
+                this._canClick = true;
             });
         }
     }

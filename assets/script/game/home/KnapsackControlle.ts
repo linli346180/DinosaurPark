@@ -1,32 +1,20 @@
 
-import { _decorator, Component, Node, Prefab, instantiate, macro } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, tween, Tween, UIOpacity } from 'cc';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { ActorDragComponent } from './dragComponent';
 import { KnapsackSlot } from './KnapsackSlot';
 import { smc } from '../common/SingletonModuleComp';
 import { AccountEvent } from '../account/AccountEvent';
 import { StartBeastData } from '../account/model/AccountModelComp';
-import { STBTypeID } from '../character/STBDefine';
-import { tween } from 'cc';
-import { Tween } from 'cc';
-import { EDITOR } from 'cc/env';
-import { UIOpacity } from 'cc';
-import { Vec3 } from 'cc';
-import { easing } from 'cc';
 const { ccclass, property } = _decorator;
-
 
 @ccclass('KnapsackControlle')
 export class KnapsackControlle extends Component {
     public static instance: KnapsackControlle = null!;
-    @property(Prefab)
-    slotPrefab: Prefab = null!;
-    @property(Node)
-    dragNode: Node = null!;
-    @property(Node)
-    slotContainer: Node = null!;
-    @property(Node)
-    idleTips: Node = null!;
+    @property(Prefab) slotPrefab: Prefab = null!;
+    @property(Node) dragNode: Node = null!;
+    @property(Node) slotContainer: Node = null!;
+    @property(Node) idleTips: Node = null!;
     public SlotNodes: Node[] = [];
 
     private maxslotNum: number = 12;
@@ -36,7 +24,6 @@ export class KnapsackControlle extends Component {
     private toSTBConfigId = -1;
     private fromSlot: KnapsackSlot | null = null;
     private toSlot: KnapsackSlot | null = null;
-    private interval = 30;  // 自动领养星兽时间间隔
     private canChangeSlot: boolean = true;  // 是否可以交换星
 
     protected onLoad(): void {
@@ -69,19 +56,47 @@ export class KnapsackControlle extends Component {
         this.SlotNodes = [];
         this.slotContainer.removeAllChildren();
         for (let i = 1; i <= this.maxslotNum; i++) {
-            this.CreateSlotItem(i);
+            this.createSlotItem(i);
         }
         this.updateSlotItems();
-
-        // if (EDITOR) {
-        //     this.autoAdoptBeast();
-        // }
     }
 
     private updateSlotItems() {
         smc.account.AccountModel.getUserNinstb().forEach(element => {
             this.updateSTBItem(element);
         });
+    }
+
+    /** 创建背包槽位 */
+    createSlotItem(slotId: number) {
+        if (slotId < 1 || slotId > this.maxslotNum) {
+            console.error("背包槽索引不正确");
+            return;
+        }
+
+        let slotNode = instantiate(this.slotPrefab);
+        if (slotNode == null) {
+            console.error("slotNode is null");
+            return;
+        }
+
+        this.slotContainer.addChild(slotNode);
+        slotNode.name = "slot_" + slotId;
+        slotNode.setPosition(0, 0, 0);
+        this.SlotNodes.push(slotNode);
+
+        const slotComp = slotNode.getComponent<KnapsackSlot>(KnapsackSlot);
+        const dragComponent = slotNode.getComponentInChildren(ActorDragComponent);
+        if (!slotComp || !dragComponent) {
+            console.error("slotNode is null");
+            return;
+        }
+
+        slotComp.slotId = slotId;
+        dragComponent.slotId = slotId;
+        dragComponent.dragNode = this.dragNode;
+        dragComponent.beginDragCallBack = (slotId: number) => { this.showDragTipAnim(slotId, true); }
+        dragComponent.endDragCallBack = (slotId: number) => { this.showDragTipAnim(slotId, false); }
     }
 
     private onHandler(event: string, args: any) {
@@ -107,39 +122,6 @@ export class KnapsackControlle extends Component {
             case AccountEvent.UpdateUnIncomeSTB:
                 this.updateSlotItems();
                 break;
-        }
-    }
-
-    /**
-     * 创建一个背包槽
-     * @param slotId 从1开始的背包槽索引
-     */
-    CreateSlotItem(slotId: number) {
-        if (slotId < 1 || slotId > this.maxslotNum) {
-            console.error("背包槽索引不正确");
-            return;
-        }
-
-        let node = instantiate(this.slotPrefab);
-        this.slotContainer.addChild(node);
-        node.name = "slot_" + slotId;
-        node.setPosition(0, 0, 0);
-        this.SlotNodes.push(node);
-
-        const slotComp = node.getComponent<KnapsackSlot>(KnapsackSlot);
-        if (slotComp)
-            slotComp.slotId = slotId;
-        const dragComponent = node.getComponentInChildren(ActorDragComponent);
-        if (dragComponent) {
-            dragComponent.dragNode = this.dragNode;
-            dragComponent.slotId = slotId;
-
-            dragComponent.beginDragCallBack = (slotId: number) => {
-                this.showDragTipAnim(slotId, true);
-            }
-            dragComponent.endDragCallBack = (slotId: number) => {
-                this.showDragTipAnim(slotId, false);
-            }
         }
     }
 
@@ -186,30 +168,32 @@ export class KnapsackControlle extends Component {
 
     private showIdleTipAnim(show: boolean = true) {
         if (!show) {
-            // console.log("隐藏空闲引导");
             Tween.stopAllByTarget(this.idleTips);
             this.idleTips.active = false;
             return;
         }
 
         if (show && this.idleTips.active) {
-            // console.error("已经显示空闲引导");
             return;
         }
 
         let startNode: Node | null = null;
+        let startSlotId = -1;
         let endNode: Node | null = null;
+        let endSlotId = -1;
         for (let i = 0; i < this.slotContainer.children.length; i++) {
             const slotNode = this.slotContainer.children[i];
             const slotComp = slotNode.getComponent<KnapsackSlot>(KnapsackSlot);
             if (slotComp && !slotComp.IsSlotEmpty()) {
                 startNode = slotNode;
+                startSlotId = slotComp.slotId;
                 for (const item of this.SlotNodes) {
                     const itemComp = item.getComponent<KnapsackSlot>(KnapsackSlot);
                     if (itemComp && !itemComp.IsSlotEmpty()
                         && itemComp.STBId != slotComp.STBId
                         && itemComp.STBConfigId == slotComp.STBConfigId) {
                         endNode = item;
+                        endSlotId = itemComp.slotId;
                         break;
                     }
                 }
@@ -217,16 +201,29 @@ export class KnapsackControlle extends Component {
                     break;
             }
         }
+
         if (startNode == null || endNode == null) {
-            // console.error("无相同等级星兽");
             return;
         }
-        // console.log("显示空闲引导 起点:" + startNode.name + " 终点:" + endNode.name);
+
+        const distance = this.calculateHorizontalDistance(startSlotId, endSlotId);
         this.idleTips.active = true;
-        this.moveToDest(this.idleTips, startNode, endNode);
+        this.moveToDest(this.idleTips, startNode, endNode, distance);
     }
 
-    private moveToDest(tipsNode: Node, startNode: Node, endNode: Node) {
+    /**
+     * 计算两个槽位的水平距离
+     * @param fromSlotId - 起始槽位ID
+     * @param toSlotId - 终止槽位ID
+     * @returns 水平距离
+     */
+    calculateHorizontalDistance(fromSlotId: number, toSlotId: number): number {
+        const fromColumn = (fromSlotId - 1) % 4;
+        const toColumn = (toSlotId - 1) % 4;
+        return Math.abs(toColumn - fromColumn);
+    }
+
+    private moveToDest(tipsNode: Node, startNode: Node, endNode: Node, duration: number = 1) {
         let uiOpacity = tipsNode.getComponent(UIOpacity);
         if (!uiOpacity) return;
         const moveAction = tween(tipsNode)
@@ -236,38 +233,12 @@ export class KnapsackControlle extends Component {
             })
             .to(0.5, {}, { onUpdate: (target, ratio) => { if (ratio != undefined) uiOpacity.opacity = 255 * ratio; } }) // 透明度增加到 255
             .delay(1)
-            .to(1.5, { worldPosition: endNode.getWorldPosition() })
+            .to(duration, { worldPosition: endNode.getWorldPosition() })
             .to(0.5, {}, { onUpdate: (target, ratio) => { if (ratio != undefined) uiOpacity.opacity = 255 * (1 - ratio); } }) // 透明度减少到 0
             .delay(1);
 
-        const repeatAction = tween(tipsNode)
-            .repeatForever(moveAction)
-            .start();
+        tween(tipsNode).repeatForever(moveAction).start();
     }
-
-    /**
-     * 系统自动领养星兽
-     */
-    // private autoAdoptBeast() {
-    //     this.schedule(() => {
-    //         console.log("触发自动领养星兽");
-    //         this.AdopStartBeast(STBTypeID.STB_Gold_Level1, true)
-    //     }, this.interval, macro.REPEAT_FOREVER, this.interval);
-    // };
-
-    /** 获取第一个空闲的背包槽 */
-    // getEmptySlot(): number {
-    //     let slotId = -1;
-    //     for (let i = 0; i < this.SlotNodes.length; i++) {
-    //         const slotNode = this.SlotNodes[i];
-    //         const slotComp = slotNode.getComponent<KnapsackSlot>(KnapsackSlot);
-    //         if (slotComp && slotComp.IsSlotEmpty()) {
-    //             slotId = slotComp.slotId;
-    //             break;
-    //         }
-    //     }
-    //     return slotId;
-    // }
 
     /**
      * 交换星兽规则:  1.两个星兽等级相同，合成后星兽等级+1 2.两个星兽等级不同，交互位置
@@ -295,10 +266,10 @@ export class KnapsackControlle extends Component {
         console.log(`开始槽位:${this.fromSlot.slotId} 星兽ID: ${this.fromSTBID} 星兽配置: ${this.fronSTBConfigId} `);
         console.log(`结束槽位:${this.toSlot.slotId} 星兽ID: ${this.toSTBID} 星兽配置: ${this.toSTBConfigId}`);
 
-        if(this.toSlot.STBConfigId == -1) {
+        if (this.toSlot.STBConfigId == -1) {
             // 交换ConfigID
             this.fromSlot.STBConfigID = this.toSTBConfigId;
-            this.toSlot.STBConfigID= this.fronSTBConfigId;
+            this.toSlot.STBConfigID = this.fronSTBConfigId;
 
             this.canChangeSlot = false;
             console.log(`目标槽位为空，直接交换 ${this.fromSTBID} ${toslotId}`);
@@ -319,7 +290,7 @@ export class KnapsackControlle extends Component {
         // 两个星兽等级不同，交互位置
         if (this.fromSlot.STBConfigId != this.toSlot.STBConfigId) {
             this.fromSlot.STBConfigID = this.toSTBConfigId;
-            this.toSlot.STBConfigID= this.fronSTBConfigId;
+            this.toSlot.STBConfigID = this.fronSTBConfigId;
             this.canChangeSlot = false;
             smc.account.changeSTBSlotIdNet(this.fromSTBID, toslotId, (success) => {
                 this.canChangeSlot = true;
@@ -339,7 +310,7 @@ export class KnapsackControlle extends Component {
                 const config = smc.account.STBConfigMode.getNextSTBConfigData(this.toSTBConfigId);
                 if (config) {
                     this.toSlot.stbData.stbConfigID = config.id;
-                } 
+                }
                 this.toSlot.InitUI(this.toSlot.stbData, false, true);
                 this.fromSlot.STBConfigID = 0;
                 this.canChangeSlot = false;
@@ -349,7 +320,7 @@ export class KnapsackControlle extends Component {
                         console.error("合成星兽失败");
                         this.recoverSlot();
                     } else {
-                        if(levelUp) {
+                        if (levelUp) {
                             smc.account.AccountModel.delUserUnIncomeSTB(this.fromSTBID);
                             smc.account.AccountModel.delUserUnIncomeSTB(this.toSTBID);
                         }
@@ -357,7 +328,7 @@ export class KnapsackControlle extends Component {
                             // A数据删除 B数据更新
                             smc.account.AccountModel.delUserUnIncomeSTB(this.fromSTBID);
                             smc.account.setUserNinstbConfig(this.toSTBID, this.toSlot.stbData.stbConfigID);
-                        } 
+                        }
                     }
                 });
             }
