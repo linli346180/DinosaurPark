@@ -88,8 +88,9 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.User]: { layer: LayerType.PopUp, prefab: "gui/setting/usercenter", mask: true },
     // [UIID.DebrisResult]: { layer: LayerType.PopUp, prefab: "gui/debris/prefab/debrisResult", mask: true },
     [UIID.STBShop]: { layer: LayerType.PopUp, prefab: "gui/shop/prefab/STBShop", mask: true },
+    [UIID.PropShop]: { layer: LayerType.PopUp, prefab: "gui/shop/prefab/propShop", mask: true },
     
-    [UIID.GemShop]: { layer: LayerType.PopUp, prefab: "gui/wallet/gemShop", mask: true },
+    [UIID.GemShop]: { layer: LayerType.PopUp, prefab: "gui/shop/prefab/gemShop", mask: true },
     [UIID.WalletPaySelect]: { layer: LayerType.PopUp, prefab: "gui/wallet/prefab/walletPaySelect", mask: true},
 
     // [UIID.STBMerge]: { layer: LayerType.Dialog, prefab: "gui/shop/prefab/STBMergeUI", mask: true },
