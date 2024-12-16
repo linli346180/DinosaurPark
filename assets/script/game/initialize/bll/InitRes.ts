@@ -39,9 +39,9 @@ export class InitResSystem extends ecs.ComblockSystem implements ecs.IEntityEnte
         /** 加载远程资源配置 */
         this.loadBundle(queue);
         // 加载自定义资源
-        this.loadCustom(queue);
+        // this.loadCustom(queue);
         // 加载多语言包加载多语言包
-        this.loadLanguage(queue);
+        // this.loadLanguage(queue);
         // 加载公共资源
         this.loadCommon(queue);
         // 加载游戏内容加载进度提示界面

@@ -46,27 +46,22 @@ export class InviteVeiw extends Component {
 
     private async getCopyLink() {
         const res = await InviteNetService.getCopyLink();
-        if (res && res.copyInviteLinkReturn.inviteLink != null) {
+        if (res?.copyInviteLinkReturn?.inviteLink) {
             this.inviteLink = res.copyInviteLinkReturn.inviteLink;
         }
     }
 
-    private initStep() { 
-        AccountNetService.getLanguageConfig('inviteFirst').then((res) => {
-            if (res && res.languageConfigArr && res.languageConfigArr.length > 0) {
-                this.step1.string = res.languageConfigArr[0].content;
-            }
-        });
-        AccountNetService.getLanguageConfig('inviteSecond，').then((res) => {
-            if (res && res.languageConfigArr && res.languageConfigArr.length > 0) {
-                this.step2.string = res.languageConfigArr[0].content;
-            }
-        });
-        AccountNetService.getLanguageConfig('inviteThird').then((res) => {
-            if (res && res.languageConfigArr && res.languageConfigArr.length > 0) {
-                this.step3.string = res.languageConfigArr[0].content;
-            }
-        });
+    private initStep() {
+        this.loadStepDescription('inviteFirst', this.step1);
+        this.loadStepDescription('inviteSecond', this.step2);
+        this.loadStepDescription('inviteThird', this.step3);
+    }
+
+    private async loadStepDescription(key: string, label: Label) {
+        const res = await AccountNetService.getLanguageConfig(key);
+        if (res?.languageConfigArr?.length > 0) {
+            label.string = res.languageConfigArr[0].description;
+        }
     }
 
     /** 初始化奖励列表 */

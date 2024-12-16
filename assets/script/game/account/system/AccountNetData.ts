@@ -63,4 +63,6 @@ export class AccountNetData extends ecs.ComblockSystem implements ecs.IEntityEnt
         oops.message.dispatchEvent(GameEvent.DataInitialized);
         entity.remove(AccountNetDataComp);
     }
+
+    
 }

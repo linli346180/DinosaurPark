@@ -26,6 +26,11 @@ import { CollectCoin } from "../collectcoin/CollectCoin";
 import { CoinNetService } from "../coin/CoinNet";
 import { smc } from "../common/SingletonModuleComp";
 import { GuideRewardInfo } from "../guide/GuideDefine";
+import { JsonUtil } from "../../../../extensions/oops-plugin-framework/assets/core/utils/JsonUtil";
+import { TableItemConfig } from "../common/table/TableItemConfig";
+import { TablePrimaryDebrisConfig } from "../common/table/TablePrimaryDebrisConfig";
+import { TableMiddleDebrisConfig } from "../common/table/TableMiddleDebrisConfig";
+import { TableSTBConfig } from "../common/table/TableSTBConfig";
 
 /** 账号模块 */
 @ecs.register('Account')
@@ -47,6 +52,15 @@ export class Account extends ecs.Entity {
     protected init() {
         this.addComponents<ecs.Comp>(AccountModelComp);
         this.addComponents<ecs.Comp>(STBConfigModeComp);
+        this.registMessage();
+    }
+
+    destroy(): void {
+        this.unRegistMessage();
+        super.destroy();
+    }
+
+    private registMessage() {
         oops.message.on(GameEvent.APPInitialized, this.onHandler, this);
         oops.message.on(GameEvent.LoginSuccess, this.onHandler, this);
         oops.message.on(GameEvent.DataInitialized, this.onHandler, this);
@@ -56,7 +70,7 @@ export class Account extends ecs.Entity {
         oops.message.on(GameEvent.WebRequestFail, this.onHandler, this);
     }
 
-    destroy(): void {
+    private unRegistMessage() {
         oops.message.off(GameEvent.APPInitialized, this.onHandler, this);
         oops.message.off(GameEvent.LoginSuccess, this.onHandler, this);
         oops.message.off(GameEvent.DataInitialized, this.onHandler, this);
@@ -64,7 +78,6 @@ export class Account extends ecs.Entity {
         oops.message.off(GameEvent.WebSocketConnected, this.onHandler, this);
         oops.message.off(GameEvent.NetConnectFail, this.onHandler, this);
         oops.message.off(GameEvent.WebRequestFail, this.onHandler, this);
-        super.destroy();
     }
 
     private async onHandler(event: string, args: any) {
@@ -79,9 +92,10 @@ export class Account extends ecs.Entity {
             case GameEvent.LoginSuccess:
                 console.log("2.登陆成功");
                 oops.storage.setUser(this.AccountModel.userData.id.toString());
+                this.loadLanguage();
+
                 // oops.audio.load();
                 this.checkRedDot();
-
                 if (await this.checkNewUserReward()) {
                     console.log("3.领取新手大礼包");
                     this.add(AccountNetDataComp);
@@ -101,8 +115,7 @@ export class Account extends ecs.Entity {
                 oops.gui.openAsync(UIID.Map);
                 await oops.gui.openAsync(UIID.Main);
 
-                // oops.gui.open(UIID.CollectCoin);
-
+                // oops.gui.open(UIID.CollectCoin)
                 tonConnect.initTonConnect();
                 this.WebSocketConnect()
                 oops.message.dispatchEvent(GameEvent.CloseLoadingUI);
@@ -121,6 +134,26 @@ export class Account extends ecs.Entity {
                 oops.gui.toast(args);
                 break
         }
+    }
+
+    /** 加载自定义内容（可选） */
+    private async loadCustom() {
+        await JsonUtil.loadAsync(TableItemConfig.TableName);
+        await JsonUtil.loadAsync(TablePrimaryDebrisConfig.TableName);
+        await JsonUtil.loadAsync(TableMiddleDebrisConfig.TableName);
+        await JsonUtil.loadAsync(TableSTBConfig.TableName);
+    }
+
+    /** 加载化语言包（可选） */
+    private loadLanguage() {
+        // 设置默认语言
+        let lan = oops.storage.getCommon("language");
+        if (lan == null || lan == "") {
+            lan = "en";
+            oops.storage.setCommon("language", lan);
+        }
+        // 加载语言包资源
+        oops.language.setLanguage(lan, this.loadCustom.bind(this));
     }
 
     private checkRedDot() {
