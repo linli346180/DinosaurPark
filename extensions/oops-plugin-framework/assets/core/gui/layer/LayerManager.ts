@@ -55,6 +55,8 @@ export interface UIConfig {
     prefab: string;
     /** 是否自动施放（默认不自动释放） */
     destroy?: boolean;
+    /** 是否预加载（默认不预加载） */
+    prelaod?: boolean;
 
     /** -----弹窗属性----- */
     /** 是否触摸非窗口区域关闭（默认关闭） */
@@ -106,7 +108,9 @@ export class LayerManager {
         console.log("预加载UI资源");
         for (const key of Object.keys(this.configs)) {
             const config: UIConfig = this.configs[parseInt(key)];
-            resLoader.preloadAsset(config.bundle, config.prefab, Prefab);
+            if (config.prelaod) { 
+                resLoader.preloadAsset(config.bundle, config.prefab, Prefab);
+            }
         }
     }
 

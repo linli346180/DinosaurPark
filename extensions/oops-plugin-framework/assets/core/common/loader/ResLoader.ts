@@ -131,13 +131,13 @@ oops.res.load("spine_path", sp.SkeletonData, (err: Error | null, sd: sp.Skeleton
             }
 
             bundle.preload(paths, type, (err) => {
-                if (err) {
-                    // console.error(`Failed to preload asset: ${paths}`, err);
-                    reject(err);
-                } else {
-                    // console.log(`Asset ${paths} preloaded successfully`);
-                    resolve(null as any); // 预加载不返回资源，load 时才会真正获取
-                }
+                // if (err) {
+                //     // console.error(`Failed to preload asset: ${paths}`, err);
+                //     // reject(err);
+                // } else {
+                //     // console.log(`Asset ${paths} preloaded successfully`);
+                //     resolve(null as any); // 预加载不返回资源，load 时才会真正获取
+                // }
             });
         });
     }
