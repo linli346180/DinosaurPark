@@ -8,50 +8,40 @@ const { ccclass, property } = _decorator;
 
 @ccclass('RewardItem')
 export class RewardItem extends Component {
-    @property(Sprite)
-    private icon: Sprite = null!;
-    @property(Label)
-    private goodName: Label = null!;
-    
+    @property(Sprite) icon: Sprite = null!;
+    @property(Label) goodName: Label = null!;
+
     private itemConfig: TableItemConfig = new TableItemConfig();
     private rewardConfig: RewardConfig = null;
 
     async initItem(rewardConfig: RewardConfig) {
         this.rewardConfig = rewardConfig;
-        let itemId = StringUtil.combineNumbers(rewardConfig.rewardType, rewardConfig.rewardGoodsID, 2);
+        const itemId = StringUtil.combineNumbers(rewardConfig.rewardType, rewardConfig.rewardGoodsID, 2);
         this.itemConfig.init(itemId);
 
-        // 加载图标
         if (this.itemConfig.icon) {
-            AtlasUtil.loadAtlasAsync(this.itemConfig.icon).then((spriteFrame) => { 
-                if(spriteFrame)
-                    this.icon.spriteFrame = spriteFrame;
-                else 
-                    console.error('加载失败:', this.itemConfig.icon);
-            });
-            // oops.res.loadAsync(this.itemConfig.icon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
-            //     this.icon.spriteFrame = spriteFrame;
-            // });
+            const spriteFrame = await AtlasUtil.loadAtlasAsync(this.itemConfig.icon);
+            if (spriteFrame) {
+                this.icon.spriteFrame = spriteFrame;
+            }
         }
-        // 显示名称
-        this.updateName();
-    }
 
-    onEnable() {
         this.updateName();
     }
 
     private updateName() {
-        if (this.rewardConfig) {
-            if (this.rewardConfig.rewardNum > 1)
-                this.goodName.string = this.rewardConfig.rewardNum.toString();
-            else {
-                const name: string[] = this.itemConfig.name.split("|");
-                this.goodName.string = `${oops.language.getLangByID(name[0])}`;
-                if (name.length > 1) {
-                    this.goodName.string = `${oops.language.getLangByID(name[0])} ${name[1]}`;
-                }
-            }
+        if (!this.rewardConfig) return;
+
+        if (this.rewardConfig.rewardNum > 1) {
+            this.goodName.string = this.rewardConfig.rewardNum.toString();
+        } else {
+            this.goodName.string = this.getFormattedName();
         }
+    }
+
+    private getFormattedName(): string {
+        const nameParts = this.itemConfig.name.split("|");
+        const baseName = oops.language.getLangByID(nameParts[0]);
+        return nameParts.length > 1 ? `${baseName} ${nameParts[1]}` : baseName;
     }
 }

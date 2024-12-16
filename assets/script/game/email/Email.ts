@@ -122,9 +122,7 @@ export class EmailView extends Component {
         const res = await EmailNetService.batchClampEmail();
         if (res) {
             this.initUI();
-            for (const type of rewardType) {
-                smc.account.OnClaimAward(type);
-            }
+            smc.account.OnClaimAward(...rewardType);
         }
 
         this.btn_onekey.interactable = true;

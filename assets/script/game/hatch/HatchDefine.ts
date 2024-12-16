@@ -2,14 +2,14 @@ import { _decorator, Component, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 // 用户孵蛋数据
-interface UserHatchData {
-    id: number;                 // 用户孵化记录ID
-    createdAt: string;          // 创建时间
-    updatedAt: string;          // 更新时间
-    userID: number;             // 用户ID
-    remainNum: number;          // 剩余孵蛋次数
-    hatchNum: number;           // 已经孵蛋次数
-}
+// interface UserHatchData {
+//     id: number;                 // 用户孵化记录ID
+//     createdAt: string;          // 创建时间
+//     updatedAt: string;          // 更新时间
+//     userID: number;             // 用户ID
+//     remainNum: number;          // 剩余孵蛋次数
+//     hatchNum: number;           // 已经孵蛋次数
+// }
 
 // 孵蛋价格配置
 export class HatchPriceConfig {
@@ -34,7 +34,7 @@ export enum CoinType {
 export interface RewardConfig {
     goodName: string;       // 奖励名称
     level: RewardLevel;     // 奖励级别(1.普通,2.中级,3.高级,4.稀有)
-    rewardType: RewardType; // 奖励类型(1.货币,2.星兽,3.星兽碎片)
+    rewardType: number; // 奖励类型(1.货币,2.星兽,3.星兽碎片)
     rewardGoodsID: number;  // 奖励物品ID
     rewardNum: number;      // 奖励数量
     standbyID: number;      // 星兽配置表ID
@@ -55,6 +55,17 @@ export enum RewardType {
     StarBeastFragment // 星兽碎片
 }
 
+/** 用户孵蛋信息 */
+export class UserHatchData {
+    guaranteedNum : number = 100; // 孵蛋保底次数
+    remainNum : number = 0; // 剩余孵蛋次数
+    hatchNum: number = 0; // 已经孵蛋次数
+    constructor() {
+        this.guaranteedNum = 100;
+        this.remainNum = 0;
+        this.hatchNum = 0;
+    }
+}
 
 export enum UserHatchEvent {
     HatchRemailChange = "HatchRemailChange", // 孵蛋次数变化

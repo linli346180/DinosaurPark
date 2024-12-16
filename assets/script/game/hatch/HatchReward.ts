@@ -1,34 +1,46 @@
-import { Button } from 'cc';
-import { Prefab } from 'cc';
-import { _decorator, Component, Node } from 'cc';
+import { Button, Prefab, _decorator, Component, Node, instantiate } from 'cc';
 import { RewardConfig } from './HatchDefine';
-import { instantiate } from 'cc';
 import { RewardItem } from './RewardItem';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
 import { smc } from '../common/SingletonModuleComp';
+import { AwardType } from '../account/AccountDefine';
 const { ccclass, property } = _decorator;
 
 @ccclass('HatchReward')
 export class HatchReward extends Component {
-    @property(Prefab)
-    itemPrefab: Prefab = null!;
-    @property(Button)
-    btn_reward: Button = null!;
-    @property(Node)
-    container: Node = null!;
-    @property(Node)
-    layoutItem: Node = null!;
-
+    @property(Prefab) itemPrefab: Prefab = null!;
+    @property(Button) btn_reward: Button = null!;
+    @property(Node) container: Node = null!;
+    @property(Node) layoutItem: Node = null!;
     private rewardData: RewardConfig[] = [];
 
     start() {
-        this.btn_reward?.node.on(Button.EventType.CLICK, this.closeUI, this);
+        this.btn_reward.node.on(Button.EventType.CLICK, this.closeUI, this);
     }
 
     closeUI() {
-        console.log("领取奖励");
-        oops.gui.remove(UIID.HatchReward, false);
+        oops.gui.remove(UIID.HatchReward, true);
+    }
+
+    InitUI(rewardList: RewardConfig[]) {
+        this.rewardData = rewardList;
+        const num = Math.ceil(this.rewardData.length / 5.0); // 添加节点数量
+        this.container.removeAllChildren();
+        for (let i = 0; i < num; i++) {
+            const layoutNode = instantiate(this.layoutItem);
+            this.container.addChild(layoutNode);
+        }
+        rewardList.forEach((reward, index) => {
+            const itemNode = instantiate(this.itemPrefab);
+            itemNode.parent = this.container.children[Math.floor(index / 5)];
+            itemNode.getComponent<RewardItem>(RewardItem)?.initItem(reward);
+        });
+
+        this.onClaim();
+    }
+
+    onClaim() {
         let rewardType: number[] = [];
         if (this.rewardData.length > 0) {
             for(const reward of this.rewardData){
@@ -36,32 +48,6 @@ export class HatchReward extends Component {
                     rewardType.push(reward.rewardType);
             }
         }
-        for(const type of rewardType){
-            smc.account.OnClaimAward(type);
-        }
-    }
-
-    // InitUI(rewardList: RewardConfig[]) {
-    //     this.rewardData = rewardList;
-    //     this.container.removeAllChildren();
-    //     rewardList.forEach(reward => {
-    //         const itemNode = instantiate(this.itemPrefab);
-    //         itemNode.parent = this.container;
-    //         itemNode.getComponent<RewardItem>(RewardItem)?.initItem(reward);
-    //     });
-    // }
-
-    InitUI(rewardList: RewardConfig[]) {
-        this.rewardData = rewardList;
-        const num =  Math.ceil(this.rewardData.length / 5.0); //添加节点数量
-        this.container.removeAllChildren();
-        for (let i = 0; i < num; i++) {
-            this.container.addChild(this.layoutItem);
-        }
-        rewardList.forEach((reward,index) => {
-            const itemNode = instantiate(this.itemPrefab);
-            itemNode.parent = this.container.children[Math.floor(index / 5)];
-            itemNode.getComponent<RewardItem>(RewardItem)?.initItem(reward);
-        });
+        smc.account.OnClaimAward(...rewardType);
     }
 }

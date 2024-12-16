@@ -91,9 +91,7 @@ export class TaskItem extends Component {
                             rewardType.push(reward.awardType);
                     }
                 }
-                for(const type of rewardType){
-                    smc.account.OnClaimAward(type);
-                }
+                smc.account.OnClaimAward(...type);
             }
         });
     }

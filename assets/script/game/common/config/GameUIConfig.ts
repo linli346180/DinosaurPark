@@ -65,7 +65,7 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.Wait]: { layer: LayerType.Notify, prefab: "common/prefab/wait" },
 
     // 游戏主界面
-    [UIID.Map]: { layer: LayerType.Game, prefab: "gui/map/prefab/map" },
+    [UIID.Map]: { layer: LayerType.UI, prefab: "gui/map/prefab/map" },
     [UIID.Main]: { layer: LayerType.UI, prefab: "gui/game/prefab/home" },
     [UIID.Email]: { layer: LayerType.UI, prefab: "gui/email/prefab/emailUI", mask: true },
     [UIID.RankUI]: { layer: LayerType.UI, prefab: "gui/rank/prefab/ranklUI", mask: true },
@@ -94,9 +94,9 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.WalletPaySelect]: { layer: LayerType.PopUp, prefab: "gui/wallet/prefab/walletPaySelect", mask: true},
 
     // [UIID.STBMerge]: { layer: LayerType.Dialog, prefab: "gui/shop/prefab/STBMergeUI", mask: true },
-    [UIID.RewardView]: { layer: LayerType.Dialog, prefab: "gui/hatch/prefab/rewardPrview", mask: true },
+    // [UIID.RewardView]: { layer: LayerType.Dialog, prefab: "gui/hatch/prefab/rewardPrview", mask: true },
     [UIID.HatchShop]: { layer: LayerType.Dialog, prefab: "gui/hatch/prefab/hatchShop", mask: true, vacancy: true },
-    [UIID.HatchReward]: { layer: LayerType.Dialog, prefab: "gui/hatch/prefab/hatchReward", mask: true },
+    // [UIID.HatchReward]: { layer: LayerType.Dialog, prefab: "gui/hatch/prefab/hatchReward", mask: true },
     [UIID.EmailDetail]: { layer: LayerType.Dialog, prefab: "gui/email/prefab/emailDetailUI", mask: true },
 
     [UIID.EmailVerify]: { layer: LayerType.Dialog, prefab: "gui/setting/emailVerify", mask: true },

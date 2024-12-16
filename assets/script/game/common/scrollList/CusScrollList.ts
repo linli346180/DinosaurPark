@@ -75,7 +75,7 @@ export class CusScrollList extends ScrollView {
 
         //可视范围，对应可以创建多少个实体单例item
         this._numItem = Math.floor(_showSize / this._itemSize) + 2;
-        log(_showSize, "初始化获得数量：", this._numItem)
+        // log(_showSize, "初始化获得数量：", this._numItem)
         if (this._dataArr.length < this._numItem) {
             this._numItem = this._dataArr.length;
         }
@@ -111,7 +111,7 @@ export class CusScrollList extends ScrollView {
         }
 
         this._itemIndex = this._dataIndex = this._itemArr.length - 1;
-        log("初始化结束：", this._dataIndex, this._itemArr.length)
+        // log("初始化结束：", this._dataIndex, this._itemArr.length)
     }
 
     private scrollCheck() {

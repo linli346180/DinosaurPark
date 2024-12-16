@@ -84,9 +84,7 @@ export class EmailDetail extends Component {
                         rewardType.push(reward.awardType);
                 }
             }
-            for (const type of rewardType) {
-                smc.account.OnClaimAward(type);
-            }
+            smc.account.OnClaimAward(...rewardType);
         }
         this.btn_unclaimed.interactable = true;
     }

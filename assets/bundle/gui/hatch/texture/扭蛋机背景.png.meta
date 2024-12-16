@@ -2,7 +2,7 @@
   "ver": "1.0.27",
   "importer": "image",
   "imported": true,
-  "uuid": "61154e7c-66b9-4f9c-912c-3b3b819baf9c",
+  "uuid": "388337f2-d102-4775-88ee-e5ca7cdbc726",
   "files": [
     ".json",
     ".png"
@@ -10,8 +10,8 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "61154e7c-66b9-4f9c-912c-3b3b819baf9c@6c48a",
-      "displayName": "宝石",
+      "uuid": "388337f2-d102-4775-88ee-e5ca7cdbc726@6c48a",
+      "displayName": "扭蛋机背景",
       "id": "6c48a",
       "name": "texture",
       "userData": {
@@ -22,7 +22,7 @@
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "61154e7c-66b9-4f9c-912c-3b3b819baf9c",
+        "imageUuidOrDatabaseUri": "388337f2-d102-4775-88ee-e5ca7cdbc726",
         "visible": false
       },
       "ver": "1.0.22",
@@ -34,8 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "61154e7c-66b9-4f9c-912c-3b3b819baf9c@f9941",
-      "displayName": "宝石",
+      "uuid": "388337f2-d102-4775-88ee-e5ca7cdbc726@f9941",
+      "displayName": "扭蛋机背景",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -43,13 +43,13 @@
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
-        "offsetY": 0.5,
-        "trimX": 3,
-        "trimY": 2,
-        "width": 74,
-        "height": 75,
-        "rawWidth": 80,
-        "rawHeight": 80,
+        "offsetY": 0,
+        "trimX": 0,
+        "trimY": 0,
+        "width": 1109,
+        "height": 1523,
+        "rawWidth": 1109,
+        "rawHeight": 1523,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
@@ -61,17 +61,17 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-            -37,
-            -37.5,
+            -554.5,
+            -761.5,
             0,
-            37,
-            -37.5,
+            554.5,
+            -761.5,
             0,
-            -37,
-            37.5,
+            -554.5,
+            761.5,
             0,
-            37,
-            37.5,
+            554.5,
+            761.5,
             0
           ],
           "indexes": [
@@ -83,38 +83,38 @@
             3
           ],
           "uv": [
-            3,
-            78,
-            77,
-            78,
-            3,
-            3,
-            77,
-            3
+            0,
+            1523,
+            1109,
+            1523,
+            0,
+            0,
+            1109,
+            0
           ],
           "nuv": [
-            0.0375,
-            0.0375,
-            0.9625,
-            0.0375,
-            0.0375,
-            0.975,
-            0.9625,
-            0.975
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            1,
+            1
           ],
           "minPos": [
-            -37,
-            -37.5,
+            -554.5,
+            -761.5,
             0
           ],
           "maxPos": [
-            37,
-            37.5,
+            554.5,
+            761.5,
             0
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "61154e7c-66b9-4f9c-912c-3b3b819baf9c@6c48a",
+        "imageUuidOrDatabaseUri": "388337f2-d102-4775-88ee-e5ca7cdbc726@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.12",
@@ -129,6 +129,6 @@
     "hasAlpha": true,
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": false,
-    "redirect": "61154e7c-66b9-4f9c-912c-3b3b819baf9c@6c48a"
+    "redirect": "388337f2-d102-4775-88ee-e5ca7cdbc726@6c48a"
   }
 }

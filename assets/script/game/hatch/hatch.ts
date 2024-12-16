@@ -2,88 +2,43 @@ import { _decorator, Component, Node, Animation, Button, Label } from 'cc';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
 import { HatchNetService } from './HatchNet';
-import { UserHatchData } from './HatchData';
 import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
 import { HatchReward } from './HatchReward';
-import { RewardConfig, UserHatchEvent } from './HatchDefine';
-import { NetErrorCode } from '../../net/custom/NetErrorCode';
-import { VideoPlayer } from 'cc';
-import { tween } from 'cc';
-import { UIOpacity } from 'cc';
+import { RewardConfig, UserHatchData, UserHatchEvent } from './HatchDefine';
 import { ProgressBar } from 'cc';
 import { smc } from '../common/SingletonModuleComp';
 const { ccclass, property } = _decorator;
 
-/** 孵蛋视图(抽奖) */
 @ccclass('HatchView')
 export class HatchView extends Component {
-    @property(Button)
-    private btn_close: Button = null!;
-    @property(Button)
-    private  btn_RewardView: Button = null!;
-    @property(Button)
-    private  btn_HatchOneTime: Button = null!;
-    @property(Button)
-    private btn_HatchTenTimes: Button = null!;
-    // @property(Button)
-    // private btn_BuyHatchTime: Button = null!;
-    @property(Button)
-    private btn_AddGems: Button = null!;
-    // @property(Label)
-    // private label_remainNum: Label = null!;
-    // @property(Label)
-    // private label_hatchNum: Label = null!;
-    // @property(Label)
-    // private label_guaranteedNum: Label = null!;
-    @property(Label)
-    private label_coinNum: Label = null!;
-    @property(Label)
-    private label_gemsNum: Label = null!;
-    @property(ProgressBar)
-    private progress: ProgressBar = null!;
-    @property(Animation)
-    private anim: Animation = null!;
-
-    // 抽奖视频
-    // @property(VideoPlayer)
-    // private videoPlayer: VideoPlayer = null!;
-    // @property(Node)
-    // private videoMask: Node = null!;
-
+    @property(Button) btn_close: Button = null!;
+    @property(Button) btn_RewardView: Button = null!;
+    @property(Button) btn_HatchOneTime: Button = null!;
+    @property(Button) btn_HatchTenTimes: Button = null!;
+    @property(Button) btn_AddGems: Button = null!;
+    @property(Label) label_coinNum: Label = null!;
+    @property(Label) label_gemsNum: Label = null!;
+    @property(ProgressBar) progress: ProgressBar = null!;
+    @property(Animation) anim: Animation = null!;
     private _userData: UserHatchData = new UserHatchData();
     private userHatchResult: RewardConfig[] = [];
-    private hatchPrice:number;
+    private hatchPrice: number;
 
     onEnable() {
-        //this.getHatchMinNum();
-        //this.getUserHatchNum();
         this.getHatchBaseInfo();
         this.updateDataDisplay();
     }
 
     start() {
-        this.btn_close?.node.on(Button.EventType.CLICK, () => oops.gui.remove(UIID.Hatch, false), this);
-        this.btn_RewardView?.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.EvolveTips) }, this);//RewardView
+        this.btn_close?.node.on(Button.EventType.CLICK, this.onClose, this);
+        this.btn_RewardView?.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.EvolveTips) }, this);
         this.btn_HatchOneTime?.node.on(Button.EventType.CLICK, () => { this.userHatch(1) }, this);
         this.btn_HatchTenTimes?.node.on(Button.EventType.CLICK, () => { this.userHatch(10) }, this);
-        //this.btn_BuyHatchTime?.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.HatchShop) }, this);
         this.btn_AddGems?.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.GemShop) }, this);
-        oops.message.on(UserHatchEvent.HatchRemailChange, this.onHandler, this);
     }
 
-    onDestroy() {
-        oops.message.off(UserHatchEvent.HatchRemailChange, this.onHandler, this);
-    }
-
-    /* 获取孵蛋保底次数*/
-    private async getHatchMinNum() {
-        const res = await HatchNetService.getHatchBaseInfo();
-        if (res && res.hatchTotal != null) {
-            this._userData.guaranteedNum = res.hatchTotal;
-            let desc = oops.language.getLangByID("hatch_tips_reward_eachhatchcount");
-            desc = desc.replace("{count}", this._userData.guaranteedNum.toString());
-            //this.label_guaranteedNum.string = desc;
-        }
+    onClose() {
+        oops.gui.remove(UIID.Hatch, false)
     }
 
     /* 获取用户孵化次数 */
@@ -105,16 +60,6 @@ export class HatchView extends Component {
         }
     }
 
-    private onHandler(event: string, args: any) {
-        switch (event) {
-            // 孵蛋次数变化
-            case UserHatchEvent.HatchRemailChange:
-                this._userData.remainNum = args;
-                //this.label_remainNum.string = this._userData.remainNum.toString();
-                break;
-        }
-    }
-
     /* 更新显示 */
     private updateDataDisplay() {
         this.progress.progress = this._userData.hatchNum / this._userData.guaranteedNum;
@@ -123,7 +68,7 @@ export class HatchView extends Component {
     }
 
     private async userHatch(num: number) {
-        if (smc.account.AccountModel.CoinData.gemsCoin < num*this.hatchPrice) {
+        if (smc.account.AccountModel.CoinData.gemsCoin < num * this.hatchPrice) {
             oops.gui.open(UIID.GemShop)
             return
         }
@@ -157,6 +102,5 @@ export class HatchView extends Component {
 
         this.getUserHatchNum();
         this.updateDataDisplay();
-        oops.message.dispatchEvent(UserHatchEvent.HatchMessageChange);
     }
 }

@@ -190,15 +190,17 @@ export class Account extends ecs.Entity {
     }
 
     /** 领取奖励 */
-    public OnClaimAward(awardType: AwardType) {
-        switch (awardType) {
-            case AwardType.Coin:
-                this.updateCoinData();
-                break;
-            case AwardType.StarBeast:
-                this.updateInstbData();
-                break;
-        }
+    public OnClaimAward(...awardTypes: number[]) {
+        awardTypes.forEach(awardType => {
+            switch (awardType) {
+                case AwardType.Coin:
+                    this.updateCoinData();
+                    break;
+                case AwardType.StarBeast:
+                    this.updateInstbData();
+                    break;
+            }
+        });
     }
 
     async updateCoinData(callback: Function = null): Promise<void> {
@@ -261,7 +263,7 @@ export class Account extends ecs.Entity {
                 this.AccountModel.setUserNinstb(res.userInstbData.UserNinstb);
                 oops.message.dispatchEvent(AccountEvent.UpdateUnIncomeSTB);
             }
-            
+
             if (callback) callback();
         }
     }
@@ -559,7 +561,7 @@ export class Account extends ecs.Entity {
                 }
             }
         });
-    
+
         this.AccountModel.getUserInstb().forEach((element) => {
             const config = this.getSTBConfigById(element.stbConfigID);
             if (config) {
