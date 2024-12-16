@@ -157,6 +157,6 @@ export class HatchView extends Component {
 
         this.getUserHatchNum();
         this.updateDataDisplay();
-
+        oops.message.dispatchEvent(UserHatchEvent.HatchMessageChange);
     }
 }

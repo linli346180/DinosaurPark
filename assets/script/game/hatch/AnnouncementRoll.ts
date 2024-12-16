@@ -4,6 +4,8 @@ import { instantiate } from 'cc';
 import { Prefab } from 'cc';
 import { _decorator, Component, Node } from 'cc';
 import { HatchNetService } from './HatchNet';
+import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
+import { UserHatchEvent } from './HatchDefine';
 const { ccclass, property } = _decorator;
 
 @ccclass('AnnouncementRoll')
@@ -23,6 +25,11 @@ export class AnnouncementRoll extends Component {
     private hatchRecords: string[] = [];
     start() {
         this.createItem();
+        oops.message.on(UserHatchEvent.HatchMessageChange, this.updateItem, this);
+    }
+
+    onDestroy() {
+        oops.message.off(UserHatchEvent.HatchMessageChange, this.updateItem, this);
     }
 
     /**获得数据后开始创建*/
@@ -46,6 +53,30 @@ export class AnnouncementRoll extends Component {
             labelComponent.string = this.hatchRecords[index];
             pNode.parent = this.itemContainer;
             pNode.setPosition(0, (-index) * this.itemSize, 0);
+        }
+    }
+
+    /**更新item数据*/
+    private async updateItem() {
+        const res = await HatchNetService.getHatchBaseInfo();
+        if (res && res.hatchRecords != null) {
+            this.hatchRecords = res.hatchRecords;
+        }
+        if(this.hatchRecords.length > this.itemContainer.children.length&&this.hatchRecords.length<this.itemNum){
+            this.itemContainer.removeAllChildren();
+            this.itemNum = this.hatchRecords.length;
+            for (let index = 0; index < this.itemNum; index++) {
+                let pNode = instantiate(this.itemPrefab);
+                let labelComponent = pNode.getComponent(Label);
+                labelComponent.string = this.hatchRecords[index];
+                pNode.parent = this.itemContainer;
+                pNode.setPosition(0, (-index) * this.itemSize, 0);
+            }
+        }else{
+            for (let index = 0; index < this.itemContainer.children.length; index++) {
+            let labelComponent = this.itemContainer.children[index].getComponent(Label);
+            labelComponent.string = this.hatchRecords[index];
+            }
         }
     }
 

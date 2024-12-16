@@ -58,4 +58,5 @@ export enum RewardType {
 
 export enum UserHatchEvent {
     HatchRemailChange = "HatchRemailChange", // 孵蛋次数变化
+    HatchMessageChange = "HatchMessageChange", // 孵蛋信息变化
 }
