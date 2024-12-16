@@ -276,7 +276,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "shopBg",
+    "_name": "propBg",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -412,7 +412,7 @@
     "__prefab": {
       "__id__": 18
     },
-    "_alignFlags": 45,
+    "_alignFlags": 21,
     "_target": null,
     "_left": 0,
     "_right": 0,
