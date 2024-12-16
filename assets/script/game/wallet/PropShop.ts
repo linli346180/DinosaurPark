@@ -72,18 +72,18 @@ export class PropShop extends Component {
     }
 
     private async onItemClicked(configId: number) {
-        var uic: UICallbacks = {
-            onAdded: (node: Node, params: any) => {
-                node.getComponent(WalletPaySelect)?.initConfig(configId);
-                oops.gui.remove(UIID.PropShop, false);
-            },
-            onRemoved: (node: Node | null, params: any) => {
-                oops.gui.open(UIID.PropShop);
-            }
-        };
-        let uiArgs: any;
-        oops.gui.open(UIID.WalletPaySelect, uiArgs, uic);
-        return;
+        // var uic: UICallbacks = {
+        //     onAdded: (node: Node, params: any) => {
+        //         node.getComponent(WalletPaySelect)?.initConfig(configId);
+        //         oops.gui.remove(UIID.PropShop, false);
+        //     },
+        //     onRemoved: (node: Node | null, params: any) => {
+        //         oops.gui.open(UIID.PropShop);
+        //     }
+        // };
+        // let uiArgs: any;
+        // oops.gui.open(UIID.WalletPaySelect, uiArgs, uic);
+        // return;
     }
 
     private updateUI() {

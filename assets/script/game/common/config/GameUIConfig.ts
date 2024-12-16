@@ -29,7 +29,7 @@ export enum UIID {
 
     Revive,         // 复活
     DebrisResult,   // 碎片拼图结果
-    Hatch,          // 孵化
+    Hatch,          // 扭蛋机
     RewardView,     // 奖励界面
     HatchShop,      // 孵化次数商店
     HatchReward,    // 孵化奖励
@@ -67,44 +67,52 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     // 游戏主界面
     [UIID.Map]: { layer: LayerType.UI, prefab: "gui/map/prefab/map" },
     [UIID.Main]: { layer: LayerType.UI, prefab: "gui/game/prefab/home" },
-    [UIID.Email]: { layer: LayerType.UI, prefab: "gui/email/prefab/emailUI", mask: true },
-    [UIID.RankUI]: { layer: LayerType.UI, prefab: "gui/rank/prefab/ranklUI", mask: true },
-    // [UIID.Revive]: { layer: LayerType.UI, prefab: "gui/debris/prefab/debrisUI", mask: true },
-    [UIID.Hatch]: { layer: LayerType.UI, prefab: "gui/hatch/prefab/hatch", mask: true },
+    [UIID.Task]: { layer: LayerType.UI, prefab: "gui/task/prefab/task" },
+    [UIID.CollectCoin]: { layer: LayerType.PopUp, prefab: "gui/collectcoin/prefab/collectcoin", mask: true, prelaod: true },
+    [UIID.Accelerate]: { layer: LayerType.PopUp, prefab: "gui/accelerate/prefab/accelerate", mask: true, prelaod: true },
+
+    // 个人中心
+    [UIID.User]: { layer: LayerType.PopUp, prefab: "gui/setting/usercenter", mask: true, prelaod: true },
+    [UIID.EmailVerify]: { layer: LayerType.Dialog, prefab: "gui/setting/emailVerify", mask: true, prelaod: true },
+    [UIID.LanguageUI]: { layer: LayerType.Dialog, prefab: "gui/setting/languageView", mask: true, vacancy: true, prelaod: true },
+    [UIID.Keyboard]: { layer: LayerType.System, prefab: "gui/keyboard/Keyboard", mask: true, vacancy: true, prelaod: true },
+
+    // 邮件
+    [UIID.Email]: { layer: LayerType.UI, prefab: "gui/email/prefab/emailUI", prelaod: true },
+    [UIID.EmailDetail]: { layer: LayerType.PopUp, prefab: "gui/email/prefab/emailDetailUI", mask: true, prelaod: true },
+
+    // 抽奖
+    [UIID.Hatch]: { layer: LayerType.UI, prefab: "gui/hatch/prefab/hatch", prelaod: true },
+    [UIID.HatchReward]: { layer: LayerType.PopUp, prefab: "gui/hatch/prefab/hatchReward", mask: true, prelaod: true },
+
+    // 进化
+    [UIID.Evolve]: { layer: LayerType.UI, prefab: "gui/evolve/evolveUI", prelaod: true },
+    [UIID.EvolveTips]: { layer: LayerType.UI, prefab: "gui/evolve/evolveTipsUI", mask: true },
+    [UIID.EvolveResult]: { layer: LayerType.PopUp, prefab: "gui/evolve/evolveResult", mask: true },
+
+    // 排行榜
+    [UIID.RankUI]: { layer: LayerType.UI, prefab: "gui/rank/prefab/ranklUI", mask: true, prelaod: true },
+
+    // USDT提现
+    [UIID.Wallet]: { layer: LayerType.UI, prefab: "gui/wallet/walletUI", prelaod: true },
+    [UIID.WalletDetail]: { layer: LayerType.UI, prefab: "gui/wallet/walletDetailUI", prelaod: true },
+    [UIID.WalletPaySelect]: { layer: LayerType.PopUp, prefab: "gui/wallet/prefab/walletPaySelect", mask: true, prelaod: true },
+
+    // USDT活动
     [UIID.Activity]: { layer: LayerType.UI, prefab: "gui/activity/activityUI", mask: true },
-    [UIID.Evolve]: { layer: LayerType.UI, prefab: "gui/evolve/evolveUI", mask: true},
-    [UIID.EvolveTips]: { layer: LayerType.UI, prefab: "gui/evolve/evolveTipsUI", mask: true},
-    [UIID.EvolveResult]: { layer: LayerType.PopUp, prefab: "gui/evolve/evolveResult", mask: true},
 
-    [UIID.Wallet]: { layer: LayerType.UI, prefab: "gui/wallet/walletUI", mask: true },
-    [UIID.WalletDetail]: { layer: LayerType.UI, prefab: "gui/wallet/walletDetailUI", mask: true },
+    // 新手奖励
+    [UIID.GuideChannel]: { layer: LayerType.UI, prefab: "gui/guide/guideUI", mask: true, prelaod: true },
+    [UIID.GuideReward]: { layer: LayerType.PopUp, prefab: "gui/guide/guideReward", mask: true, prelaod: true },
 
-    [UIID.GuideChannel]: { layer: LayerType.PopUp, prefab: "gui/guide/guideUI", mask: true },
-    [UIID.Book]: { layer: LayerType.PopUp, prefab: "gui/book/prefab/stbReportUI", mask: true, vacancy: true },
+    // 图鉴
+    [UIID.Book]: { layer: LayerType.PopUp, prefab: "gui/book/prefab/stbReportUI", mask: true, vacancy: true, prelaod: true },
     [UIID.STBDetail]: { layer: LayerType.Dialog, prefab: "gui/book/prefab/stbDetail", mask: true, vacancy: true },
 
-    [UIID.Task]: { layer: LayerType.UI, prefab: "gui/task/prefab/task" },
+    // 邀请
     [UIID.Invite]: { layer: LayerType.UI, prefab: "gui/invite/prefab/invite" },
-    [UIID.User]: { layer: LayerType.PopUp, prefab: "gui/setting/usercenter", mask: true },
-    // [UIID.DebrisResult]: { layer: LayerType.PopUp, prefab: "gui/debris/prefab/debrisResult", mask: true },
-    [UIID.STBShop]: { layer: LayerType.PopUp, prefab: "gui/shop/prefab/STBShop", mask: true },
+
+    // 商店
     [UIID.PropShop]: { layer: LayerType.PopUp, prefab: "gui/shop/prefab/propShop", mask: true },
-    
     [UIID.GemShop]: { layer: LayerType.PopUp, prefab: "gui/shop/prefab/gemShop", mask: true },
-    [UIID.WalletPaySelect]: { layer: LayerType.PopUp, prefab: "gui/wallet/prefab/walletPaySelect", mask: true},
-
-    // [UIID.STBMerge]: { layer: LayerType.Dialog, prefab: "gui/shop/prefab/STBMergeUI", mask: true },
-    // [UIID.RewardView]: { layer: LayerType.Dialog, prefab: "gui/hatch/prefab/rewardPrview", mask: true },
-    [UIID.HatchShop]: { layer: LayerType.Dialog, prefab: "gui/hatch/prefab/hatchShop", mask: true, vacancy: true },
-    // [UIID.HatchReward]: { layer: LayerType.Dialog, prefab: "gui/hatch/prefab/hatchReward", mask: true },
-    [UIID.EmailDetail]: { layer: LayerType.Dialog, prefab: "gui/email/prefab/emailDetailUI", mask: true },
-
-    [UIID.EmailVerify]: { layer: LayerType.Dialog, prefab: "gui/setting/emailVerify", mask: true },
-    [UIID.GuideReward]: { layer: LayerType.PopUp, prefab: "gui/guide/guideReward", mask: true },
-    [UIID.LanguageUI]: { layer: LayerType.Dialog, prefab: "gui/setting/languageView", mask: true, vacancy: true },
-    [UIID.Keyboard]: { layer: LayerType.System, prefab: "gui/keyboard/Keyboard", mask: true, vacancy: true},
-    [UIID.CollectCoin]: { layer: LayerType.PopUp, prefab: "gui/collectcoin/prefab/collectcoin", mask: true }, 
-
-
-    [UIID.Accelerate]: { layer: LayerType.PopUp, prefab: "gui/accelerate/prefab/accelerate", mask: true },
 }

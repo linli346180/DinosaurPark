@@ -61,7 +61,7 @@ export class HomeView extends Component {
             [UIID.Task]: this.btn_task,
             [UIID.RankUI]: this.btn_rank,
             [UIID.Book]: this.btn_book,
-            [UIID.STBShop]: this.btn_store,
+            [UIID.PropShop]: this.btn_store,
             [UIID.Hatch]: this.btn_hatch,
             [UIID.Invite]: this.btn_invite,
             [UIID.Activity]: this.btn_activity,

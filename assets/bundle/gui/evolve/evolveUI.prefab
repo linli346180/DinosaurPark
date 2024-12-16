@@ -8621,7 +8621,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "5474ff06-4c0d-4349-bcbc-d05668893b12@f9941",
+      "__uuid__": "60a31e2a-7269-4c82-9613-71913c053356@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 1,
@@ -8829,8 +8829,6 @@
       "__id__": 0
     },
     "fileId": "59tOQtqLtFIrWdtaRQwykF",
-    "instance": null,
-    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
@@ -13034,7 +13032,7 @@
       "__uuid__": "fc6816c2-060d-411f-9395-993d0b3150f8@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "_type": 0,
+    "_type": 1,
     "_fillType": 0,
     "_sizeMode": 0,
     "_fillCenter": {

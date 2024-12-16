@@ -2,7 +2,7 @@
   "ver": "1.0.27",
   "importer": "image",
   "imported": true,
-  "uuid": "bdd20d6b-d591-46a1-949e-0a4d52c49413",
+  "uuid": "fc6816c2-060d-411f-9395-993d0b3150f8",
   "files": [
     ".json",
     ".png"
@@ -10,8 +10,8 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "bdd20d6b-d591-46a1-949e-0a4d52c49413@6c48a",
-      "displayName": "收集金币按钮",
+      "uuid": "fc6816c2-060d-411f-9395-993d0b3150f8@6c48a",
+      "displayName": "通用底板",
       "id": "6c48a",
       "name": "texture",
       "userData": {
@@ -22,7 +22,7 @@
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "bdd20d6b-d591-46a1-949e-0a4d52c49413",
+        "imageUuidOrDatabaseUri": "fc6816c2-060d-411f-9395-993d0b3150f8",
         "visible": false
       },
       "ver": "1.0.22",
@@ -34,8 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "bdd20d6b-d591-46a1-949e-0a4d52c49413@f9941",
-      "displayName": "收集金币按钮",
+      "uuid": "fc6816c2-060d-411f-9395-993d0b3150f8@f9941",
+      "displayName": "通用底板",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -44,16 +44,16 @@
         "rotated": false,
         "offsetX": 0,
         "offsetY": 0,
-        "trimX": 1,
+        "trimX": 0,
         "trimY": 0,
-        "width": 377,
-        "height": 149,
-        "rawWidth": 379,
-        "rawHeight": 149,
-        "borderTop": 0,
-        "borderBottom": 0,
-        "borderLeft": 0,
-        "borderRight": 0,
+        "width": 745,
+        "height": 1115,
+        "rawWidth": 745,
+        "rawHeight": 1115,
+        "borderTop": 109,
+        "borderBottom": 24,
+        "borderLeft": 59,
+        "borderRight": 56,
         "packable": true,
         "pixelsToUnit": 100,
         "pivotX": 0.5,
@@ -61,17 +61,17 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-            -188.5,
-            -74.5,
+            -372.5,
+            -557.5,
             0,
-            188.5,
-            -74.5,
+            372.5,
+            -557.5,
             0,
-            -188.5,
-            74.5,
+            -372.5,
+            557.5,
             0,
-            188.5,
-            74.5,
+            372.5,
+            557.5,
             0
           ],
           "indexes": [
@@ -83,38 +83,38 @@
             3
           ],
           "uv": [
-            1,
-            149,
-            378,
-            149,
-            1,
             0,
-            378,
+            1115,
+            745,
+            1115,
+            0,
+            0,
+            745,
             0
           ],
           "nuv": [
-            0.002638522427440633,
             0,
-            0.9973614775725593,
             0,
-            0.002638522427440633,
             1,
-            0.9973614775725593,
+            0,
+            0,
+            1,
+            1,
             1
           ],
           "minPos": [
-            -188.5,
-            -74.5,
+            -372.5,
+            -557.5,
             0
           ],
           "maxPos": [
-            188.5,
-            74.5,
+            372.5,
+            557.5,
             0
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "bdd20d6b-d591-46a1-949e-0a4d52c49413@6c48a",
+        "imageUuidOrDatabaseUri": "fc6816c2-060d-411f-9395-993d0b3150f8@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.12",
@@ -129,6 +129,6 @@
     "hasAlpha": true,
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": false,
-    "redirect": "bdd20d6b-d591-46a1-949e-0a4d52c49413@6c48a"
+    "redirect": "fc6816c2-060d-411f-9395-993d0b3150f8@6c48a"
   }
 }
