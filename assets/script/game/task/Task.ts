@@ -18,10 +18,6 @@ export class TaskView extends Component {
     toggleContainer: Node = null!;
     @property(Button)
     btn_close: Button = null!;
-    @property(Button)
-    btn_left: Button = null!;
-    @property(Button)
-    btn_right: Button = null!;
     @property(Node)
     emptyNode: Node = null!;
 
@@ -39,8 +35,6 @@ export class TaskView extends Component {
 
     start() {
         this.btn_close?.node.on(Button.EventType.CLICK, () => { oops.gui.remove(UIID.Task, false) }, this);
-        this.btn_left.node.on(Button.EventType.CLICK, () => { this.changeTaskGroup(-1) }, this);
-        this.btn_right.node.on(Button.EventType.CLICK, () => { this.changeTaskGroup(1) }, this);
         oops.message.on(TaskEvent.TaskClaimed, this.onHandler, this);
         oops.message.on(TaskEvent.TaskUpdate, this.onHandler, this);
     }
@@ -74,7 +68,6 @@ export class TaskView extends Component {
             }
         }
         this.emptyNode.active = taskCount == 0;
-        // this.updateTaskVisibility(this.taskGroup[this.curGroupIndex]);
     }
 
     crteateTaskItem(taskData: TaskData) {
@@ -85,11 +78,10 @@ export class TaskView extends Component {
         }
     }
 
-    private changeTaskGroup(direction: number) {
-        const taskGroupKeys = Object.keys(this.taskGroup).map(Number);
-        const currentIndex = taskGroupKeys.indexOf(this.curGroupIndex);
-        const nextIndex = (currentIndex + direction + taskGroupKeys.length) % taskGroupKeys.length;
-        this.curGroupIndex = taskGroupKeys[nextIndex];
-        // this.updateTaskVisibility(this.taskGroup[this.curGroupIndex]);
-    }
+    // private changeTaskGroup(direction: number) {
+    //     const taskGroupKeys = Object.keys(this.taskGroup).map(Number);
+    //     const currentIndex = taskGroupKeys.indexOf(this.curGroupIndex);
+    //     const nextIndex = (currentIndex + direction + taskGroupKeys.length) % taskGroupKeys.length;
+    //     this.curGroupIndex = taskGroupKeys[nextIndex];
+    // }
 }
