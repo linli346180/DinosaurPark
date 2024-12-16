@@ -359,6 +359,23 @@ export namespace AccountNetService {
         }
     }
 
+    /** 获取系统配置*/
+    export async function getLanguageConfig(typeKey: string) {
+        const http = new HttpManager();
+        http.server = netConfig.Server;
+        http.token = netConfig.Token;
+        http.timeout = netConfig.Timeout;
+
+        const response = await http.getUrl(`tgapp/api/language/getConfigList?token=${netConfig.Token}&typeKey=${typeKey}&languageKey=${oops.language.current}`);
+        if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
+            console.warn(`获取系统配置:`, response.res);
+            return response.res;
+        } else {
+            console.error("获取系统配置异常", response);
+            return null;
+        }
+    }
+
     // /** 购买宝石配置 */
     export async function getBugGemConfig() {
         const http = createHttpManager();
@@ -372,7 +389,7 @@ export namespace AccountNetService {
         }
     }
 
-     /** 获取用户星兽价格 */
+    /** 获取用户星兽价格 */
     export async function getUserPrize() {
         const http = createHttpManager();
         const response = await http.getUrl(`tgapp/api/user/prize?token=${netConfig.Token}`);

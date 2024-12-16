@@ -4,6 +4,7 @@ export interface InviteData {
     inviteeUserName: string;
     avatarUrl: string;
     inviteeUserInviteNum: number;
+    successInvite: number;      //是否已经成功邀请：1-否 2-是
 }
 
 // 邀请奖励配置

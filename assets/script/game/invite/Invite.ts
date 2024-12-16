@@ -1,46 +1,38 @@
-import { _decorator, Component, Node, Button, Prefab, Sprite, Texture2D, ImageAsset, SpriteFrame, instantiate, assetManager } from 'cc';
+import { _decorator, Component, Node, Button, Prefab, Sprite, Texture2D, ImageAsset, SpriteFrame, instantiate, Label } from 'cc';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
 import { InviteNetService } from './InviteNet';
-import { InviteItemView } from './InviteItemView';
 import { InviteRewardItem } from './InviteRewardItem';
-import { InviteRewardConfig } from './InviteData';
-import { Label } from 'cc';
+import { InviteData, InviteRewardConfig } from './InviteData';
 import { StringUtil } from '../common/utils/StringUtil';
-import qr from 'qrcode-generator';
+import { CusScrollList } from '../common/scrollList/CusScrollList';
+import { AccountNetService } from '../account/AccountNet';
 
 const { ccclass, property } = _decorator;
 
 /** 邀请界面 */
 @ccclass('InviteVeiw')
 export class InviteVeiw extends Component {
-    @property(Prefab)
-    private inviteItem: Prefab = null!;
-    @property(Button)
-    private btn_close: Button = null!;
-    @property(Button)
-    private btn_invite: Button = null!;
-    @property(Button)
-    private btn_copy: Button = null!;
-    @property(Node)
-    private inviteContent: Node = null!;
-    @property(Node)
-    private nofriend: Node = null!;
-    @property(Sprite)
-    private icon: Sprite = null!;
-    @property(Node)
-    private rewardContainer: Node = null!;
-    @property(Prefab)
-    private rewardItem: Prefab = null!;
-    @property(Label)
-    private inviteNum: Label = null!;
+    @property(Button) btn_close: Button = null!;
+    @property(Button) btn_invite: Button = null!;
+    @property(Button) btn_copy: Button = null!;
+    @property(Node) inviteContent: Node = null!;
+    @property(Node) nofriend: Node = null!;
+    @property(Node) rewardContainer: Node = null!;
+    @property(Prefab) rewardItem: Prefab = null!;
+    @property(Label) inviteNum: Label = null!;
+    @property(Label) step1: Label = null!;
+    @property(Label) step2: Label = null!;
+    @property(Label) step3: Label = null!;
+    @property({ type: CusScrollList }) scrollList: CusScrollList;
     private inviteLink: string = "";
 
     onLoad() {
-        this.btn_close?.node.on(Button.EventType.CLICK, () => { oops.gui.remove(UIID.Invite, false) }, this);
+        this.btn_close?.node.on(Button.EventType.CLICK, this.onClose, this);
         this.btn_invite?.node.on(Button.EventType.CLICK, this.openInviteLink, this);
         this.btn_copy?.node.on(Button.EventType.CLICK, this.copyInviteLink, this);
-        this.initQRCode();
+        this.getCopyLink();
+        this.initStep();
     }
 
     onEnable() {
@@ -48,12 +40,33 @@ export class InviteVeiw extends Component {
         this.initInviteList();
     }
 
-    private async initQRCode() {
+    onClose() {
+        oops.gui.remove(UIID.Invite, false);
+    }
+
+    private async getCopyLink() {
         const res = await InviteNetService.getCopyLink();
         if (res && res.copyInviteLinkReturn.inviteLink != null) {
             this.inviteLink = res.copyInviteLinkReturn.inviteLink;
-            this.generateQRCode(this.inviteLink);
         }
+    }
+
+    private initStep() { 
+        AccountNetService.getLanguageConfig('inviteFirst').then((res) => {
+            if (res && res.languageConfigArr && res.languageConfigArr.length > 0) {
+                this.step1.string = res.languageConfigArr[0].content;
+            }
+        });
+        AccountNetService.getLanguageConfig('inviteSecond，').then((res) => {
+            if (res && res.languageConfigArr && res.languageConfigArr.length > 0) {
+                this.step2.string = res.languageConfigArr[0].content;
+            }
+        });
+        AccountNetService.getLanguageConfig('inviteThird').then((res) => {
+            if (res && res.languageConfigArr && res.languageConfigArr.length > 0) {
+                this.step3.string = res.languageConfigArr[0].content;
+            }
+        });
     }
 
     /** 初始化奖励列表 */
@@ -89,33 +102,20 @@ export class InviteVeiw extends Component {
     /** 初始化邀请列表 */
     private async initInviteList() {
         this.inviteContent.removeAllChildren();
-        try {
-            const res = await InviteNetService.getInviteList();
-            if (res && res.inviteList != null) {
-                this.nofriend.active = res.inviteList.length == 0;
-                for (const item of res.inviteList) {
-                    const itemNode = instantiate(this.inviteItem);
-                    if (itemNode) {
-                        itemNode.setParent(this.inviteContent);
-                        itemNode.getComponent(InviteItemView)?.initItem(item.inviteeUserName, item.avatarUrl, item.successInvite);
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("Failed to initialize invite list:", error);
+        const res = await InviteNetService.getInviteList();
+        if (res && res.inviteList != null) {
+            this.nofriend.active = res.inviteList.length == 0;
+            let inviteList: InviteData[] = res.inviteList;
+            this.scrollList.setDataList(inviteList, 2, [10, 10, 10]);
         }
     }
 
     private openInviteLink() {
-        // oops.gui.toast(oops.language.getLangByID("common_tips_Not_Enabled"));
-        // return;
         const url = `https://t.me/share/url?url=${this.inviteLink}`;
         window.open(url);
     }
 
     private copyInviteLink() {
-        // oops.gui.toast(oops.language.getLangByID("common_tips_Not_Enabled"));
-        // return;
         if (navigator.clipboard) {
             navigator.clipboard.writeText(this.inviteLink).then(() => {
                 oops.gui.toast("invite_tips_copytoclipboard", true);
@@ -125,25 +125,5 @@ export class InviteVeiw extends Component {
         } else {
             console.error("当前浏览器不支持 Clipboard API");
         }
-    }
-
-    private generateQRCode(qrCodeUrl: string) {
-        const qrCode = qr(0, 'M');
-        qrCode.addData(qrCodeUrl);
-        qrCode.make();
-        const dataURL = qrCode.createDataURL(4, 4);
-        const img = new Image();
-        img.src = dataURL;
-        assetManager.loadRemote(dataURL, { ext: '.png' }, (err, imageAsset: ImageAsset) => {
-            if (!err) {
-                const spriteFrame = new SpriteFrame();
-                const texture = new Texture2D();
-                texture.image = imageAsset;
-                spriteFrame.texture = texture;
-                this.icon.spriteFrame = spriteFrame;
-            } else {
-                console.error("Failed to load QR code image:", err);
-            }
-        });
     }
 }

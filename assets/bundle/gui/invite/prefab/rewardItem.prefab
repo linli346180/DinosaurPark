@@ -255,6 +255,8 @@
       "__id__": 0
     },
     "fileId": "53W4xDqnZAd7eTpJBHA+6R",
+    "instance": null,
+    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
@@ -296,7 +298,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": 5.798,
       "y": -25,
       "z": 0
     },
@@ -931,7 +933,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 47.7060546875,
+      "width": 65.0537109375,
       "height": 37.8
     },
     "_anchorPoint": {
@@ -970,8 +972,8 @@
     "_string": "x100",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 22,
-    "_fontSize": 22,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 30,
     "_overflow": 0,
@@ -1040,8 +1042,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 156,
-      "height": 132
+      "width": 162.6,
+      "height": 119.3
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1183,7 +1185,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -35,
+      "x": -40.658,
       "y": 0,
       "z": 0
     },
@@ -1360,7 +1362,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 47.7060546875,
+      "width": 31.6845703125,
       "height": 37.8
     },
     "_anchorPoint": {
@@ -1396,11 +1398,11 @@
       "b": 0,
       "a": 255
     },
-    "_string": "x999",
+    "_string": "x1",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 22,
-    "_fontSize": 22,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 30,
     "_overflow": 0,
@@ -1558,8 +1560,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 85,
-      "y": 87,
+      "x": 76,
+      "y": 76,
       "z": 0
     },
     "_lrot": {
@@ -1673,8 +1675,8 @@
     "_alignFlags": 33,
     "_target": null,
     "_left": 0,
-    "_right": -9,
-    "_top": -11,
+    "_right": 0,
+    "_top": 0,
     "_bottom": 0,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
@@ -2203,6 +2205,7 @@
       "__id__": 0
     },
     "fileId": "2bzMXFeF1I+oRC9MMNgddL",
+    "instance": null,
     "targetOverrides": null
   }
 ]
