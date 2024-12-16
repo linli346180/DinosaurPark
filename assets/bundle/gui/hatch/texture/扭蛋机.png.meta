@@ -2,7 +2,7 @@
   "ver": "1.0.27",
   "importer": "image",
   "imported": true,
-  "uuid": "cad25486-8e04-4643-acbb-14b3ce6173bd",
+  "uuid": "388337f2-d102-4775-88ee-e5ca7cdbc726",
   "files": [
     ".json",
     ".png"
@@ -10,8 +10,8 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "cad25486-8e04-4643-acbb-14b3ce6173bd@6c48a",
-      "displayName": "增加次数按钮",
+      "uuid": "388337f2-d102-4775-88ee-e5ca7cdbc726@6c48a",
+      "displayName": "扭蛋机",
       "id": "6c48a",
       "name": "texture",
       "userData": {
@@ -22,7 +22,7 @@
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "cad25486-8e04-4643-acbb-14b3ce6173bd",
+        "imageUuidOrDatabaseUri": "388337f2-d102-4775-88ee-e5ca7cdbc726",
         "visible": false
       },
       "ver": "1.0.22",
@@ -34,8 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "cad25486-8e04-4643-acbb-14b3ce6173bd@f9941",
-      "displayName": "增加次数按钮",
+      "uuid": "388337f2-d102-4775-88ee-e5ca7cdbc726@f9941",
+      "displayName": "扭蛋机",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -46,10 +46,10 @@
         "offsetY": 0,
         "trimX": 0,
         "trimY": 0,
-        "width": 60,
-        "height": 60,
-        "rawWidth": 60,
-        "rawHeight": 60,
+        "width": 1109,
+        "height": 1523,
+        "rawWidth": 1109,
+        "rawHeight": 1523,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
@@ -61,17 +61,17 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-            -30,
-            -30,
+            -554.5,
+            -761.5,
             0,
-            30,
-            -30,
+            554.5,
+            -761.5,
             0,
-            -30,
-            30,
+            -554.5,
+            761.5,
             0,
-            30,
-            30,
+            554.5,
+            761.5,
             0
           ],
           "indexes": [
@@ -84,12 +84,12 @@
           ],
           "uv": [
             0,
-            60,
-            60,
-            60,
+            1523,
+            1109,
+            1523,
             0,
             0,
-            60,
+            1109,
             0
           ],
           "nuv": [
@@ -103,18 +103,18 @@
             1
           ],
           "minPos": [
-            -30,
-            -30,
+            -554.5,
+            -761.5,
             0
           ],
           "maxPos": [
-            30,
-            30,
+            554.5,
+            761.5,
             0
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "cad25486-8e04-4643-acbb-14b3ce6173bd@6c48a",
+        "imageUuidOrDatabaseUri": "388337f2-d102-4775-88ee-e5ca7cdbc726@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.12",
@@ -129,6 +129,6 @@
     "hasAlpha": true,
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": false,
-    "redirect": "cad25486-8e04-4643-acbb-14b3ce6173bd@6c48a"
+    "redirect": "388337f2-d102-4775-88ee-e5ca7cdbc726@6c48a"
   }
 }

@@ -11,7 +11,7 @@
     "6c48a": {
       "importer": "texture",
       "uuid": "4b9a1295-5ab7-4f61-b423-058e890ad12b@6c48a",
-      "displayName": "图层 10",
+      "displayName": "玻璃",
       "id": "6c48a",
       "name": "texture",
       "userData": {
@@ -35,7 +35,7 @@
     "f9941": {
       "importer": "sprite-frame",
       "uuid": "4b9a1295-5ab7-4f61-b423-058e890ad12b@f9941",
-      "displayName": "图层 10",
+      "displayName": "玻璃",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
