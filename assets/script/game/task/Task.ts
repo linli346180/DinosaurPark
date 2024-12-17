@@ -3,7 +3,7 @@ import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/O
 import { UIID } from '../common/config/GameUIConfig';
 import { TaskItem } from './TaskItem';
 import { TaskNetService } from './TaskNet';
-import { TaskData, TaskEvent, TaskDataList, TaskType } from './TaskDefine';
+import { TaskData,  TaskDataList, TaskType } from './TaskDefine';
 import { TaskToggle } from './TaskToggle';
 const { ccclass, property } = _decorator;
 

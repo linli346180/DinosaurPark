@@ -4,9 +4,11 @@ import { UIID } from '../common/config/GameUIConfig';
 import { HatchNetService } from './HatchNet';
 import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
 import { HatchReward } from './HatchReward';
-import { RewardConfig, UserHatchData, UserHatchEvent } from './HatchDefine';
+import { HatchResult, UserHatchConfig } from './HatchDefine';
 import { ProgressBar } from 'cc';
 import { smc } from '../common/SingletonModuleComp';
+import { tween } from 'cc';
+import { HatchRoll } from './HatchRoll';
 const { ccclass, property } = _decorator;
 
 @ccclass('HatchView')
@@ -20,13 +22,15 @@ export class HatchView extends Component {
     @property(Label) label_gemsNum: Label = null!;
     @property(ProgressBar) progress: ProgressBar = null!;
     @property(Animation) anim: Animation = null!;
-    private _userData: UserHatchData = new UserHatchData();
-    private userHatchResult: RewardConfig[] = [];
-    private hatchPrice: number;
+    @property({ type: HatchRoll }) hatchRoll: HatchRoll = null;
+
+    private hatchConfig: UserHatchConfig = new UserHatchConfig();
+    private hatchResult: HatchResult = new HatchResult();
+    private canHatch: boolean = true;
 
     onEnable() {
+        this.canHatch = true;
         this.getHatchBaseInfo();
-        this.updateDataDisplay();
     }
 
     start() {
@@ -41,66 +45,67 @@ export class HatchView extends Component {
         oops.gui.remove(UIID.Hatch, false)
     }
 
-    /* 获取用户孵化次数 */
-    private async getUserHatchNum() {
-        const res = await HatchNetService.getHatchBaseInfo();
-        if (res && res.hatchNum != null) {
-            this._userData.hatchNum = res.hatchNum;
-        }
-    }
-
     /* 获取孵化基础数据 */
     private async getHatchBaseInfo() {
         const res = await HatchNetService.getHatchBaseInfo();
-        if (res && res.hatchNum != null && res.hatchTotal != null) {
-            this._userData.guaranteedNum = res.hatchTotal;
-            this._userData.hatchNum = res.hatchNum;
-            this.hatchPrice = res.hatchPrice;
-            this.progress.progress = this._userData.hatchNum / this._userData.guaranteedNum;
+        if (res && res.hatchInfo != null) {
+            this.hatchConfig = res.hatchInfo;
+            this.updateDataDisplay();
+            this.hatchRoll?.InitUI(this.hatchConfig.hatchRecords);
         }
     }
 
     /* 更新显示 */
     private updateDataDisplay() {
-        this.progress.progress = this._userData.hatchNum / this._userData.guaranteedNum;
         this.label_coinNum.string = `${smc.account.AccountModel.CoinData.goldCoin}`;
         this.label_gemsNum.string = `${smc.account.AccountModel.CoinData.gemsCoin}`;
+        tween(this.progress).to(0.5, { progress: (this.hatchConfig.hatchNum / this.hatchConfig.hatchTotal) }).start();
     }
 
     private async userHatch(num: number) {
-        if (smc.account.AccountModel.CoinData.gemsCoin < num * this.hatchPrice) {
+        if (!this.canHatch) {
+            return;
+        }
+
+        // 判断宝石是否足够
+        if (smc.account.AccountModel.CoinData.gemsCoin < num * this.hatchConfig.hatchPrice) {
             oops.gui.open(UIID.GemShop)
             return
         }
 
-        this.btn_HatchOneTime.interactable = false;
-        this.btn_HatchTenTimes.interactable = false;
-
-        // 绑定动画完成事件
-        this.anim.on('finished' as any, this.OnAnimFinish, this);
-        // 播放抽奖动画:
+        this.canHatch = false;
+        this.anim.once(Animation.EventType.FINISHED, this.OnAnimFinish, this);
         this.anim.play();
-
-        // 请求抽奖
+        this.hatchResult = null;
         const res = await HatchNetService.requestUserHatch(num);
         if (res && res.userHatch != null) {
-            this.userHatchResult = res.userHatch;
+            this.hatchConfig.hatchNum = res.hatchNum;
+            this.hatchResult = new HatchResult();
+            this.hatchResult.rewardList = res.userHatch;
+            this.updateDataDisplay();
+            this.claimAward();
         }
     }
 
     private OnAnimFinish() {
+        this.canHatch = true;
+        if (this.hatchResult == null) {
+            return;
+        }
         var uic: UICallbacks = {
             onAdded: (node: Node, params: any) => {
-                node.getComponent(HatchReward)?.InitUI(this.userHatchResult);
+                node.getComponent(HatchReward)?.InitUI(this.hatchResult.rewardList);
             },
         };
         let uiArgs: any;
         oops.gui.open(UIID.HatchReward, uiArgs, uic);
-
-        this.btn_HatchOneTime.interactable = true;
-        this.btn_HatchTenTimes.interactable = true;
-
-        this.getUserHatchNum();
         this.updateDataDisplay();
+    }
+
+    private claimAward() {
+        if (this.hatchResult?.rewardList?.length > 0) {
+            const rewardType = [...new Set(this.hatchResult.rewardList?.map(reward => reward.rewardType) || [])];
+            smc.account.OnClaimAward(...rewardType);
+        }
     }
 }

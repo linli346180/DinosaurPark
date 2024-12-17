@@ -1,45 +1,6 @@
 import { _decorator, Component, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
-// 用户孵蛋数据
-// interface UserHatchData {
-//     id: number;                 // 用户孵化记录ID
-//     createdAt: string;          // 创建时间
-//     updatedAt: string;          // 更新时间
-//     userID: number;             // 用户ID
-//     remainNum: number;          // 剩余孵蛋次数
-//     hatchNum: number;           // 已经孵蛋次数
-// }
-
-// 孵蛋价格配置
-export class HatchPriceConfig {
-    id: number = 0;                 // ID
-    hatchNum: number = 0;           // 购买次数
-    conCoinType: CoinType = CoinType.Gems;      // 所需货币类型(1.金币,2.宝石,3.星兽币,4.USDT)
-    purNeedCoinNum: number = 0;     // 购买价格
-    limitedNum: number = 0;         // 限购次数，当限购次数为0时，表示不限购
-    purNum:number = 0;              // 已经购买次数
-    desc: string = '';               // 描述
-}
-
-// 所需货币类型枚举
-export enum CoinType {
-    Gold = 1,       // 金币
-    Gems,           // 宝石
-    StarBeast,      // 星兽币
-    USDT            // USDT
-}
-
-// 奖励配置结构体
-export interface RewardConfig {
-    goodName: string;       // 奖励名称
-    level: RewardLevel;     // 奖励级别(1.普通,2.中级,3.高级,4.稀有)
-    rewardType: number; // 奖励类型(1.货币,2.星兽,3.星兽碎片)
-    rewardGoodsID: number;  // 奖励物品ID
-    rewardNum: number;      // 奖励数量
-    standbyID: number;      // 星兽配置表ID
-}
-
 // 奖励级别枚举
 export enum RewardLevel {
     Normal = 1,    // 普通
@@ -50,24 +11,32 @@ export enum RewardLevel {
 
 // 奖励类型枚举
 export enum RewardType {
-    Currency = 1,  // 货币
-    StarBeast,     // 星兽
-    StarBeastFragment // 星兽碎片
+    Currency = 1,       // 货币
+    StarBeast,          // 星兽
+    StarBeastFragment,  // 星兽碎片
+    Speed,              // 加速卡
 }
 
-/** 用户孵蛋信息 */
-export class UserHatchData {
-    guaranteedNum : number = 100; // 孵蛋保底次数
-    remainNum : number = 0; // 剩余孵蛋次数
-    hatchNum: number = 0; // 已经孵蛋次数
-    constructor() {
-        this.guaranteedNum = 100;
-        this.remainNum = 0;
-        this.hatchNum = 0;
-    }
+/** 孵蛋基础配置 */
+export class UserHatchConfig {
+    hatchNum: number = 0;           // 当前孵化次数
+    readonly hatchTotal : number = 100;      // 孵化总次数
+    readonly hatchPrice : number = 300;      // 孵化价格
+    readonly hatchRecords: string[] = [];    // 孵化记录
 }
 
-export enum UserHatchEvent {
-    HatchRemailChange = "HatchRemailChange", // 孵蛋次数变化
-    HatchMessageChange = "HatchMessageChange", // 孵蛋信息变化
+/** 孵蛋结果 */
+export class HatchResult {
+    hatchNum: number = 0; 
+    rewardList: RewardConfig[] = [];
+}
+
+// 奖励配置结构体
+export interface RewardConfig {
+    readonly goodName: string;          // 奖励名称
+    readonly level: number;             // 奖励级别(1.普通,2.中级,3.高级,4.稀有)
+    readonly rewardType: RewardType;    // 奖励类型(1.货币,2.星兽,3.星兽碎片)
+    readonly rewardGoodsID: number;     // 奖励物品ID
+    readonly rewardNum: number;         // 奖励数量
+    readonly standbyID?: number;         // 备用ID(碎片的主表ID)
 }

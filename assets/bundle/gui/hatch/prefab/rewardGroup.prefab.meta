@@ -2,12 +2,12 @@
   "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "ed8220a3-355b-4d03-b944-d899e1ddf682",
+  "uuid": "52249ad4-27a4-4190-9cbb-b5e38fca1b41",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "AnnouncementItem"
+    "syncNodeName": "rewardGroup"
   }
 }

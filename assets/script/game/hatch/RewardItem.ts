@@ -17,21 +17,17 @@ export class RewardItem extends Component {
     async initItem(rewardConfig: RewardConfig) {
         this.rewardConfig = rewardConfig;
         const itemId = StringUtil.combineNumbers(rewardConfig.rewardType, rewardConfig.rewardGoodsID, 2);
-        this.itemConfig.init(itemId);
-
-        if (this.itemConfig.icon) {
-            const spriteFrame = await AtlasUtil.loadAtlasAsync(this.itemConfig.icon);
-            if (spriteFrame) {
-                this.icon.spriteFrame = spriteFrame;
-            }
+        try {
+            this.itemConfig.init(itemId);
+            this.icon.spriteFrame = await AtlasUtil.loadAtlasAsync(this.itemConfig.icon);
+        } catch (error) {
+            console.error('奖励配置错误', rewardConfig);
         }
-
         this.updateName();
     }
 
     private updateName() {
         if (!this.rewardConfig) return;
-
         if (this.rewardConfig.rewardNum > 1) {
             this.goodName.string = this.rewardConfig.rewardNum.toString();
         } else {

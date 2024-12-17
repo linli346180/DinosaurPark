@@ -4,7 +4,7 @@ import { UIID } from '../common/config/GameUIConfig';
 import { AccountNetService } from '../account/AccountNet';
 import { smc } from '../common/SingletonModuleComp';
 import { AccountEvent } from '../account/AccountEvent';
-import { GemShop } from '../wallet/GemShop';
+import { GemShop } from '../shop/GemShop';
 import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
 import { tween } from 'cc';
 import { CollectInfo, offlineCoinConfig } from './CollectDefine';

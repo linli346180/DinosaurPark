@@ -4,10 +4,10 @@ import { UIID } from '../common/config/GameUIConfig';
 import { AccountNetService } from '../account/AccountNet';
 import { smc } from '../common/SingletonModuleComp';
 import { AccountEvent } from '../account/AccountEvent';
-import { BuyGemsConfig } from '../shop/MergeDefine';//要修改为道具商品信息
+import { BuyGemsConfig } from './MergeDefine';//要修改为道具商品信息
 
 import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
-import { WalletPaySelect } from './WalletPaySelect';
+import { WalletPaySelect } from '../wallet/WalletPaySelect';
 import { PropShopItem } from './PropShopItem';
 
 const { ccclass, property } = _decorator;
