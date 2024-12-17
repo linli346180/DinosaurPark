@@ -28,7 +28,7 @@ export class NetConfig {
         return this.ServerConfigList[this.curEnvironment].BotToken;
     }
 
-    private curEnvironment: EnvironmentType = EnvironmentType.PreRelease;
+    private curEnvironment: EnvironmentType = EnvironmentType.Development;
     private ServerConfigList = {
         [EnvironmentType.Development]: {
             Desc: "开发环境",

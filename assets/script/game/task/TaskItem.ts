@@ -11,24 +11,15 @@ const { ccclass, property } = _decorator;
 
 @ccclass('TaskItem')
 export class TaskItem extends Component {
-    @property(Button)
-    btn_incomplete: Button = null!;
-    @property(Button)
-    btn_available: Button = null!;
-    @property(Button)
-    btn_claimed: Button = null!;
-
-    @property(Sprite)
-    rewardIcon: Sprite = null!;
-    @property(Label)
-    title: Label = null!;
-    @property(Label)
-    rewardNum: Label = null!;
-
-    @property(Label)
-    completed: Label = null!;
-
-    taskData: TaskData = null!;
+    @property(Button) btn_incomplete: Button = null!;
+    @property(Button) btn_available: Button = null!;
+    @property(Button) btn_claimed: Button = null!;
+    @property(Label) title: Label = null!;
+    @property(Label) rewardNum: Label = null!;
+    @property(Sprite) rewardIcon: Sprite = null!;
+    @property(Label) completed: Label = null!;
+    private taskData: TaskData = null!;
+    private itemConfig = new TableItemConfig();
 
     start() {
         this.btn_incomplete?.node.on(Button.EventType.CLICK, this.closeUI, this);
@@ -39,36 +30,33 @@ export class TaskItem extends Component {
         this.taskData = taskData;
         this.title.string = taskData.taskName;
         this.completed.string = `${taskData.completedQuantity}/${taskData.requiredQuantity}`;   // 任务进度
-
-        this.btn_incomplete.node.active = this.taskData.taskState == TaskStatus.Incomplete;
-        this.btn_available.node.active = this.taskData.taskState == TaskStatus.Available;
-        this.btn_claimed.node.active = this.taskData.taskState == TaskStatus.Claimed;
+        this.initClaimButton();
 
         if (this.taskData.rewards && this.taskData.rewards.length > 0) {
             let rewardConfig = this.taskData.rewards[0];
             this.rewardIcon.spriteFrame = null!;
             this.rewardNum.string = this.taskData.rewards[0].awardQuantity.toString();
-
-            let itemConfig = new TableItemConfig();
-            let itemId = StringUtil.combineNumbers(rewardConfig.awardType, rewardConfig.awardResourceId, 2);
-            itemConfig.init(itemId);
-            if (itemConfig.icon != undefined && itemConfig.icon != null && itemConfig.icon != '') {
-                // oops.res.loadAsync(itemConfig.icon + '/spriteFrame', SpriteFrame).then((spriteFrame) => {
-                //     if (spriteFrame)
-                //         this.rewardIcon.spriteFrame = spriteFrame;
-                // });
-                AtlasUtil.loadAtlasAsync(itemConfig.icon).then((spriteFrame) => { 
-                    if(spriteFrame)
+            try {
+                const itemId = StringUtil.combineNumbers(rewardConfig.awardType, rewardConfig.awardResourceId, 2);
+                this.itemConfig.init(itemId);
+                AtlasUtil.loadAtlasAsync(this.itemConfig.icon).then((spriteFrame) => {
+                    if (spriteFrame)
                         this.rewardIcon.spriteFrame = spriteFrame;
-                    else 
-                        console.error('加载失败:', itemConfig.icon);
                 });
+            } catch (error) {
+                console.error('任务奖励配置错误', this.taskData.rewards);
             }
         } else {
             console.error('任务奖励为空');
             this.rewardIcon.spriteFrame = null!;
             this.rewardNum.string = '';
         }
+    }
+
+    private initClaimButton() {
+        this.btn_incomplete.node.active = this.taskData.taskState == TaskStatus.Incomplete;
+        this.btn_available.node.active = this.taskData.taskState == TaskStatus.Available;
+        this.btn_claimed.node.active = this.taskData.taskState == TaskStatus.Claimed;
     }
 
     closeUI() {
@@ -80,17 +68,9 @@ export class TaskItem extends Component {
         TaskNetService.claimTaskReward(this.taskData.taskCompileConditionId, this.taskData.taskProgressId).then((res) => {
             this.btn_available.interactable = true;
             if (res) {
-                oops.message.dispatchEvent(TaskEvent.TaskClaimed, this.taskData.taskId);
                 this.taskData.taskState = TaskStatus.Claimed;
-                this.initItem(this.taskData);
-
-                let rewardType: number[] = [];
-                if (this.taskData.rewards.length > 0) {
-                    for(const reward of this.taskData.rewards){
-                        if(!rewardType.includes(reward.awardType))
-                            rewardType.push(reward.awardType);
-                    }
-                }
+                this.initClaimButton();
+                const rewardType = [...new Set(this.taskData.rewards?.map(reward => reward.awardType) || [])];
                 smc.account.OnClaimAward(...rewardType);
             }
         });

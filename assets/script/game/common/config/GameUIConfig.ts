@@ -68,45 +68,45 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.Map]: { layer: LayerType.UI, prefab: "gui/map/prefab/map" },
     [UIID.Main]: { layer: LayerType.UI, prefab: "gui/game/prefab/home" },
     [UIID.Task]: { layer: LayerType.UI, prefab: "gui/task/prefab/task" },
-    [UIID.CollectCoin]: { layer: LayerType.PopUp, prefab: "gui/collectcoin/prefab/collectcoin", mask: true, prelaod: true },
-    [UIID.Accelerate]: { layer: LayerType.PopUp, prefab: "gui/accelerate/prefab/accelerate", mask: true, prelaod: true },
+    [UIID.CollectCoin]: { layer: LayerType.PopUp, prefab: "gui/collectcoin/prefab/collectcoin", mask: true, preLoad: true },
+    [UIID.Accelerate]: { layer: LayerType.PopUp, prefab: "gui/accelerate/prefab/accelerate", mask: true, preLoad: true },
 
     // 个人中心
-    [UIID.User]: { layer: LayerType.PopUp, prefab: "gui/setting/usercenter", mask: true, prelaod: true },
-    [UIID.EmailVerify]: { layer: LayerType.Dialog, prefab: "gui/setting/emailVerify", mask: true, prelaod: true },
-    [UIID.LanguageUI]: { layer: LayerType.Dialog, prefab: "gui/setting/languageView", mask: true, vacancy: true, prelaod: true },
-    [UIID.Keyboard]: { layer: LayerType.System, prefab: "gui/keyboard/Keyboard", mask: true, vacancy: true, prelaod: true },
+    [UIID.User]: { layer: LayerType.PopUp, prefab: "gui/setting/usercenter", mask: true, preLoad: true },
+    [UIID.EmailVerify]: { layer: LayerType.Dialog, prefab: "gui/setting/emailVerify", mask: true, preLoad: true },
+    [UIID.LanguageUI]: { layer: LayerType.Dialog, prefab: "gui/setting/languageView", mask: true, vacancy: true, preLoad: true },
+    [UIID.Keyboard]: { layer: LayerType.System, prefab: "gui/keyboard/Keyboard", mask: true, vacancy: true, preLoad: true },
 
     // 邮件
-    [UIID.Email]: { layer: LayerType.UI, prefab: "gui/email/prefab/emailUI", prelaod: true },
-    [UIID.EmailDetail]: { layer: LayerType.PopUp, prefab: "gui/email/prefab/emailDetailUI", mask: true, prelaod: true },
+    [UIID.Email]: { layer: LayerType.UI, prefab: "gui/email/prefab/emailUI", preLoad: true },
+    [UIID.EmailDetail]: { layer: LayerType.PopUp, prefab: "gui/email/prefab/emailDetailUI", mask: true, preLoad: true },
 
     // 抽奖
-    [UIID.Hatch]: { layer: LayerType.UI, prefab: "gui/hatch/prefab/hatch", prelaod: true },
-    [UIID.HatchReward]: { layer: LayerType.PopUp, prefab: "gui/hatch/prefab/hatchReward", mask: true, prelaod: true },
+    [UIID.Hatch]: { layer: LayerType.UI, prefab: "gui/hatch/prefab/hatch", preLoad: true },
+    [UIID.HatchReward]: { layer: LayerType.PopUp, prefab: "gui/hatch/prefab/hatchReward", mask: true, preLoad: true },
 
     // 进化
-    [UIID.Evolve]: { layer: LayerType.UI, prefab: "gui/evolve/evolveUI", prelaod: true },
+    [UIID.Evolve]: { layer: LayerType.UI, prefab: "gui/evolve/evolveUI", preLoad: true },
     [UIID.EvolveTips]: { layer: LayerType.UI, prefab: "gui/evolve/evolveTipsUI", mask: true },
     [UIID.EvolveResult]: { layer: LayerType.PopUp, prefab: "gui/evolve/evolveResult", mask: true },
 
     // 排行榜
-    [UIID.RankUI]: { layer: LayerType.UI, prefab: "gui/rank/prefab/ranklUI", mask: true, prelaod: true },
+    [UIID.RankUI]: { layer: LayerType.UI, prefab: "gui/rank/prefab/ranklUI", mask: true, preLoad: true },
 
     // USDT提现
-    [UIID.Wallet]: { layer: LayerType.UI, prefab: "gui/wallet/walletUI", prelaod: true },
-    [UIID.WalletDetail]: { layer: LayerType.UI, prefab: "gui/wallet/walletDetailUI", prelaod: true },
-    [UIID.WalletPaySelect]: { layer: LayerType.PopUp, prefab: "gui/wallet/prefab/walletPaySelect", mask: true, prelaod: true },
+    [UIID.Wallet]: { layer: LayerType.UI, prefab: "gui/wallet/walletUI", preLoad: true },
+    [UIID.WalletDetail]: { layer: LayerType.UI, prefab: "gui/wallet/walletDetailUI", preLoad: true },
+    [UIID.WalletPaySelect]: { layer: LayerType.PopUp, prefab: "gui/wallet/prefab/walletPaySelect", mask: true, preLoad: true },
 
     // USDT活动
     [UIID.Activity]: { layer: LayerType.UI, prefab: "gui/activity/activityUI", mask: true },
 
     // 新手奖励
-    [UIID.GuideChannel]: { layer: LayerType.UI, prefab: "gui/guide/guideUI", mask: true, prelaod: true },
-    [UIID.GuideReward]: { layer: LayerType.PopUp, prefab: "gui/guide/guideReward", mask: true, prelaod: true },
+    [UIID.GuideChannel]: { layer: LayerType.UI, prefab: "gui/guide/guideUI", mask: true, preLoad: true },
+    [UIID.GuideReward]: { layer: LayerType.PopUp, prefab: "gui/guide/guideReward", mask: true, preLoad: true },
 
     // 图鉴
-    [UIID.Book]: { layer: LayerType.PopUp, prefab: "gui/book/prefab/stbReportUI", mask: true, vacancy: true, prelaod: true },
+    [UIID.Book]: { layer: LayerType.PopUp, prefab: "gui/book/prefab/stbReportUI", mask: true, vacancy: true, preLoad: true },
     [UIID.STBDetail]: { layer: LayerType.Dialog, prefab: "gui/book/prefab/stbDetail", mask: true, vacancy: true },
 
     // 邀请

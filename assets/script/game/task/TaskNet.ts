@@ -9,13 +9,9 @@ export namespace TaskNetService {
     /** 获取任务数据 */
     export async function getTaskData(taskType: TaskType) {
         const http = new HttpManager();
-        http.server = netConfig.Server;
-        http.token = netConfig.Token;
-        http.timeout = netConfig.Timeout;
-
         const response = await http.getUrl(`tgapp/api/user/task/list?taskType=${taskType}&token=${netConfig.Token}`);
         if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
-            console.warn("获取任务列表:", response.res);
+            console.warn(`获取任务列表${taskType}:`, response.res);
             return response.res;
         } else {
             console.error("请求异常", response);
@@ -26,9 +22,6 @@ export namespace TaskNetService {
     /** 领取任务奖励 */
     export async function claimTaskReward(taskCompileConditionId: number, taskProgressId: number) {
         const http = new HttpManager();
-        http.server = netConfig.Server;
-        http.token = netConfig.Token;
-        http.timeout = netConfig.Timeout;
         const params = {
             'taskCompileConditionId': taskCompileConditionId.toString(),
             'taskProgressId': taskProgressId.toString()

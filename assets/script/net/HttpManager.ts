@@ -1,5 +1,6 @@
 import { oops } from "../../../extensions/oops-plugin-framework/assets/core/Oops";
 import { GameEvent } from "../game/common/config/GameEvent";
+import { netConfig } from "./custom/NetConfig";
 import { NetErrorCode } from "./custom/NetErrorCode";
 
 /** HTTP请求返回值 */
@@ -49,6 +50,13 @@ export class HttpManager {
     token: string = "";
 
     url: string = "";
+
+    constructor() {
+        this.server = netConfig.Server;
+        if(netConfig.Token != '')
+            this.token = netConfig.Token;
+        this.timeout = netConfig.Timeout;
+    }
 
     /**
     * Post请求获取文本格式数据

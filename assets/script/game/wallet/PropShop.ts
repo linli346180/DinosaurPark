@@ -17,30 +17,19 @@ const { ccclass, property } = _decorator;
 export class PropShop extends Component {
     @property(Button)
     private btn_close: Button = null!;
-    @property(Label)
-    private gemNum: Label = null!;
+
     @property({ type: Node })
     private itemContent: Node = null!;
     @property(Prefab)
     private itemPrefab: Prefab = null!;
-    @property(Button)
-    private btn_addGems: Button = null!;
+   
 
     private gemConfigs: BuyGemsConfig[] = [];
 
     onLoad() {
         this.btn_close?.node.on(Button.EventType.CLICK, () => { oops.gui.remove(UIID.PropShop, false); }, this);
-        this.btn_addGems?.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.GemShop, false); }, this);
         this.initUI();
-        oops.message.on(AccountEvent.CoinDataChange, this.updateUI, this);
-    }
-
-    protected onDestroy(): void {
-        oops.message.off(AccountEvent.CoinDataChange, this.updateUI, this);
-    }
-
-    onEnable() {
-        this.updateUI();
+     
     }
 
     /** 初始化购买选项 */
@@ -86,8 +75,5 @@ export class PropShop extends Component {
         // return;
     }
 
-    private updateUI() {
-        this.gemNum.string = Math.floor(smc.account.AccountModel.CoinData.gemsCoin).toString();
-    }
 
 }

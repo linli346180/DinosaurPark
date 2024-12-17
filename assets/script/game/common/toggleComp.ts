@@ -17,10 +17,6 @@ export class toggleComp extends Component {
             this.UnCheckLabel.node.active = false;
     }
 
-    public onClick() {
-        this.toggle.isChecked = true;
-    }
-
     public setChecked(isChecked: boolean) {
         this.toggle.isChecked = isChecked;
         if (this.UnCheckLabel)

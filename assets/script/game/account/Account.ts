@@ -92,14 +92,12 @@ export class Account extends ecs.Entity {
             case GameEvent.LoginSuccess:
                 console.log("2.登陆成功");
                 oops.storage.setUser(this.AccountModel.userData.id.toString());
-                this.loadLanguage(async ()=>{
-                    this.checkRedDot();
-                    if (await this.checkNewUserReward()) {
-                        console.log("3.领取新手大礼包");
-                        this.add(AccountNetDataComp);
-                        smc.guide.isFinish = true;
-                    }
-                });
+                this.checkRedDot();
+                if (await this.checkNewUserReward()) {
+                    console.log("3.领取新手大礼包");
+                    this.add(AccountNetDataComp);
+                    smc.guide.isFinish = true;
+                }
                 break;
 
             // 3. 新手教程完成
@@ -111,7 +109,9 @@ export class Account extends ecs.Entity {
             // 4. 数据初始化完成
             case GameEvent.DataInitialized:
                 console.log("4.数据初始化完成");
-                oops.gui.openAsync(UIID.Map);
+
+                await this.loadCustom();
+                await oops.gui.openAsync(UIID.Map);
                 await oops.gui.openAsync(UIID.Main);
 
                 // oops.gui.open(UIID.CollectCoin)
@@ -141,21 +141,6 @@ export class Account extends ecs.Entity {
         await JsonUtil.loadAsync(TablePrimaryDebrisConfig.TableName);
         await JsonUtil.loadAsync(TableMiddleDebrisConfig.TableName);
         await JsonUtil.loadAsync(TableSTBConfig.TableName);
-    }
-
-    /** 加载化语言包（可选） */
-    private loadLanguage(callback: Function = null) {
-        // 设置默认语言
-        let lan = oops.storage.getCommon("language");
-        if (lan == null || lan == "") {
-            lan = "en";
-            oops.storage.setCommon("language", lan);
-        }
-        // 加载语言包资源
-        oops.language.setLanguage(lan, async ()=> {
-            await this.loadCustom();
-            callback && callback();
-        });
     }
 
     private checkRedDot() {

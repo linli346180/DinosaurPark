@@ -1,32 +1,28 @@
-import { _decorator, Component, Label, Toggle, Enum } from 'cc';
-import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
-import { TaskEvent, TaskType } from './TaskDefine';
-import { Sprite } from 'cc';
+import { _decorator, Component, Node, Toggle, Enum } from 'cc';
+import { CCInteger } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('TaskToggle')
 export class TaskToggle extends Component {
-    @property({ type: Enum(TaskType) })
-    taskType: TaskType = TaskType.daily;
-
-    private toggle: Toggle = null!;
-    private UnCheckLabel: Sprite = null!;
+    @property({ type: CCInteger }) index: number = 0;
+    @property(Toggle) toggle: Toggle = null!;
+    @property(Node) unCheckNode: Node = null!;
+    public onToggleSelected: (index: number) => void = () => { };
 
     start() {
-        this.toggle = this.node.getComponent(Toggle)!;
-        this.UnCheckLabel = this.node.getChildByName("UnCheckLabel")?.getComponent(Sprite)!;
-        this.toggle?.node.on(Toggle.EventType.TOGGLE, this.onToggle, this);
+        this.toggle.node.on(Toggle.EventType.TOGGLE, this.onToggle, this);
+        this.unCheckNode.active = !this.toggle.isChecked;
+    }
 
-        if (this.toggle.isChecked)
-            this.UnCheckLabel.node.active = false;
+    public setChecked(isChecked: boolean) {
+        this.toggle.isChecked = isChecked;
+        this.unCheckNode.active = !isChecked;
     }
 
     private onToggle(toggle: Toggle) {
-        if (toggle.isChecked) {
-            oops.message.dispatchEvent(TaskEvent.TaskUpdate, this.taskType);
-            this.UnCheckLabel.node.active = false;
-        } else {
-            this.UnCheckLabel.node.active = true;
+        if (toggle.isChecked && this.onToggleSelected) {
+            this.onToggleSelected(this.index);
         }
+        this.unCheckNode.active = !toggle.isChecked;
     }
 }
