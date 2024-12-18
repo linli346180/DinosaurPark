@@ -69,7 +69,7 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.Main]: { layer: LayerType.UI, prefab: "gui/game/prefab/home" },
     [UIID.Task]: { layer: LayerType.UI, prefab: "gui/task/prefab/task" },
     [UIID.CollectCoin]: { layer: LayerType.PopUp, prefab: "gui/collectcoin/prefab/collectcoin", mask: true, preLoad: true },
-    [UIID.Accelerate]: { layer: LayerType.PopUp, prefab: "gui/accelerate/prefab/accelerate", mask: true, preLoad: true },
+    
 
     // 个人中心
     [UIID.User]: { layer: LayerType.PopUp, prefab: "gui/setting/usercenter", mask: true, preLoad: true },
@@ -115,4 +115,5 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     // 商店
     [UIID.PropShop]: { layer: LayerType.PopUp, prefab: "gui/shop/prefab/propShop", mask: true },
     [UIID.GemShop]: { layer: LayerType.PopUp, prefab: "gui/shop/prefab/gemShop", mask: true },
+    [UIID.Accelerate]: { layer: LayerType.PopUp, prefab: "gui/shop/prefab/accelerate", mask: true, preLoad: true },
 }

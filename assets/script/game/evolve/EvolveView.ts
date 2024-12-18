@@ -17,6 +17,7 @@ import { instantiate } from 'cc';
 import { UIOpacity } from 'cc';
 import { SpriteFrame } from 'cc';
 import { Sprite } from 'cc';
+import { EvolveTipsView } from './EvolveTipsView';
 
 const { ccclass, property } = _decorator;
 
@@ -90,7 +91,13 @@ export class EvolveView extends Component {
     }
 
     private showTips() {
-        oops.gui.open(UIID.EvolveTips);
+        const uic: UICallbacks = {
+            onAdded: async (node: Node, params: any) => {
+                node.getComponent(EvolveTipsView)?.initUI('evolution');
+            }
+        };
+        const uiArgs: any = {};
+        oops.gui.open(UIID.EvolveTips, uiArgs, uic);
         this.btn_tips.getComponentInChildren(ReddotComp)?.setRead();
     }
 

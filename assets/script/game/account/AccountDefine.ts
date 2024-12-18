@@ -80,3 +80,11 @@ export interface userStbPrizeArr {
     coinType: AccountCoinType;  // 货币类型
     extraPrize: number;         // 额外奖励
 }
+
+/** 用户道具使用 */
+export class UserPropData {
+    propsId: number = 0;            // 道具ID
+    startAt: number = 0;            // 开始时间
+    endAt: number = 0;              // 结束时间
+    propMultiplier: number = 1;     // 倍率
+}

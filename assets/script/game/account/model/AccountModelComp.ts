@@ -1,5 +1,5 @@
 import { ecs } from "../../../../../extensions/oops-plugin-framework/assets/libs/ecs/ECS";
-import { AccountType, RegisterType, UserCoinData, UserCoinIncome, UserData } from "../AccountDefine";
+import { AccountType, RegisterType, UserCoinData, UserCoinIncome, UserData, UserPropData } from "../AccountDefine";
 
 /** 
  * 游戏账号数据 
@@ -9,6 +9,7 @@ export class AccountModelComp extends ecs.Comp {
     userData: UserData = new UserData(); // 用户数据
     coinPoolData: UserCoinIncome = new UserCoinIncome(); // 户货币数据(待领取)
     CoinData: UserCoinData = new UserCoinData(); // 户货币数据
+    propData: UserPropData = new UserPropData(); // 用户道具数据
     noOperationMail: boolean = false;   //是否有未读邮件：fasle-否， true-是
     noOperationTask: boolean = false;  //是否有未领取任务：fasle-否， true-是
 

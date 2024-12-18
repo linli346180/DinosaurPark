@@ -30,6 +30,7 @@ export enum AccountEvent {
     UserCollectGold = "UserCollectCoin",        // 用户收集金币
     UserBounsUSTD = "UserBounsSTD",             // USDT奖励
     CoinDataChange = "CoinDataChange",          // 用户货币数据变化
+    PropDataChange = "PropDataChange",          // 用户道具数据变化
 
     CoinExtraPrizeChange = "CoinExtraPrizeChange",  // 金币浮动价格变化
     GemExtraPrizeChange = "GemExtraPrizeChange",    // 

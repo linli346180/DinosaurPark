@@ -1,12 +1,5 @@
 import { EventTouch, _decorator, Component, Node, UITransform, Vec3, Contact2DType, Collider2D, IPhysics2DContact, PhysicsSystem2D } from 'cc';
 import { ActorController } from './state/ActorController';
-import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
-import { UIID } from '../common/config/GameUIConfig';
-import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
-import { EDITOR } from 'cc/env';
-import { STBMergeView } from '../shop/STBMerge';
-import { smc } from '../common/SingletonModuleComp';
-import { UserSTBType } from '../account/model/AccountModelComp';
 const { ccclass } = _decorator;
 
 @ccclass('ActorDrag')
@@ -38,24 +31,24 @@ export class ActorDrag extends Component {
     }
 
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        if (this.IsDragging) {
-            console.log('碰撞到了', otherCollider.node.name);
-            let stbID1 = this.actorCtrl?.stbId ?? 0;
-            let stbID2 = otherCollider.node.getComponent(ActorController)?.stbId ?? 0;
-            if (stbID1 === 0 || stbID2 === 0 || !smc.account.getUserSTBData(stbID2, UserSTBType.InCome)) return;
+        // if (this.IsDragging) {
+        //     console.log('碰撞到了', otherCollider.node.name);
+        //     let stbID1 = this.actorCtrl?.stbId ?? 0;
+        //     let stbID2 = otherCollider.node.getComponent(ActorController)?.stbId ?? 0;
+        //     if (stbID1 === 0 || stbID2 === 0 || !smc.account.getUserSTBData(stbID2, UserSTBType.InCome)) return;
 
-            var uic: UICallbacks = {
-              onAdded: (node: Node, params: any) => {
-                const component = node.getComponent(STBMergeView);
-                if (component) {
-                  component.InitUI(stbID1, stbID2);
-                }
-              },
-            };
-            let uiArgs: any;
-            oops.gui.open(UIID.STBMerge, uiArgs, uic);
-            this.onNodeTouchEnd();
-        }
+        //     var uic: UICallbacks = {
+        //       onAdded: (node: Node, params: any) => {
+        //         const component = node.getComponent(STBMergeView);
+        //         if (component) {
+        //           component.InitUI(stbID1, stbID2);
+        //         }
+        //       },
+        //     };
+        //     let uiArgs: any;
+        //     oops.gui.open(UIID.STBMerge, uiArgs, uic);
+        //     this.onNodeTouchEnd();
+        // }
       // this.actorCtrl?.setWaitState();
     }
 

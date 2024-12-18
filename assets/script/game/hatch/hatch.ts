@@ -9,6 +9,7 @@ import { ProgressBar } from 'cc';
 import { smc } from '../common/SingletonModuleComp';
 import { tween } from 'cc';
 import { HatchRoll } from './HatchRoll';
+import { EvolveTipsView } from '../evolve/EvolveTipsView';
 const { ccclass, property } = _decorator;
 
 @ccclass('HatchView')
@@ -26,16 +27,22 @@ export class HatchView extends Component {
 
     private hatchConfig: UserHatchConfig = new UserHatchConfig();
     private hatchResult: HatchResult = new HatchResult();
-    private canHatch: boolean = true;
+    private get canHatch(): boolean {
+        const defaultClip = this.anim.defaultClip;
+        if (defaultClip) {
+            const state = this.anim.getState(defaultClip.name);
+            return !state.isPlaying;
+        }
+        return true;
+    }
 
     onEnable() {
-        this.canHatch = true;
         this.getHatchBaseInfo();
     }
 
     start() {
         this.btn_close?.node.on(Button.EventType.CLICK, this.onClose, this);
-        this.btn_RewardView?.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.EvolveTips) }, this);
+        this.btn_RewardView?.node.on(Button.EventType.CLICK, this.showTips, this);
         this.btn_HatchOneTime?.node.on(Button.EventType.CLICK, () => { this.userHatch(1) }, this);
         this.btn_HatchTenTimes?.node.on(Button.EventType.CLICK, () => { this.userHatch(10) }, this);
         this.btn_AddGems?.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.GemShop) }, this);
@@ -43,6 +50,16 @@ export class HatchView extends Component {
 
     onClose() {
         oops.gui.remove(UIID.Hatch, false)
+    }
+
+    private showTips() {
+        const uic: UICallbacks = {
+            onAdded: async (node: Node, params: any) => {
+                node.getComponent(EvolveTipsView)?.initUI('incubation');
+            }
+        };
+        const uiArgs: any = {};
+        oops.gui.open(UIID.EvolveTips, uiArgs, uic);
     }
 
     /* 获取孵化基础数据 */
@@ -73,7 +90,6 @@ export class HatchView extends Component {
             return
         }
 
-        this.canHatch = false;
         this.anim.once(Animation.EventType.FINISHED, this.OnAnimFinish, this);
         this.anim.play();
         this.hatchResult = null;
@@ -82,13 +98,11 @@ export class HatchView extends Component {
             this.hatchConfig.hatchNum = res.hatchNum;
             this.hatchResult = new HatchResult();
             this.hatchResult.rewardList = res.userHatch;
-            this.updateDataDisplay();
             this.claimAward();
         }
     }
 
     private OnAnimFinish() {
-        this.canHatch = true;
         if (this.hatchResult == null) {
             return;
         }
