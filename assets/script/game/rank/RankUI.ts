@@ -154,7 +154,7 @@ export class RankView extends Component {
                 this.container.addChild(itemNode);
             }
         });
-
+        this.selfRankItem.initItem(this.rankData.userRank, this.curRankGroup, this.curSTBRankType);
         this.emptyNode.active = this.rankData.rankList.length === 0;
     }
 
