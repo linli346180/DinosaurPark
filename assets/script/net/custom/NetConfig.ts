@@ -60,7 +60,7 @@ export class NetConfig {
     public API: string = "/tgapp/api";
     public VERSION: string = "/v1";
     public PATH: string = "/login";
-    public Account: string = "account";
+    public Account: string = "yyt";
     public Password: string = "123456";
     public Timeout: number = 10000;
     public Token: string = "";
