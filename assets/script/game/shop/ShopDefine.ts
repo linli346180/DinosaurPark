@@ -30,7 +30,7 @@ export interface PropConfig {
 
 /** 免费道具配置 */
 export interface FreePropsData {
-    readonly id: number;                  // 道具id 当id=0 的时候表示当前免费道具在今天已用过
+    id: number;                  // 道具id 当id=0 的时候表示当前免费道具在今天已用过
     readonly propName: string;            // 道具名称
     readonly propIcon: string;            // 道具图标
     readonly propType: number;            // 道具类型

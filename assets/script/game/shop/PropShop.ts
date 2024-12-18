@@ -28,7 +28,7 @@ export class PropShop extends Component {
     private async initUI() {
         this.propConfig = [];
         this.itemContent.removeAllChildren();
-        const res = await ShopNetService.getPropsData();
+        const res = await ShopNetService.getPropsShopData();
         if (res && res.props) {
             this.propConfig = res.props;
             this.propConfig.sort((a, b) => a.id - b.id);

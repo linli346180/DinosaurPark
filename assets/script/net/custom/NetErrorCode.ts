@@ -29,7 +29,8 @@ export enum NetCmd {
     NinstbDeathType     = 111, // 无收益星兽死亡
     IncomeStbDeathType  = 112, // 收益星兽死亡
     UserBounsType       = 114, // USDT奖励
-    OfflineIncomeType   = 115, // 收取星币
+    OfflineIncomeType   = 115, // 推送离线星币收益
+    UserPropChanged     = 117, // 推送道具使用变更
     HeartBeatType       = 150, // 心跳
     DownLineType        = 151, // 下线通知
 }

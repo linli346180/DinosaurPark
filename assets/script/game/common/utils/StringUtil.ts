@@ -72,7 +72,19 @@ export class StringUtil {
         const sign = timezoneOffset >= 0 ? "+" : "-";
         const absOffset = Math.abs(timezoneOffset);
         const timezone = `${sign}${pad(Math.floor(absOffset / 60))}${pad(absOffset % 60)}`;
-      
+
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}${timezone}`;
-      }
+    }
+
+     /**
+     * 将秒数转换为 00:00:00 格式的字符串
+     * @param seconds 总秒数
+     * @returns 格式化后的字符串
+     */
+     static formatExpireTime(seconds: number): string {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    }
 }

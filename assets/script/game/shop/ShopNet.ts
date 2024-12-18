@@ -3,8 +3,22 @@ import { netConfig } from "../../net/custom/NetConfig";
 import { NetErrorCode } from "../../net/custom/NetErrorCode";
 
 export namespace ShopNetService {
+
+    /** 获取当前加速道具 */
+    export async function getUserPropsData() {
+        const http = new HttpManager();
+        const response = await http.getUrl(`tgapp/api/props/getUserProps?token=${netConfig.Token}`);
+        if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
+            console.warn("获取当前加速道具:", response.res);
+            return response.res;
+        } else {
+            console.error("获取当前加速道具异常", response);
+            return null;
+        }
+    }
+
     /** 获取道具商店道具 */
-    export async function getPropsData() {
+    export async function getPropsShopData() {
         const http = new HttpManager();
         const response = await http.getUrl(`tgapp/api/props/getProps?token=${netConfig.Token}`);
         if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
@@ -41,4 +55,6 @@ export namespace ShopNetService {
             return null;
         }
     }
+
+    
 }

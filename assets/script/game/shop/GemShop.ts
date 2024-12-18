@@ -5,10 +5,10 @@ import { AccountNetService } from '../account/AccountNet';
 import { smc } from '../common/SingletonModuleComp';
 import { AccountEvent } from '../account/AccountEvent';
 import { GemShopItem } from './GemShopItem';
-import { BuyGemsConfig } from './MergeDefine';
 
 import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
 import { WalletPaySelect } from '../wallet/WalletPaySelect';
+import { BuyGemsConfig } from './ShopDefine';
 
 const { ccclass, property } = _decorator;
 

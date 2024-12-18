@@ -62,10 +62,11 @@ export enum RegisterType {
 }
 
 export enum AwardType {
-    Unknow = 0,         // 未知
-    Coin = 1,           // 货币
-    StarBeast = 2,      // 星兽
-    StarBeastDebris = 3 // 星兽碎片
+    Unknow = 0,             // 未知
+    Coin = 1,               // 货币
+    StarBeast = 2,          // 星兽
+    StarBeastDebris = 3,    // 星兽碎片
+    Prop = 5                // 道具
 }
 
 export class MergeRespose {
@@ -83,8 +84,8 @@ export interface userStbPrizeArr {
 
 /** 用户道具使用 */
 export class UserPropData {
-    propsId: number = 0;            // 道具ID
-    startAt: number = 0;            // 开始时间
-    endAt: number = 0;              // 结束时间
-    propMultiplier: number = 1;     // 倍率
+    readonly propsId: number = 0;            // 道具ID
+    readonly startAt: number = 0;            // 开始时间
+    readonly endAt: number = 0;              // 结束时间
+    readonly propMultiplier: number = 1;     // 倍率
 }

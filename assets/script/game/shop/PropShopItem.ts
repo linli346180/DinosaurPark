@@ -37,32 +37,20 @@ export class PropShopItem extends Component {
         } catch (error) {
             console.error('道具配置错误', itemId);
         }
-        this.duration.string = this.formatExpireTime(60);
+        this.duration.string = StringUtil.formatExpireTime(60);
         this.amount.string = `${config.amount}`;
     }
 
     private async buyProps() {
         // 判断宝石是否足够
-        if (smc.account.AccountModel.CoinData.gemsCoin < parseInt(this.config.amount) ) {
+        if (smc.account.AccountModel.CoinData.gemsCoin < parseInt(this.config.amount)) {
             oops.gui.open(UIID.GemShop)
             return
         }
         const res = await ShopNetService.useProps(this.config.id);
-        if (res) {
+        if (res && res.props) {
             oops.gui.toast('使用道具成功');
             smc.account.updateCoinData();
         }
-    }
-
-    /**
-     * 将秒数转换为 00:00:00 格式的字符串
-     * @param seconds 总秒数
-     * @returns 格式化后的字符串
-     */
-    formatExpireTime(seconds: number): string {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const remainingSeconds = seconds % 60;
-        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     }
 }

@@ -4,11 +4,8 @@ import { AccountModelComp, StartBeastData } from '../model/AccountModelComp';
 import { Account } from '../Account';
 import { oops } from '../../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { AccountNetService } from '../AccountNet';
-import { TGNetService } from '../../../telegram/TGNet';
 import { GameEvent } from '../../common/config/GameEvent';
-import { EDITOR } from 'cc/env';
-import { sys } from 'cc';
-import { userStbPrizeArr } from '../AccountDefine';
+import { ShopNetService } from '../../shop/ShopNet';
 
 
 /** 请求玩家游戏数据 */
@@ -60,6 +57,13 @@ export class AccountNetData extends ecs.ComblockSystem implements ecs.IEntityEnt
                 entity.AccountModel.setUserNinstb(res.userInstbData.UserNinstb);
             }
         }
+
+        // 获取用户道具数据
+        const propDataRes = await ShopNetService.getUserPropsData();
+        if (propDataRes && propDataRes.props) {
+            entity.AccountModel.propData = propDataRes.props;
+        }
+
         oops.message.dispatchEvent(GameEvent.DataInitialized);
         entity.remove(AccountNetDataComp);
     }

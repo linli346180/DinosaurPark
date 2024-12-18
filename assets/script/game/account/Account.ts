@@ -13,7 +13,7 @@ import { NetCmd, NetErrorCode } from "../../net/custom/NetErrorCode";
 import { tips } from "../common/tips/TipsManager";
 import { netConfig } from "../../net/custom/NetConfig";
 import { StringUtil } from "../common/utils/StringUtil";
-import { AccountCoinType, AwardType } from "./AccountDefine";
+import { AccountCoinType, AwardType, UserPropData } from "./AccountDefine";
 import { AccountLoginComp } from "./system/AccountLogin";
 import { netChannel } from "../../net/custom/NetChannelManager";
 import { tonConnect } from "../wallet/TonConnect";
@@ -31,6 +31,7 @@ import { TableItemConfig } from "../common/table/TableItemConfig";
 import { TablePrimaryDebrisConfig } from "../common/table/TablePrimaryDebrisConfig";
 import { TableMiddleDebrisConfig } from "../common/table/TableMiddleDebrisConfig";
 import { TableSTBConfig } from "../common/table/TableSTBConfig";
+import { ShopNetService } from "../shop/ShopNet";
 
 /** 账号模块 */
 @ecs.register('Account')
@@ -232,6 +233,22 @@ export class Account extends ecs.Entity {
         }
     }
 
+    async updatePropData(propData: UserPropData = null) {
+        if (!propData) {
+            const propDataRes = await ShopNetService.getUserPropsData();
+            if (propDataRes && propDataRes.props) {
+                propData = propDataRes.props;
+            }
+        }
+
+        if (!propData) {
+            console.error("获取用户道具数据失败");
+        }
+
+        this.AccountModel.propData = propData;
+        oops.message.dispatchEvent(AccountEvent.PropDataChange);
+    }
+
     //更新购买星兽的金币数量
     async updatePurConCoinNum(coinType: number, stbConfigID: number, extraPrize: number) {
         for (let i = 0; i < this.STBConfigMode.instbConfigData.length; i++) {
@@ -340,7 +357,8 @@ export class Account extends ecs.Entity {
             NetCmd.WithDrawalType,
             NetCmd.StbGurideType,
             NetCmd.UserBounsType,
-            NetCmd.OfflineIncomeType
+            NetCmd.OfflineIncomeType,
+            NetCmd.UserPropChanged
         ];
 
         if (connect) {
@@ -382,6 +400,11 @@ export class Account extends ecs.Entity {
             case NetCmd.UserIncomeType:
                 console.warn("新增收益星兽:", data.id);
                 this.updateInstbData();
+                break;
+
+            case NetCmd.UserPropChanged:
+                console.warn("道具变更:", data);
+                this.updatePropData();
                 break;
 
             case NetCmd.UserCoinType:

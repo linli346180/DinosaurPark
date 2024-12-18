@@ -16,43 +16,41 @@ export class UserIncomeView extends Component {
     @property(Label) gold_speed: Label = null!;
     @property(Label) accelerate_num: Label = null!;
     @property(Button) accelerate_btn: Button = null!;
-
     private readonly maxIncomeNum = 10;     // 最大收益数
     private goldConfig: UserInstbConfigData = null;
-    private accelerate: number = 1;
 
     start() {
-        coinPoolVM.Init();
         this.initUI();
         this.accelerate_btn.node.on(Button.EventType.CLICK, this.onAccelerate, this);
         oops.message.on(AccountEvent.AddInComeSTB, this.onHandler, this);
         oops.message.on(AccountEvent.DelIncomeSTB, this.onHandler, this);
+        oops.message.on(AccountEvent.PropDataChange, this.onHandler, this);
     }
 
     onDestroy() {
         oops.message.off(AccountEvent.AddInComeSTB, this.onHandler, this);
         oops.message.off(AccountEvent.DelIncomeSTB, this.onHandler, this);
+        oops.message.off(AccountEvent.PropDataChange, this.onHandler, this);
     }
 
     onHandler(event: string, args: any) {
         switch (event) {
             case AccountEvent.AddInComeSTB:
             case AccountEvent.DelIncomeSTB:
+            case AccountEvent.PropDataChange:
                 this.initUI();
                 break;
         }
     }
 
     initUI() {
-        this.goldConfig = smc.account.getSTBConfigByType(STBConfigType.STB_Gold_Level10);
-        const stbNum = smc.account.getUserInstbCount(this.goldConfig.id);
-        const incomeNum = Math.min(stbNum, this.maxIncomeNum);
-        this.gold_num.string = `{${incomeNum}/${stbNum}}`;
+        // 星兽数量
+        const stbNum = smc.account.getSTBDataByConfigType(STBConfigType.STB_Gold_Level10).length;
+        this.gold_num.string = `(${coinPoolVM.GoldInComeNum}/${stbNum})`;
 
-        const goldSpeed = incomeNum * this.goldConfig.incomeNumMin / this.goldConfig.incomeCycle * this.accelerate;
-        this.gold_speed.string = `${goldSpeed.toFixed(0)}/s`;
-
-        this.accelerate_num.string = `x${this.accelerate}`;
+        // 星兽收益速度
+        this.gold_speed.string = `${coinPoolVM.GoldSpeed.toFixed(1)}/s`;
+        this.accelerate_num.string = `x${smc.account.AccountModel.propData.propMultiplier}`;
     }
 
     onAccelerate() {

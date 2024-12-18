@@ -408,23 +408,17 @@ export namespace AccountNetService {
             console.error("服务器时间为空");
             return;
         }
-
         // 将服务器时间字符串转换为 Date 对象
         const serverTime = new Date(timestamp * 1000);
         if (isNaN(serverTime.getTime())) {
             console.error("无效的服务器时间格式:", timestamp);
             return;
         }
-
         // 计算时间差，单位为毫秒
         const localTime = new Date();
         netConfig.timeDifference = localTime.getTime() - serverTime.getTime();
-
         console.log("服务器时间:", serverTime, "本地时间:", localTime, "时间差:", netConfig.timeDifference);
     }
-
-
-
 
     /** 创建 HttpManager 实例并进行配置 */
     function createHttpManager(): HttpManager {
