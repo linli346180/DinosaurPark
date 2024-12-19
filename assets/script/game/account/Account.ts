@@ -11,7 +11,7 @@ import { AccountEmailComp } from "./system/ChangeEmail";
 import { AccountNickNameComp } from "./system/ChangeNickName";
 import { NetCmd, NetErrorCode } from "../../net/custom/NetErrorCode";
 import { tips } from "../common/tips/TipsManager";
-import { EnvironmentType, netConfig } from "../../net/custom/NetConfig";
+import { netConfig } from "../../net/custom/NetConfig";
 import { StringUtil } from "../common/utils/StringUtil";
 import { AccountCoinType, AwardType, UserPropData } from "./AccountDefine";
 import { AccountLoginComp } from "./system/AccountLogin";

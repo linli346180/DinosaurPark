@@ -36,6 +36,7 @@ export enum UIID {
     RankUI,         // 排行榜
     LanguageUI,     // 多语言设置
     Activity,       // USDT活动
+    Pk,             // PK活动
     GuideChannel,   // 新手引导关注频道
     GuideReward,    // 新手大礼包
     Wallet,         // 钱包

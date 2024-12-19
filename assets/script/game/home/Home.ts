@@ -68,6 +68,7 @@ export class HomeView extends Component {
             [UIID.Hatch]: this.btn_hatch,
             [UIID.Invite]: this.btn_invite,
             [UIID.Activity]: this.btn_activity,
+            [UIID.Pk]: this.btn_pk,
         };
     }
 
@@ -91,6 +92,10 @@ export class HomeView extends Component {
             targetNode.getComponentInChildren(ReddotComp)?.setRead(false);
         } else {
             targetNode.getComponentInChildren(ReddotComp)?.setRead();
+        }
+        if(uid == UIID.Pk) { 
+            oops.gui.toast(oops.language.getLangByID("common_tips_Not_Enabled"));
+            return;
         }
         oops.gui.open(uid);
     }
