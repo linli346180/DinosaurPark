@@ -10,12 +10,12 @@ export enum RewardLevel {
 }
 
 // 奖励类型枚举
-export enum RewardType {
-    Currency = 1,       // 货币
-    StarBeast,          // 星兽
-    StarBeastFragment,  // 星兽碎片
-    Speed,              // 加速卡
-}
+// export enum RewardType {
+//     Currency = 1,       // 货币
+//     StarBeast,          // 星兽
+//     StarBeastFragment,  // 星兽碎片
+//     Speed,              // 加速卡
+// }
 
 /** 孵蛋基础配置 */
 export class UserHatchConfig {
@@ -35,7 +35,7 @@ export class HatchResult {
 export interface RewardConfig {
     readonly goodName: string;          // 奖励名称
     readonly level: number;             // 奖励级别(1.普通,2.中级,3.高级,4.稀有)
-    readonly rewardType: RewardType;    // 奖励类型(1.货币,2.星兽,3.星兽碎片)
+    readonly rewardType: number;    // 奖励类型(1.货币,2.星兽,3.星兽碎片)
     readonly rewardGoodsID: number;     // 奖励物品ID
     readonly rewardNum: number;         // 奖励数量
     readonly standbyID?: number;         // 备用ID(碎片的主表ID)

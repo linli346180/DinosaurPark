@@ -59,7 +59,7 @@ export class Accelerate extends Component {
         const propDataRes = smc.account.AccountModel.propData;
         const anim = this.speedAnimNode.getComponent(Animation);
         if (userPropData.propsId > 0) {
-            const timestamp = Math.floor((Date.now() + Number(netConfig.timeDifference)) / 1000);
+            const timestamp = Math.floor((Date.now() - Number(netConfig.timeDifference)) / 1000);
             remainSec = Math.max(userPropData.endAt - timestamp, 0);
             console.log(`当前时间戳:${timestamp} 截止时间: ${userPropData.endAt} 剩余时间:${remainSec}`);
             anim.play();

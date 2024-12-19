@@ -281,7 +281,6 @@ export class KnapsackControlle extends Component {
                 }
                 else {
                     smc.account.setUserNinstbConfig(this.fromSTBID, this.toSTBConfigId);
-                    // smc.account.setUserNinstbConfig(this.toSTBID, this.fronSTBConfigId);
                 }
             })
             return;
@@ -300,7 +299,6 @@ export class KnapsackControlle extends Component {
                 }
                 else {
                     smc.account.setUserNinstbConfig(this.fromSTBID, this.toSTBConfigId);
-                    // smc.account.setUserNinstbConfig(this.toSTBID, this.fronSTBConfigId);
                 }
             })
         } else {
@@ -319,16 +317,6 @@ export class KnapsackControlle extends Component {
                     if (!success) {
                         console.error("合成星兽失败");
                         this.recoverSlot();
-                    } else {
-                        if (levelUp) {
-                            smc.account.AccountModel.delUserUnIncomeSTB(this.fromSTBID);
-                            smc.account.AccountModel.delUserUnIncomeSTB(this.toSTBID);
-                        }
-                        else {
-                            // A数据删除 B数据更新
-                            smc.account.AccountModel.delUserUnIncomeSTB(this.fromSTBID);
-                            smc.account.setUserNinstbConfig(this.toSTBID, this.toSlot.stbData.stbConfigID);
-                        }
                     }
                 });
             }

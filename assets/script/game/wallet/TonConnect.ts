@@ -198,6 +198,15 @@ export default class TonConnect {
         return isConnected;
     }
 
+    // 获取钱包地址
+    public get TonAddress() {
+        if(this.walletConfig.address === '')
+            return "";  
+        const address = new TonWeb.Address(this.walletConfig.address);
+        const base64Address = address.toString(true, true, true);
+        return base64Address;
+    }
+
     private notifyStateChange(isConnected: boolean) {
         if (this.onStateChange) {
             this.onStateChange(isConnected);

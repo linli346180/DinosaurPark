@@ -88,7 +88,8 @@ export class KnapsackSlot extends Component {
     public InitUI(stbData: StartBeastData, showLand: boolean = false, showLevelUp: boolean = false) {
         console.log(`初始化槽位:${this.slotId} 星兽id:${stbData?.id} 星兽配置:${stbData?.stbConfigID} 降落伞:${showLand} 升级:${showLevelUp}`);
 
-        this.stbData = stbData;
+        // 使用浅拷贝
+        this.stbData = Object.assign({}, stbData);
         this.dump();
         if (!stbData || stbData.stbConfigID <= 0) {
             this.container.active = false;

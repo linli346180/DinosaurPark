@@ -152,33 +152,11 @@ export class WithdrawWidget extends Component {
         tonConnect.connectTonWallet();
     }
 
-    // 限制输入框只能输入小数
-    // onAmountChanged(editBox: EditBox) {
-    //     editBox.blur();
-    //     const input = editBox.string;
-    //     const validAmount = /^\d*\.?\d{0,5}$/;
-    //     if (!validAmount.test(input)) {
-    //         editBox.string = input.slice(0, -1);
-    //     }
-    //     const sanitizedInput = input.replace(/[^0-9.]/g, '');
-    //     if (sanitizedInput !== input) {
-    //         editBox.string = sanitizedInput;
-    //     }
-    //     editBox.focus();
-    // }
-
     private showPurchase() {
-        // 获取地址
-        const address = tonConnect.walletConfig.address;
+        const address = tonConnect.TonAddress;
         if (tonConnect.IsConnected && address.length > 0) {
-            // 格式化地址为前5个字符 + 中间省略号 + 后5个字符
             const formattedAddress = `${address.slice(0, 5)}...${address.slice(-5)}`;
-            // 设置标签文本
             this.label_purse.string = formattedAddress;
-        } else {
-            this.label_purse.string = oops.language.getLangByID('tips_Wallet_address_empty');
         }
     }
 }
-
-

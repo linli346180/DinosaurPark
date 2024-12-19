@@ -1,5 +1,5 @@
 import { _decorator, Component, Label, Sprite, SpriteFrame } from 'cc';
-import { RewardConfig, RewardType } from './HatchDefine';
+import { RewardConfig } from './HatchDefine';
 import { TableItemConfig } from '../common/table/TableItemConfig';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { StringUtil } from '../common/utils/StringUtil';

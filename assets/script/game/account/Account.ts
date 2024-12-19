@@ -11,13 +11,12 @@ import { AccountEmailComp } from "./system/ChangeEmail";
 import { AccountNickNameComp } from "./system/ChangeNickName";
 import { NetCmd, NetErrorCode } from "../../net/custom/NetErrorCode";
 import { tips } from "../common/tips/TipsManager";
-import { netConfig } from "../../net/custom/NetConfig";
+import { EnvironmentType, netConfig } from "../../net/custom/NetConfig";
 import { StringUtil } from "../common/utils/StringUtil";
 import { AccountCoinType, AwardType, UserPropData } from "./AccountDefine";
 import { AccountLoginComp } from "./system/AccountLogin";
 import { netChannel } from "../../net/custom/NetChannelManager";
 import { tonConnect } from "../wallet/TonConnect";
-import { DEBUG } from "cc/env";
 import { GuideNetService } from "../guide/GuideNet";
 import { UICallbacks } from "../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines";
 import { GuideReward } from "../guide/GuideReward";
@@ -94,6 +93,7 @@ export class Account extends ecs.Entity {
                 console.log("2.登陆成功");
                 oops.storage.setUser(this.AccountModel.userData.id.toString());
                 this.checkRedDot();
+                await this.loadCustom();
                 if (await this.checkNewUserReward()) {
                     console.log("3.领取新手大礼包");
                     this.add(AccountNetDataComp);
@@ -110,12 +110,8 @@ export class Account extends ecs.Entity {
             // 4. 数据初始化完成
             case GameEvent.DataInitialized:
                 console.log("4.数据初始化完成");
-
-                await this.loadCustom();
                 await oops.gui.openAsync(UIID.Map);
                 await oops.gui.openAsync(UIID.Main);
-
-                // oops.gui.open(UIID.CollectCoin)
                 tonConnect.initTonConnect();
                 this.WebSocketConnect()
                 oops.message.dispatchEvent(GameEvent.CloseLoadingUI);
@@ -166,10 +162,8 @@ export class Account extends ecs.Entity {
                 isJoinChannel = res.userOfficial.joinOfficialChannel == 1 && res.userOfficial.joinOfficialGroup == 1 && res.userOfficial.joinX == 1;
                 isReward = res.userOfficial.scorpionReward == 0;
                 console.warn(`是否加入官方频道:${isJoinChannel}, 是否领取新手奖励:${isReward}`);
-
                 // isJoinChannel = true; // 测试代码
                 // isReward = false; // 测试代码
-
                 // 未加入官方频道
                 if (!isJoinChannel) {
                     await oops.gui.openAsync(UIID.GuideChannel);
@@ -212,6 +206,7 @@ export class Account extends ecs.Entity {
 
     /** 领取奖励 */
     public OnClaimAward(...awardTypes: number[]) {
+        console.log("领取奖励:", awardTypes);
         awardTypes.forEach(awardType => {
             switch (awardType) {
                 case AwardType.Coin:
@@ -250,6 +245,16 @@ export class Account extends ecs.Entity {
             propData.endAt = 0;
             propData.propMultiplier = 1;
             console.log("道具数据为空");
+        }
+
+        if (propData.propsId > 0) {
+            let remainSec = 0;
+            const timestamp = Math.floor((Date.now() - Number(netConfig.timeDifference)) / 1000);
+            remainSec = Math.max(propData.endAt - timestamp, 0);
+            console.log(`当前时间戳:${timestamp} 截止时间: ${propData.endAt} 剩余时间:${remainSec}`);
+            setTimeout(() => {
+                this.updatePropData();
+            }, (remainSec + 1) * 1000);
         }
 
         this.AccountModel.propData = propData;
@@ -334,7 +339,6 @@ export class Account extends ecs.Entity {
                     this.AccountModel.addInComeSTBData(STBData);
                     console.log("领养收益星兽: ", STBData.id + " 名称:" + stbConfig.stbName);
                     oops.message.dispatchEvent(AccountEvent.AddInComeSTB, STBData.id);
-                    oops.message.dispatchEvent(AccountEvent.ShowKnapsackView, true);
                 } else {
                     this.AccountModel.addUserUnInComeSTB(STBData);
                     console.log("领养无收益星兽: ", STBData.id + " 名称:" + stbConfig.stbName + " 自动领养:" + autoAdop);
@@ -463,10 +467,18 @@ export class Account extends ecs.Entity {
             const stbConfigID = STBData.stbConfigID;
             let stbConfig = this.STBConfigMode.getSTBConfigData(stbConfigID);
             if (stbConfig) {
+                // 合成10级黄金星兽(删除2只无收益星兽,新增1只收益星兽)
                 if (stbConfig.isIncome == IsIncome.Yes) {
                     this.AccountModel.addInComeSTBData(STBData);
+                    this.AccountModel.delUserUnIncomeSTB(stbID_from);
+                    this.AccountModel.delUserUnIncomeSTB(stbID_to);
                     oops.message.dispatchEvent(AccountEvent.AddInComeSTB, STBData.id);
                     oops.message.dispatchEvent(AccountEvent.EvolveUnIncomeSTB, stbID_to);
+                }
+                // 合成1-9级星兽(删除1只无收益星兽,另外一只升级到下个等级)
+                else {
+                    this.AccountModel.delUserUnIncomeSTB(stbID_from);
+                    this.onUnIncomeSTBLevelUp(stbID_to);
                 }
                 callback(true, stbConfig.isIncome == IsIncome.Yes);
                 return;
@@ -525,6 +537,17 @@ export class Account extends ecs.Entity {
         callback(false);
     }
 
+    /** 无收益星守升级 */
+    private onUnIncomeSTBLevelUp(stbId: number) {
+        const stbData = this.getUserSTBData(stbId, UserSTBType.UnInCome);
+        const nextSTBConfigId = this.STBConfigMode.getNextSTBConfigData(stbData.stbConfigID)?.id;
+        if (!nextSTBConfigId) {
+            console.error("无收益星兽升级异常:", stbId);
+            return;
+        }
+        this.setUserNinstbConfig(stbId, nextSTBConfigId);
+    }
+
     /** 设置无收益星兽配置 */
     setUserNinstbConfig(stbId: number, stbConfigID: number): boolean {
         console.log("设置无收益星兽配置:", stbId, stbConfigID);
@@ -533,7 +556,7 @@ export class Account extends ecs.Entity {
             stbData.stbConfigID = stbConfigID;
             return this.AccountModel.updateUnIncomeSTBData(stbData);
         }
-        console.error(`设置星兽配置ID异常:${stbId}, ${stbConfigID}`);
+        console.error(`设置星兽配置异常:${stbId}, ${stbConfigID}`);
         return false;
     }
 
@@ -603,15 +626,16 @@ export class Account extends ecs.Entity {
     /** 获取指定类型的星兽数据 */
     getSTBDataByConfigType(...configIds: number[]): StartBeastData[] {
         let dataList: StartBeastData[] = [];
-        this.AccountModel.getUserNinstb().forEach((element) => {
-            const config = this.getSTBConfigById(element.stbConfigID);
-            if (config) {
-                const itemID = StringUtil.combineNumbers(config.stbKinds, config.stbGrade, 2);
-                if (configIds.includes(itemID)) {
-                    dataList.push(element);
-                }
-            }
-        });
+
+        // this.AccountModel.getUserNinstb().forEach((element) => {
+        //     const config = this.getSTBConfigById(element.stbConfigID);
+        //     if (config) {
+        //         const itemID = StringUtil.combineNumbers(config.stbKinds, config.stbGrade, 2);
+        //         if (configIds.includes(itemID)) {
+        //             dataList.push(element);
+        //         }
+        //     }
+        // });
 
         this.AccountModel.getUserInstb().forEach((element) => {
             const config = this.getSTBConfigById(element.stbConfigID);

@@ -17,14 +17,15 @@ export class GuideRewardItem extends Component {
         this.num.string = `x${StringUtil.formatMoney(rewardConfig.rewardNum)}`;
         let itemConfig = new TableItemConfig();
         let itemId = StringUtil.combineNumbers(rewardConfig.rewardType, rewardConfig.rewardGoodsID, 2);
-        itemConfig.init(itemId);
-        if (itemConfig.icon) {
-            AtlasUtil.loadAtlasAsync(itemConfig.icon).then((spriteFrame) => {
-                if (spriteFrame)
+        try {
+            itemConfig.init(itemId);
+            if (itemConfig.icon) {
+                AtlasUtil.loadAtlasAsync(itemConfig.icon).then((spriteFrame) => {
                     this.icon.spriteFrame = spriteFrame;
-                else
-                    console.error('加载失败:', itemConfig.icon);
-            });
+                });
+            }
+        } catch (error) {
+            console.error('奖励配置错误:', itemId);
         }
     }
 }

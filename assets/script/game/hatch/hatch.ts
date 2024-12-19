@@ -117,9 +117,10 @@ export class HatchView extends Component {
     }
 
     private claimAward() {
+        let rewardType = [1];
         if (this.hatchResult?.rewardList?.length > 0) {
-            const rewardType = [...new Set(this.hatchResult.rewardList?.map(reward => reward.rewardType) || [])];
-            smc.account.OnClaimAward(...rewardType);
+            rewardType = [...new Set([...rewardType, ...this.hatchResult.rewardList.map(reward => reward.rewardType)])];
         }
+        smc.account.OnClaimAward(...rewardType);
     }
 }

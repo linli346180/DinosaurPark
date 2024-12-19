@@ -62,7 +62,7 @@ export class AdoptionView extends Component {
         if (!this._canClick) {
             return;
         }
-
+        oops.message.dispatchEvent(AccountEvent.ShowKnapsackView, true);
         const config = this._configDataList[this._index];
         if (config) {
             console.log(`领养${config.stbName}`);

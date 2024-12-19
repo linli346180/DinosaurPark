@@ -8,8 +8,7 @@ import { tonConnect } from '../wallet/TonConnect';
 import { sys } from 'cc';
 import { UserConfigData } from './UserConfigDefine';
 import { ReddotComp } from '../reddot/ReddotComp';
-import { ecs } from '../../../../extensions/oops-plugin-framework/assets/libs/ecs/ECS';
-import { GuideEntity } from '../../guide/entity/GuideEntity';
+
 const { ccclass, property } = _decorator;
 
 @ccclass('usercenter')
@@ -94,29 +93,35 @@ export class usercenter extends Component {
         this.label_email.string = smc.account.AccountModel.userData.email;
         tonConnect.onStateChange = this.onConnectStateChange.bind(this);
         this.showPurchase();
+
         // TODO 头像需要上传到服务器
-        // this.loadAvatar(userData.avatarPath);
+        // const url = userData.avatarPath;
+        // this.loadAvatar(url, this.avatar);
     }
 
     private onConnectStateChange(isConnected: boolean) {
         this.showPurchase();
     }
 
-    private loadAvatar(url: string) {
+    private loadAvatar(url: string, icon: Sprite) {
         if (!url || url.length === 0) {
+            console.error('Failed to load avatar: url is empty');
             return;
         }
-        assetManager.loadRemote<ImageAsset>(url, (err, imageAsset) => {
-            if (err) {
-                console.error('Failed to load avatar:', err);
-                return;
-            }
-            const texture = new Texture2D();
-            texture.image = imageAsset;
-            const spriteFrame = new SpriteFrame();
-            spriteFrame.texture = texture;
-            this.avatar.spriteFrame = spriteFrame;
-        });
+
+        // try {
+        //     assetManager.loadRemote<ImageAsset>(url, (err, imageAsset) => {
+        //         if (!err) {
+        //             const texture = new Texture2D();
+        //             texture.image = imageAsset;
+        //             const spriteFrame = new SpriteFrame();
+        //             spriteFrame.texture = texture;
+        //             icon.spriteFrame = spriteFrame;
+        //         }
+        //     });
+        // } catch (error) {
+        //     console.error('Failed to load avatar:', error);
+        // }
     }
 
     private onHandler(event: string, args: any) {
@@ -156,9 +161,9 @@ export class usercenter extends Component {
     }
 
     private onGuide() {
-       // 初始化引导模块
-       smc.guide.startGuide();
-       this.closeUI();
+        // 初始化引导模块
+        smc.guide.startGuide();
+        this.closeUI();
     }
 
     private onService() {
@@ -200,12 +205,10 @@ export class usercenter extends Component {
     }
 
     private showPurchase() {
-        const address = tonConnect.walletConfig.address;
+        const address = tonConnect.TonAddress;
         if (tonConnect.IsConnected && address.length > 0) {
             const formattedAddress = `${address.slice(0, 5)}...${address.slice(-5)}`;
             this.label_purse.string = formattedAddress;
-        } else {
-            this.label_purse.string = oops.language.getLangByID('tips_Wallet_address_empty');
         }
     }
 }
