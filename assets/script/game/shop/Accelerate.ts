@@ -63,6 +63,8 @@ export class Accelerate extends Component {
             remainSec = Math.max(userPropData.endAt - timestamp, 0);
             console.log(`当前时间戳:${timestamp} 截止时间: ${userPropData.endAt} 剩余时间:${remainSec}`);
             anim.play();
+        }else{
+            anim.stop();    
         }
         this.countdownTimer.setDuration(remainSec);
 
@@ -70,7 +72,7 @@ export class Accelerate extends Component {
         this.speed.string = `x${userPropData.propMultiplier}`;
         this.collectionSpeed.string = `${coinPoolVM.GoldSpeed.toFixed(1)}/s`;
         this.btn_free.getComponent(Sprite).grayscale = this.freePropsData?.id === 0;
-        anim.stop();
+
     }
 
     private onClose() {

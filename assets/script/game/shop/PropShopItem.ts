@@ -50,11 +50,11 @@ export class PropShopItem extends Component {
         }
         const propDataRes = smc.account.AccountModel.propData;
         if (propDataRes.propsId === 0) {
-            tips.confirm(oops.language.getLangByID('prop_05'), () => {
+            tips.confirm(oops.language.getLangByID('prop_06'), () => {
                 this.buyPropsSuccess();
             });
         }else { 
-           tips.confirm(oops.language.getLangByID('prop_06'), () => {
+           tips.confirm(oops.language.getLangByID('prop_05'), () => {
                 this.buyPropsSuccess();
             }); 
         } 

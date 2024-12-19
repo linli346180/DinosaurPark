@@ -93,7 +93,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 15,
+      "y": 30,
       "z": 0
     },
     "_lrot": {
@@ -208,7 +208,7 @@
     "_target": null,
     "_left": 0,
     "_right": 0,
-    "_top": 23.5,
+    "_top": 8.5,
     "_bottom": 0,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
@@ -265,7 +265,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -23.982,
+      "y": -10,
       "z": 0
     },
     "_lrot": {
@@ -305,7 +305,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
+      "width": 140,
       "height": 67.8
     },
     "_anchorPoint": {
@@ -344,12 +344,12 @@
     "_string": "加速卡0888",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 30,
+    "_actualFontSize": 26,
     "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 30,
-    "_overflow": 3,
-    "_enableWrapText": true,
+    "_overflow": 2,
+    "_enableWrapText": false,
     "_font": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
@@ -414,7 +414,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
+      "width": 140,
       "height": 150
     },
     "_anchorPoint": {

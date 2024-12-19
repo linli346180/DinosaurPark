@@ -962,7 +962,7 @@
     "node": {
       "__id__": 34
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 40
     },
@@ -2798,7 +2798,7 @@
     "node": {
       "__id__": 111
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 117
     },
@@ -3164,7 +3164,7 @@
     "node": {
       "__id__": 127
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 133
     },
@@ -3675,7 +3675,7 @@
     "node": {
       "__id__": 149
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 155
     },
@@ -4003,7 +4003,7 @@
     "node": {
       "__id__": 163
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 169
     },
@@ -4427,7 +4427,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1080,
-      "height": 1960.0000000000002
+      "height": 1960
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",

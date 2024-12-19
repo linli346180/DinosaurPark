@@ -1315,7 +1315,7 @@
     "node": {
       "__id__": 46
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 52
     },
@@ -1923,7 +1923,7 @@
     "node": {
       "__id__": 79
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 85
     },
@@ -4436,7 +4436,7 @@
     "node": {
       "__id__": 185
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 191
     },
@@ -5160,7 +5160,7 @@
     "node": {
       "__id__": 217
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 223
     },
@@ -5884,7 +5884,7 @@
     "node": {
       "__id__": 249
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 255
     },
