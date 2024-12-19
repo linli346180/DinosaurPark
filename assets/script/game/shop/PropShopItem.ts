@@ -63,7 +63,7 @@ export class PropShopItem extends Component {
     private async buyPropsSuccess() {// TODO 
         const res = await ShopNetService.useProps(this.config.id);
         if (res && res.props) {
-            oops.gui.toast('使用道具成功');
+            oops.gui.toast(oops.language.getLangByID('tips_buy_sucess'));
             smc.account.updateCoinData();
         }
     }

@@ -1,1 +1,198 @@
-{"101":{"name":"coin_gold","icon":"icon/金币"},"102":{"name":"coin_gems","icon":"icon/宝石"},"103":{"name":"coin_starbeast","icon":"icon/恐龙币"},"104":{"name":"coin_usdt","icon":"icon/虚拟币"},"201":{"name":"stb_gold_lv1","icon":"icon/1级金币龙"},"202":{"name":"stb_gold_lv2","icon":"icon/2级金币龙"},"203":{"name":"stb_gold_lv3","icon":"icon/3级金币龙"},"204":{"name":"stb_gold_lv4","icon":"icon/4级金币龙"},"205":{"name":"stb_gold_lv5","icon":"icon/5级金币龙"},"206":{"name":"stb_gold_lv6","icon":"icon/6级金币龙"},"207":{"name":"stb_gold_lv7","icon":"icon/7级金币龙"},"208":{"name":"stb_gold_lv8","icon":"icon/8级金币龙"},"209":{"name":"stb_gold_lv9","icon":"icon/9级金币龙"},"210":{"name":"stb_gold_lv10","icon":"icon/10级金币龙"},"211":{"name":"stb_gem","icon":"icon/宝石龙"},"212":{"name":"stb_diamond","icon":"icon/钻石龙"},"213":{"name":"stb_super_lv1","icon":"icon/矿石初级"},"214":{"name":"stb_super_lv2","icon":"icon/矿石中级"},"215":{"name":"stb_super_lv3","icon":"icon/矿石高级"},"301":{"name":"stb_debris|1","icon":"icon/拼图|初级拼图1"},"302":{"name":"stb_debris|2","icon":"icon/拼图|初级拼图2"},"303":{"name":"stb_debris|3","icon":"icon/拼图|初级拼图3"},"304":{"name":"stb_debris|4","icon":"icon/拼图|初级拼图4"},"305":{"name":"stb_debris|5","icon":"icon/拼图|初级拼图5"},"306":{"name":"stb_debris|6","icon":"icon/拼图|初级拼图6"},"307":{"name":"stb_debris|7","icon":"icon/拼图|初级拼图7"},"308":{"name":"stb_debris|8","icon":"icon/拼图|初级拼图8"},"309":{"name":"stb_debris|9","icon":"icon/拼图|初级拼图9"},"310":{"name":"stb_debris|10","icon":"icon/拼图|初级拼图10"},"311":{"name":"stb_debris|1","icon":"icon/拼图|中级拼图1"},"312":{"name":"stb_debris|2","icon":"icon/拼图|中级拼图2"},"313":{"name":"stb_debris|3","icon":"icon/拼图|中级拼图3"},"314":{"name":"stb_debris|4","icon":"icon/拼图|中级拼图4"},"315":{"name":"stb_debris|5","icon":"icon/拼图|中级拼图5"},"316":{"name":"stb_debris|6","icon":"icon/拼图|中级拼图6"},"317":{"name":"stb_debris|7","icon":"icon/拼图|中级拼图7"},"318":{"name":"stb_debris|8","icon":"icon/拼图|中级拼图8"},"319":{"name":"stb_debris|9","icon":"icon/拼图|中级拼图9"},"320":{"name":"stb_debris|10","icon":"icon/拼图|中级拼图10"},"321":{"name":"stb_debris|11","icon":"icon/拼图|中级拼图11"},"322":{"name":"stb_debris|12","icon":"icon/拼图|中级拼图12"},"323":{"name":"stb_debris|13","icon":"icon/拼图|中级拼图13"},"324":{"name":"stb_debris|14","icon":"icon/拼图|中级拼图14"},"325":{"name":"stb_debris|15","icon":"icon/拼图|中级拼图15"},"502":{"name":"2倍加速卡","icon":"icon/二倍速"},"503":{"name":"3倍加速卡","icon":"icon/三倍速"},"504":{"name":"4倍加速卡","icon":"icon/四倍速"},"505":{"name":"5倍加速卡","icon":"icon/五倍速"},"512":{"name":"2倍加速卡(免费)","icon":"icon/二倍速"}}
+{
+    "101": {
+        "name": "coin_gold",
+        "icon": "icon/金币"
+    },
+    "102": {
+        "name": "coin_gems",
+        "icon": "icon/宝石"
+    },
+    "103": {
+        "name": "coin_starbeast",
+        "icon": "icon/恐龙币"
+    },
+    "104": {
+        "name": "coin_usdt",
+        "icon": "icon/虚拟币"
+    },
+    "201": {
+        "name": "stb_gold_lv1",
+        "icon": "icon/1级金币龙"
+    },
+    "202": {
+        "name": "stb_gold_lv2",
+        "icon": "icon/2级金币龙"
+    },
+    "203": {
+        "name": "stb_gold_lv3",
+        "icon": "icon/3级金币龙"
+    },
+    "204": {
+        "name": "stb_gold_lv4",
+        "icon": "icon/4级金币龙"
+    },
+    "205": {
+        "name": "stb_gold_lv5",
+        "icon": "icon/5级金币龙"
+    },
+    "206": {
+        "name": "stb_gold_lv6",
+        "icon": "icon/6级金币龙"
+    },
+    "207": {
+        "name": "stb_gold_lv7",
+        "icon": "icon/7级金币龙"
+    },
+    "208": {
+        "name": "stb_gold_lv8",
+        "icon": "icon/8级金币龙"
+    },
+    "209": {
+        "name": "stb_gold_lv9",
+        "icon": "icon/9级金币龙"
+    },
+    "210": {
+        "name": "stb_gold_lv10",
+        "icon": "icon/10级金币龙"
+    },
+    "211": {
+        "name": "stb_gem",
+        "icon": "icon/宝石龙"
+    },
+    "212": {
+        "name": "stb_diamond",
+        "icon": "icon/钻石龙"
+    },
+    "213": {
+        "name": "stb_super_lv1",
+        "icon": "icon/矿石初级"
+    },
+    "214": {
+        "name": "stb_super_lv2",
+        "icon": "icon/矿石中级"
+    },
+    "215": {
+        "name": "stb_super_lv3",
+        "icon": "icon/矿石高级"
+    },
+    "301": {
+        "name": "stb_debris|1",
+        "icon": "icon/拼图|初级拼图1"
+    },
+    "302": {
+        "name": "stb_debris|2",
+        "icon": "icon/拼图|初级拼图2"
+    },
+    "303": {
+        "name": "stb_debris|3",
+        "icon": "icon/拼图|初级拼图3"
+    },
+    "304": {
+        "name": "stb_debris|4",
+        "icon": "icon/拼图|初级拼图4"
+    },
+    "305": {
+        "name": "stb_debris|5",
+        "icon": "icon/拼图|初级拼图5"
+    },
+    "306": {
+        "name": "stb_debris|6",
+        "icon": "icon/拼图|初级拼图6"
+    },
+    "307": {
+        "name": "stb_debris|7",
+        "icon": "icon/拼图|初级拼图7"
+    },
+    "308": {
+        "name": "stb_debris|8",
+        "icon": "icon/拼图|初级拼图8"
+    },
+    "309": {
+        "name": "stb_debris|9",
+        "icon": "icon/拼图|初级拼图9"
+    },
+    "310": {
+        "name": "stb_debris|10",
+        "icon": "icon/拼图|初级拼图10"
+    },
+    "311": {
+        "name": "stb_debris|1",
+        "icon": "icon/拼图|中级拼图1"
+    },
+    "312": {
+        "name": "stb_debris|2",
+        "icon": "icon/拼图|中级拼图2"
+    },
+    "313": {
+        "name": "stb_debris|3",
+        "icon": "icon/拼图|中级拼图3"
+    },
+    "314": {
+        "name": "stb_debris|4",
+        "icon": "icon/拼图|中级拼图4"
+    },
+    "315": {
+        "name": "stb_debris|5",
+        "icon": "icon/拼图|中级拼图5"
+    },
+    "316": {
+        "name": "stb_debris|6",
+        "icon": "icon/拼图|中级拼图6"
+    },
+    "317": {
+        "name": "stb_debris|7",
+        "icon": "icon/拼图|中级拼图7"
+    },
+    "318": {
+        "name": "stb_debris|8",
+        "icon": "icon/拼图|中级拼图8"
+    },
+    "319": {
+        "name": "stb_debris|9",
+        "icon": "icon/拼图|中级拼图9"
+    },
+    "320": {
+        "name": "stb_debris|10",
+        "icon": "icon/拼图|中级拼图10"
+    },
+    "321": {
+        "name": "stb_debris|11",
+        "icon": "icon/拼图|中级拼图11"
+    },
+    "322": {
+        "name": "stb_debris|12",
+        "icon": "icon/拼图|中级拼图12"
+    },
+    "323": {
+        "name": "stb_debris|13",
+        "icon": "icon/拼图|中级拼图13"
+    },
+    "324": {
+        "name": "stb_debris|14",
+        "icon": "icon/拼图|中级拼图14"
+    },
+    "325": {
+        "name": "stb_debris|15",
+        "icon": "icon/拼图|中级拼图15"
+    },
+    "502": {
+        "name": "prop_04|2",
+        "icon": "icon/二倍速"
+    },
+    "503": {
+        "name": "prop_04|3",
+        "icon": "icon/三倍速"
+    },
+    "504": {
+        "name": "prop_04|4",
+        "icon": "icon/四倍速"
+    },
+    "505": {
+        "name": "prop_04|5",
+        "icon": "icon/五倍速"
+    },
+    "512": {
+        "name": "prop_04|2",
+        "icon": "icon/二倍速"
+    }
+}
