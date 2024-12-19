@@ -10,6 +10,7 @@ import { smc } from '../common/SingletonModuleComp';
 import { tween } from 'cc';
 import { HatchRoll } from './HatchRoll';
 import { EvolveTipsView } from '../evolve/EvolveTipsView';
+import { AccountEvent } from '../account/AccountEvent';
 const { ccclass, property } = _decorator;
 
 @ccclass('HatchView')
@@ -47,6 +48,7 @@ export class HatchView extends Component {
         this.btn_HatchOneTime?.node.on(Button.EventType.CLICK, () => { this.userHatch(1) }, this);
         this.btn_HatchTenTimes?.node.on(Button.EventType.CLICK, () => { this.userHatch(10) }, this);
         this.btn_AddGems?.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.GemShop) }, this);
+        oops.message.on(AccountEvent.CoinDataChange, this.updateDataDisplay, this);
     }
 
     onClose() {
