@@ -36,6 +36,7 @@ export class HomeView extends Component {
     @property(Node) usdtAnimEndNode: Node = null!;
     @property(Node) evolveTips: Node = null!;
     @property(UserCoinView) userCoinView: UserCoinView = null!;
+    @property(Node) speedAnimNode: Node = null!;
 
     private buttonMap: { [key: string]: Button } = {};
 
@@ -46,12 +47,14 @@ export class HomeView extends Component {
         oops.message.on(AccountEvent.EvolveUnIncomeSTB, this.onHandler, this);
         oops.message.on(AccountEvent.UserCollectGold, this.onHandler, this);
         oops.message.on(AccountEvent.UserBounsUSTD, this.onHandler, this);
+        oops.message.on(AccountEvent.PropDataChange, this.onHandler, this);
     }
 
     onDestroy() {
         oops.message.off(AccountEvent.EvolveUnIncomeSTB, this.onHandler, this);
         oops.message.off(AccountEvent.UserCollectGold, this.onHandler, this);
         oops.message.off(AccountEvent.UserBounsUSTD, this.onHandler, this);
+        oops.message.off(AccountEvent.PropDataChange, this.onHandler, this);
     }
 
     private initializeButtonMap() {
@@ -107,7 +110,24 @@ export class HomeView extends Component {
             case AccountEvent.UserBounsUSTD:
                 this.showUSTDAnim(args as number);
                 break;
+            case AccountEvent.PropDataChange:
+                this.showSpeedAnim();
+                break;
         }
+    }
+
+    private showSpeedAnim() {
+        if (!this.speedAnimNode) {
+            console.error("速度动画节点不存在");
+            return;
+        }
+        const propDataRes = smc.account.AccountModel.propData;
+        const anim = this.speedAnimNode.getComponent(Animation);
+        if (propDataRes.propsId === 0) {
+            anim.stop();
+        }else { 
+            anim.play();
+        } 
     }
 
     /** 显示金币收集动画 */

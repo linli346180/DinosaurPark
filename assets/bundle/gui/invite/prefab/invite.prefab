@@ -1372,12 +1372,12 @@
     "node": {
       "__id__": 47
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": {
       "__id__": 53
     },
     "_params": [],
-    "_dataID": "invite_tips_reward",
+    "_dataID": "invite_01",
     "_id": ""
   },
   {
@@ -4018,12 +4018,12 @@
     "node": {
       "__id__": 163
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": {
       "__id__": 169
     },
     "_params": [],
-    "_dataID": "invite_reward",
+    "_dataID": "invite_02",
     "_id": ""
   },
   {
@@ -4717,12 +4717,12 @@
     "node": {
       "__id__": 191
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": {
       "__id__": 199
     },
     "_params": [],
-    "_dataID": "invite_tips_start_invite",
+    "_dataID": "invite_03",
     "_id": ""
   },
   {
@@ -6970,12 +6970,12 @@
     "node": {
       "__id__": 306
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": {
       "__id__": 312
     },
     "_params": [],
-    "_dataID": "invite_tips_list",
+    "_dataID": "invite_04",
     "_id": ""
   },
   {
@@ -7232,12 +7232,12 @@
     "node": {
       "__id__": 319
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": {
       "__id__": 325
     },
     "_params": [],
-    "_dataID": "invite_tips_status",
+    "_dataID": "invite_05",
     "_id": ""
   },
   {
@@ -8988,12 +8988,12 @@
     "node": {
       "__id__": 406
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": {
       "__id__": 412
     },
     "_params": [],
-    "_dataID": "invite_tips_start_invite",
+    "_dataID": "invite_08",
     "_id": ""
   },
   {
@@ -9410,12 +9410,12 @@
     "node": {
       "__id__": 424
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": {
       "__id__": 430
     },
     "_params": [],
-    "_dataID": "invite_tips_copy",
+    "_dataID": "invite_09",
     "_id": ""
   },
   {

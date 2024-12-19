@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Label, Button } from 'cc';
+import { _decorator, Component, Node, Label, Button, Animation} from 'cc';
 import { smc } from '../common/SingletonModuleComp';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
@@ -21,6 +21,7 @@ export class Accelerate extends Component {
     @property(Button) btn_free: Button = null!;
     @property(Button) btn_propShop: Button = null!;
     @property({ type: CountdownTimer }) countdownTimer: CountdownTimer = null;
+    @property(Node) speedAnimNode: Node = null!;
 
     private freePropsData: FreePropsData = null;
 
@@ -49,13 +50,19 @@ export class Accelerate extends Component {
         if (!this.freePropsData) {
             return;
         }
-
+        if (!this.speedAnimNode) {
+            console.error("速度动画节点不存在");
+            return;
+        }
         let remainSec = 0;
         const userPropData = smc.account.AccountModel.propData;
+        const propDataRes = smc.account.AccountModel.propData;
+        const anim = this.speedAnimNode.getComponent(Animation);
         if (userPropData.propsId > 0) {
             const timestamp = Math.floor((Date.now() + Number(netConfig.timeDifference)) / 1000);
             remainSec = Math.max(userPropData.endAt - timestamp, 0);
             console.log(`当前时间戳:${timestamp} 截止时间: ${userPropData.endAt} 剩余时间:${remainSec}`);
+            anim.play();
         }
         this.countdownTimer.setDuration(remainSec);
 
@@ -63,6 +70,7 @@ export class Accelerate extends Component {
         this.speed.string = `x${userPropData.propMultiplier}`;
         this.collectionSpeed.string = `${coinPoolVM.GoldSpeed.toFixed(1)}/s`;
         this.btn_free.getComponent(Sprite).grayscale = this.freePropsData?.id === 0;
+        anim.stop();
     }
 
     private onClose() {

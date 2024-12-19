@@ -7,6 +7,7 @@ import { ShopNetService } from './ShopNet';
 import { smc } from '../common/SingletonModuleComp';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
+import { tips } from '../common/tips/TipsManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('PropShopItem')
@@ -47,6 +48,19 @@ export class PropShopItem extends Component {
             oops.gui.open(UIID.GemShop)
             return
         }
+        const propDataRes = smc.account.AccountModel.propData;
+        if (propDataRes.propsId === 0) {
+            tips.confirm(oops.language.getLangByID('prop_05'), () => {
+                this.buyPropsSuccess();
+            });
+        }else { 
+           tips.confirm(oops.language.getLangByID('prop_06'), () => {
+                this.buyPropsSuccess();
+            }); 
+        } 
+    }
+
+    private async buyPropsSuccess() {// TODO 
         const res = await ShopNetService.useProps(this.config.id);
         if (res && res.props) {
             oops.gui.toast('使用道具成功');
