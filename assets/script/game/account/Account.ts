@@ -244,6 +244,13 @@ export class Account extends ecs.Entity {
         if (!propData) {
             console.error("获取用户道具数据失败");
         }
+        
+        if(propData.propsId === 0){
+            propData.startAt = 0;
+            propData.endAt = 0;
+            propData.propMultiplier = 1;
+            console.log("道具数据为空");
+        }
 
         this.AccountModel.propData = propData;
         oops.message.dispatchEvent(AccountEvent.PropDataChange);
