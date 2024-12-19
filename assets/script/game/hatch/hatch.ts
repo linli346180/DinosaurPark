@@ -21,6 +21,7 @@ export class HatchView extends Component {
     @property(Button) btn_AddGems: Button = null!;
     @property(Label) label_coinNum: Label = null!;
     @property(Label) label_gemsNum: Label = null!;
+    @property(Label) label_hatchNum: Label = null!;
     @property(ProgressBar) progress: ProgressBar = null!;
     @property(Animation) anim: Animation = null!;
     @property({ type: HatchRoll }) hatchRoll: HatchRoll = null;
@@ -76,6 +77,7 @@ export class HatchView extends Component {
     private updateDataDisplay() {
         this.label_coinNum.string = `${smc.account.AccountModel.CoinData.goldCoin}`;
         this.label_gemsNum.string = `${smc.account.AccountModel.CoinData.gemsCoin}`;
+        this.label_hatchNum.string = `${this.hatchConfig.hatchNum}`;
         tween(this.progress).to(0.5, { progress: (this.hatchConfig.hatchNum / this.hatchConfig.hatchTotal) }).start();
     }
 
