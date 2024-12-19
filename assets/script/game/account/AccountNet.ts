@@ -2,13 +2,8 @@ import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/O
 import { TGWebAppInitData } from '../../telegram/TGDefine';
 import { HttpManager } from '../../net/HttpManager';
 import { netConfig } from '../../net/custom/NetConfig';
-import { AccountType } from './AccountDefine';
-import { AccountEvent } from './AccountEvent';
-import { NetCmd, NetErrorCode } from '../../net/custom/NetErrorCode';
+import { NetErrorCode } from '../../net/custom/NetErrorCode';
 import { Logger } from '../../Logger';
-import { netChannel } from '../../net/custom/NetChannelManager';
-import { smc } from '../common/SingletonModuleComp';
-import { GameEvent } from '../common/config/GameEvent';
 import { StringUtil } from '../common/utils/StringUtil';
 
 export namespace AccountNetService {
@@ -17,19 +12,6 @@ export namespace AccountNetService {
         const http = new HttpManager();
         http.server = netConfig.Server;
         http.timeout = netConfig.Timeout;
-
-        // const initData = {
-        //     'user': JSON.stringify(data.UserData),
-        //     'chat_instance': data.chat_instance,
-        //     'chat_type': data.chat_type,
-        //     'auth_date': data.Auth_date.toString(),
-        //     'hash': data.Hash,
-        // };
-        // let initDataString = new URLSearchParams(initData).toString();
-        // if (data.start_param != '') {
-        //     initDataString += `&start_param=${data.start_param}`;
-        // }
-        // console.warn("TG登录参数:" + initDataString);
 
         // 登录参数
         const params = JSON.stringify({
@@ -115,42 +97,9 @@ export namespace AccountNetService {
         }
     }
 
-    /** 创建WebSocket连接 */
-    // export async function WebSocketConnect(connect: boolean = true) {
-    //     const cmds = [
-    //         NetCmd.UserNinstbType,
-    //         NetCmd.DownLineType,
-    //         NetCmd.UserIncomeType,
-    //         NetCmd.UserCoinType,
-    //         NetCmd.NinstbDeathType,
-    //         NetCmd.IncomeStbDeathType,
-    //         NetCmd.UserHatchType,
-    //         NetCmd.InvitedType,
-    //         NetCmd.UserDebrisType,
-    //         NetCmd.UserEmailType,
-    //         NetCmd.UserTaskType,
-    //         NetCmd.RankingType,
-    //         NetCmd.WithDrawalType,
-    //         NetCmd.StbGurideType,
-    //         NetCmd.UserBounsType,
-    //         NetCmd.OfflineIncomeType
-    //     ];
-
-    //     if (connect) {
-    //         netChannel.gameCreate();
-    //         netChannel.gameConnect();
-    //         cmds.forEach(cmd => {
-    //             netChannel.game.on(cmd, '', (data) => {
-    //                 smc.account.OnRecevieMessage(cmd, data);
-    //             });
-    //         });
-    //     }
-    // }
-
     /** 获取星兽配置 */
     export async function getStartBeastConfig() {
         const http = createHttpManager();
-
         const response = await http.getUrl("tgapp/api/stb/cfg/list?token=" + netConfig.Token);
         if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
             console.warn("获取星兽配置请求成功", response.res.userInstbData);
@@ -162,10 +111,23 @@ export namespace AccountNetService {
         }
     }
 
+    /** 获取持有星兽上限配置 */
+    export async function getSTBLimitConfig() {
+        const http = createHttpManager();
+        const response = await http.getUrl("tgapp/api/hold/limit?token=" + netConfig.Token);
+        if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
+            console.warn("获取持有星兽上限配置", response.res);
+            return response.res;
+
+        } else {
+            console.error("获取持有星兽上限配置异常", response);
+            return null;
+        }
+    }
+
     /** 获取用户星兽数据 */
     export async function GetUserSTBData() {
         const http = createHttpManager();
-
         const response = await http.getUrl("tgapp/api/user/stb/data?token=" + netConfig.Token);
         if (response.isSucc && response.res.resultCode == NetErrorCode.Success) {
             console.warn("星兽数据请求成功", response.res.userInstbData);

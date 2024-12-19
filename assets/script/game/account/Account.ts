@@ -327,6 +327,7 @@ export class Account extends ecs.Entity {
                     this.AccountModel.addInComeSTBData(STBData);
                     console.log("领养收益星兽: ", STBData.id + " 名称:" + stbConfig.stbName);
                     oops.message.dispatchEvent(AccountEvent.AddInComeSTB, STBData.id);
+                    oops.message.dispatchEvent(AccountEvent.ShowKnapsackView, true);
                 } else {
                     this.AccountModel.addUserUnInComeSTB(STBData);
                     console.log("领养无收益星兽: ", STBData.id + " 名称:" + stbConfig.stbName + " 自动领养:" + autoAdop);

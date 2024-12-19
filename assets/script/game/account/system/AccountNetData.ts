@@ -45,6 +45,18 @@ export class AccountNetData extends ecs.ComblockSystem implements ecs.IEntityEnt
                     }
                 }
             }
+
+            // 获取玩家持有限制
+            const limitRes = await AccountNetService.getSTBLimitConfig(); 
+            if (limitRes && limitRes.holdLimit) {
+                for (const item of entity.STBConfigMode.instbConfigData) {
+                    item.limitedNum = 0;
+                    if(item.id === limitRes.holdLimit.stbConfigID) {
+                        item.limitedNum = limitRes.holdLimit.limitedNum;
+                        console.log(`星兽ID:${item.id} 限制数量:${item.limitedNum}`);
+                    }
+                }
+            }
         }
 
         // 获取用户星兽数据

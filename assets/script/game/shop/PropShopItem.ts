@@ -37,7 +37,7 @@ export class PropShopItem extends Component {
         } catch (error) {
             console.error('道具配置错误', itemId);
         }
-        this.duration.string = StringUtil.formatExpireTime(60);
+        this.duration.string = StringUtil.formatExpireTime(config.duration);
         this.amount.string = `${config.amount}`;
     }
 

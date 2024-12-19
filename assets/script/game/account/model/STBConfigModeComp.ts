@@ -47,6 +47,7 @@ export interface UserInstbConfigData {
     readonly isPur: IsPur;               // 是否可以购买
     readonly purConCoin: PurConCoin;     // 购买消耗货币类型(1.金币,2.宝石,3.星兽币,4.USDT)
     purConCoinNum: number;      // 购买消耗货币数量
+    limitedNum: number;         // 限制持有数量
     // createdAt: string | null;
     // updatedAt: string | null;
     // desc: string| null;

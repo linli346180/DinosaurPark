@@ -20,7 +20,7 @@ export class CoinPoolViewModel {
     /** 10级黄金星兽(收益数量) */
     get GoldInComeNum(): number {
         const goldstbList = smc.account.getSTBDataByConfigType(STBConfigType.STB_Gold_Level10);
-        return Math.min(goldstbList.length, 10);
+        return Math.min(goldstbList.length, this.GoldConfig.limitedNum);
     }
 
     /** 10级黄金星兽(每秒收益) */

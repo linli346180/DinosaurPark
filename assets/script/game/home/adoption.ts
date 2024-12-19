@@ -1,8 +1,7 @@
 import { _decorator, Component, Node, Label, Sprite, Button, math, SpriteFrame } from 'cc';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
-import { IsPur, PurConCoin, UserInstbConfigData } from '../account/model/STBConfigModeComp';
+import { IsPur, PurConCoin, StbKinds, UserInstbConfigData } from '../account/model/STBConfigModeComp';
 import { resLoader } from '../../../../extensions/oops-plugin-framework/assets/core/common/loader/ResLoader';
-import { KnapsackControlle } from './KnapsackControlle';
 import { smc } from '../common/SingletonModuleComp';
 import { AccountEvent } from '../account/AccountEvent';
 const { ccclass, property } = _decorator;
@@ -15,6 +14,8 @@ export class AdoptionView extends Component {
     @property(Label) price: Label = null!;
     @property(Sprite) beast: Sprite = null!;
     @property(Label) level: Label = null!;
+    @property(Node) icon_gold: Node = null!;
+    @property(Node) icon_gem: Node = null!;
 
     private _index: number = 0;
     private _configDataList: UserInstbConfigData[] = [];
@@ -46,10 +47,6 @@ export class AdoptionView extends Component {
 
     private loadSpriteFrames() {
         resLoader.loadDir("bundle", "gui/game/texture/adoption/", SpriteFrame, (err: any, assets: any) => {
-            if (err) {
-                console.error("Failed to load sprite frames:", err);
-                return;
-            }
             this._spriteFrames = assets.sort((a: any, b: any) => a.name.localeCompare(b.name));
             this.beast.spriteFrame = this._spriteFrames[this._index];
             this.initUI();
@@ -62,7 +59,6 @@ export class AdoptionView extends Component {
 
     /** 领养星兽(购买) */
     public adoptStartBeast() {
-        oops.message.dispatchEvent(AccountEvent.ShowKnapsackView, true);
         if (!this._canClick) {
             return;
         }
@@ -95,13 +91,15 @@ export class AdoptionView extends Component {
         if (this._spriteFrames.length > this._index) {
             this.beast.spriteFrame = this._spriteFrames[this._index];
         }
+        this.icon_gold.active = config.purConCoin === PurConCoin.gold;
+        this.icon_gem.active = config.purConCoin === PurConCoin.gems;
         // oops.storage.set("STBConfigIndex", this._index);
     }
 
     /** 获取使用金币购买的黄金星兽配置 */
     private getSTBConfig_PurGold() {
         this._configDataList = smc.account.STBConfigMode.instbConfigData.filter(element =>
-            element.isPur === IsPur.Yes && element.purConCoin === PurConCoin.gold
+            element.isPur === IsPur.Yes && element.stbKinds === StbKinds.gold
         ).sort((a, b) => a.stbGrade - b.stbGrade);
     }
 }
