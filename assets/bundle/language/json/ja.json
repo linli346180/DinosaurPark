@@ -80,7 +80,7 @@
     "main_btn_invite": "招待",
     "main_btn_usdt_activity": "USDT福利",
     "main_pk":"バトル",
-    "main_income_num":"収益額",
+    "main_income_num":"金額",
     "main_income_speed":"速度",
 
     "tips_buy_sucess": "購入成功",
@@ -145,13 +145,14 @@
     "rank_01": "ランキング",
     "rank_02":"招待",
     "rank_03": "富",
-    "rank_04": "究極の星獣",
+    "rank_04": "スタービースト",
 
     "hatch_01":"ガチャマシン",
     "hatch_02":"運ポイント",
     "hatch_03":"回数",
     "hatch_04": "1回回す",
     "hatch_05": "10回回す",
+    "hatch_06": "ガチャで獲得しました",
     
     "prop_01": "カウントダウン加速",
     "prop_02": "無料",
@@ -159,6 +160,9 @@
     "prop_04": "収益速度 x",
     "prop_05": "加速アイテムが既に使用中です。購入すると置き換わります。購入を確認しますか？",
     "prop_06": "購入を確認しますか？",
+
+    "pay_01": "支払い",
+    "pay_02": "支払い方法を選択してください",
 
     "reward_tip_preview": "報酬プレビュー",
     "reward_tip_normal": "初級報酬",

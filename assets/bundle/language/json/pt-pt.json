@@ -80,7 +80,7 @@
     "main_btn_invite": "Convidar",
     "main_btn_usdt_activity": "Benefícios USDT",
     "main_pk":"Batalha",
-    "main_income_num":"Quantidade de Receita",
+    "main_income_num":"Quantia",
     "main_income_speed":"Velocidade",
 
     "tips_buy_sucess": "Compra bem-sucedida",
@@ -142,16 +142,17 @@
     "invite_10": "Copiado",
     "invite_11": "Sem convites de momento",
  
-    "rank_01": "Classificação",
+    "rank_01": "Ranking",
     "rank_02":"Convidar",
     "rank_03": "Riqueza",
-    "rank_04": "Besta Suprema das Estrelas",
+    "rank_04": "BestaEst",
 
     "hatch_01":"Máquina Gacha",
     "hatch_02":"Pontos de Sorte",
     "hatch_03":"Vezes",
     "hatch_04": "Girar Uma Vez",
     "hatch_05": "Girar Dez Vezes",
+    "hatch_06": "Obtido através de um gacha",
     
     "prop_01": "Aceleração da Contagem Regressiva",
     "prop_02": "Grátis",
@@ -159,6 +160,9 @@
     "prop_04": "Velocidade da Receita x",
     "prop_05": "Um item de aceleração já está em uso, a compra o substituirá. Confirmar compra?",
     "prop_06": "Confirmar compra?",
+
+    "pay_01": "Pagamento",
+    "pay_02": "Selecione um método de pagamento",
 
     "reward_tip_preview": "Pré-visualização da Recompensa",
     "reward_tip_normal": "Recompensa Básica",

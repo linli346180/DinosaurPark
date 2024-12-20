@@ -80,7 +80,7 @@
     "main_btn_invite": "Imbitahan",
     "main_btn_usdt_activity": "USDT Benepisyo",
     "main_pk":"Labanan",
-    "main_income_num":"Halaga ng Kita",
+    "main_income_num":"Halaga",
     "main_income_speed":"Bilis",
 
     "tips_buy_sucess": "Matagumpay ang Pagbili",
@@ -142,16 +142,17 @@
     "invite_10": "Nakopya",
     "invite_11": "Walang mga imbitasyon sa kasalukuyan",
  
-    "rank_01": "Talaan ng Ranggo",
+    "rank_01": "Ranggo",
     "rank_02":"Imbitahan",
     "rank_03": "Yaman",
-    "rank_04": "Pinakamataas na Bituin na Hayop",
+    "rank_04": "BituinHayop",
 
     "hatch_01":"Makina ng Gacha",
     "hatch_02":"Puntos ng Swerte",
     "hatch_03":"Beses",
     "hatch_04": "Paikutin ng Isang Beses",
     "hatch_05": "Paikutin ng Sampung Beses",
+    "hatch_06": "Nakuha sa pamamagitan ng gacha",
     
     "prop_01": "Pagpapabilis ng Countdown",
     "prop_02": "Libre",
@@ -159,6 +160,9 @@
     "prop_04": "Bilis ng Kita x",
     "prop_05": "May ginagamit nang pagpapabilis na item, ang pagbili ay papalit dito. Kumpirmahin ang pagbili?",
     "prop_06": "Kumpirmahin ang pagbili?",
+
+    "pay_01": "Pagbabayad",
+    "pay_02": "Piliin ang paraan ng pagbabayad",
 
     "reward_tip_preview": "Preview ng Gantimpala",
     "reward_tip_normal": "Basic Gantimpala",

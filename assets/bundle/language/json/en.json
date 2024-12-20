@@ -80,7 +80,7 @@
     "main_btn_invite": "Invite",
     "main_btn_usdt_activity": "USDT Benefits",
     "main_pk":"Battle",
-    "main_income_num":"Income Amount",
+    "main_income_num":"Earnings",
     "main_income_speed":"Speed",
 
     "tips_buy_sucess": "Purchase successful",
@@ -142,16 +142,17 @@
     "invite_10": "Copied",
     "invite_11": "No invitations at the moment",
 
-    "rank_01": "Leaderboard",
+    "rank_01": "Ranking",
     "rank_02":"Invite",
     "rank_03": "Wealth",
-    "rank_04": "Supreme Star Beast",
+    "rank_04": "StarBeast",
 
     "hatch_01":"Gacha Machine",
     "hatch_02":"Luck Points",
     "hatch_03":"Times",
     "hatch_04": "Spin Once",
     "hatch_05": "Spin Ten Times",
+    "hatch_06": "Obtained through a gacha",
 
     "prop_01": "Countdown Acceleration",
     "prop_02": "Free",
@@ -159,6 +160,9 @@
     "prop_04": "Income Speed x",
     "prop_05": "An acceleration item is already in use, purchasing will replace it. Confirm purchase?",
     "prop_06": "Confirm purchase?",
+
+    "pay_01": "Pay",
+    "pay_02": "Select a payment method",
 
     "reward_tip_preview": "Reward Preview",
     "reward_tip_normal": "Primary Reward",

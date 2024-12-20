@@ -1,5 +1,10 @@
 
 import { _decorator, Component, Node, Prefab, instantiate, UITransform, Label, Vec3, CCInteger } from 'cc';
+import { RewardItem } from './RewardItem';
+import { TableItemConfig } from '../common/table/TableItemConfig';
+import { StringUtil } from '../common/utils/StringUtil';
+import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
+import { hatchRecord } from './HatchDefine';
 const { ccclass, property } = _decorator;
 
 @ccclass('HatchRoll')
@@ -10,7 +15,9 @@ export class HatchRoll extends Component {
 
     private itemNum: number = 0;
     private itemSize: number = 0;
-    private hatchRecords: string[] = [];
+    private hatchRecords: hatchRecord[] = [];
+
+    private itemConfig: TableItemConfig = new TableItemConfig();
 
     onLoad() {
         this.initializeItemSize();
@@ -26,10 +33,27 @@ export class HatchRoll extends Component {
     }
 
     // 初始化UI
-    InitUI(records: string[]) {
+    InitUI(records: hatchRecord[]) {
         this.hatchRecords = records;
         this.itemNum = this.hatchRecords.length
         this.populateItems();
+        
+    }
+
+    private getFormattedName(taret:Label, record: hatchRecord) {
+        const itemId = StringUtil.combineNumbers(record.rewardType, record.rewardId, 2);
+        try {
+            this.itemConfig.init(itemId);
+            const nameParts = this.itemConfig.name.split("|");
+            const baseName = oops.language.getLangByID(nameParts[0]);
+            const propName = nameParts.length > 1 ? `${baseName}${nameParts[1]}` : baseName;
+
+            // 玩家 通过扭蛋获得了 道具名称
+            taret.string  = `${record.userName} ${oops.language.getLangByID('hatch_06')} ${propName}`;
+
+        } catch (error) {
+            console.error('奖励配置错误', record);
+        }
     }
 
     // 填充item
@@ -42,10 +66,10 @@ export class HatchRoll extends Component {
         }
     }
 
-    private createItemNode(record: string): Node {
+    private createItemNode(record: hatchRecord): Node {
         const pNode = instantiate(this.itemPrefab);
         const labelComponent = pNode.getComponent(Label);
-        labelComponent.string = record;
+        this.getFormattedName(labelComponent, record);
         return pNode;
     }
 

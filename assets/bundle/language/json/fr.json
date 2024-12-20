@@ -80,7 +80,7 @@
     "main_btn_invite": "Inviter",
     "main_btn_usdt_activity": "Avantages USDT",
     "main_pk":"Bataille",
-    "main_income_num":"Montant des Revenus",
+    "main_income_num":"Montant",
     "main_income_speed":"Vitesse",
 
     "tips_buy_sucess": "Achat réussi",
@@ -142,16 +142,17 @@
     "invite_10": "Copié",
     "invite_11": "Sin invitación por el momento",
  
-    "rank_01": "Classement",
+    "rank_01": "Classe",
     "rank_02":"Inviter",
     "rank_03": "Richesse",
-    "rank_04": "Bête Suprême des Étoiles",
+    "rank_04": "BêteÉtoile",
 
     "hatch_01":"Machine Gacha",
     "hatch_02":"Points de Chance",
     "hatch_03":"Fois",
     "hatch_04": "Tourner Une Fois",
     "hatch_05": "Tourner Dix Fois",
+    "hatch_06": "Obtenu via un gacha",
     
     "prop_01": "Accélération du Compte à Rebours",
     "prop_02": "Gratuit",
@@ -159,6 +160,9 @@
     "prop_04": "Vitesse des Revenus x",
     "prop_05": "Un article d'accélération est déjà utilisé, l'achat le remplacera. Confirmer l'achat ?",
     "prop_06": "Confirmer l'achat ?",
+
+    "pay_01": "Paiement",
+    "pay_02": "Sélectionnez un mode de paiement",
 
     "reward_tip_preview": "Aperçu des récompenses",
     "reward_tip_normal": "Récompenses de niveau débutant",

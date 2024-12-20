@@ -1837,7 +1837,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "已领取",
+    "_string": "Done",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 38,
@@ -1891,7 +1891,7 @@
     "node": {
       "__id__": 68
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": {
       "__id__": 74
     },

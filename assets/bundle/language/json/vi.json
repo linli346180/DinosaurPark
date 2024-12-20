@@ -80,7 +80,7 @@
     "main_btn_invite": "Mời",
     "main_btn_usdt_activity": "Phúc lợi USDT",
     "main_pk": "Đối chiến",
-    "main_income_num": "Số lượng thu nhập",
+    "main_income_num": " Số lượng",
     "main_income_speed": "Tốc độ",
 
     "tips_buy_sucess": "Mua thành công",
@@ -142,16 +142,17 @@
     "invite_10": "Đã sao chép",
     "invite_11": "Không có lời mời.",
 
-    "rank_01": "Bảng xếp hạng",
+    "rank_01": "Bảng xh",
     "rank_02": "Mời",
     "rank_03": "Tài sản",
-    "rank_04": "Thú hoàng gia",
+    "rank_04": "QuáiTinh",
 
     "hatch_01": "Máy quay trứng",
     "hatch_02": "May mắn",
     "hatch_03": "Lượt",
     "hatch_04": "Quay một lần",
     "hatch_05": "Quay mười lần",
+    "hatch_06": "Đã nhận được thông qua gacha",
 
     "prop_01": "Đếm ngược tăng tốc",
     "prop_02": "Miễn phí",
@@ -159,6 +160,9 @@
     "prop_04": "Tốc độ thu nhập x",
     "prop_05": "Đã có vật phẩm tăng tốc đang được kích hoạt, mua sẽ thay thế, bạn có chắc muốn mua không?",
     "prop_06": "Bạn có chắc muốn mua không?",
+
+    "pay_01": "Thanh toán",
+    "pay_02": "Chọn phương thức thanh toán",
 
     "reward_tip_preview": "Xem trước phần thưởng",
     "reward_tip_normal": "Phần thưởng cơ bản",

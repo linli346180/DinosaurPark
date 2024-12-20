@@ -16,10 +16,11 @@ const { ccclass, property } = _decorator;
 @ccclass('HatchView')
 export class HatchView extends Component {
     @property(Button) btn_close: Button = null!;
-    @property(Button) btn_RewardView: Button = null!;
+    @property(Button) btn_instructions: Button = null!;
     @property(Button) btn_HatchOneTime: Button = null!;
     @property(Button) btn_HatchTenTimes: Button = null!;
     @property(Button) btn_AddGems: Button = null!;
+    @property(Button) btn_rewardView: Button = null!;
     @property(Label) label_coinNum: Label = null!;
     @property(Label) label_gemsNum: Label = null!;
     @property(Label) label_hatchNum: Label = null!;
@@ -29,25 +30,21 @@ export class HatchView extends Component {
 
     private hatchConfig: UserHatchConfig = new UserHatchConfig();
     private hatchResult: HatchResult = new HatchResult();
-    private get canHatch(): boolean {
-        const defaultClip = this.anim.defaultClip;
-        if (defaultClip) {
-            const state = this.anim.getState(defaultClip.name);
-            return !state.isPlaying;
-        }
-        return true;
-    }
+
+    private  canHatch: boolean;
 
     onEnable() {
         this.getHatchBaseInfo();
     }
 
     start() {
+        this.canHatch = true;
         this.btn_close?.node.on(Button.EventType.CLICK, this.onClose, this);
-        this.btn_RewardView?.node.on(Button.EventType.CLICK, this.showTips, this);
+        this.btn_instructions?.node.on(Button.EventType.CLICK, this.showTips, this);
         this.btn_HatchOneTime?.node.on(Button.EventType.CLICK, () => { this.userHatch(1) }, this);
         this.btn_HatchTenTimes?.node.on(Button.EventType.CLICK, () => { this.userHatch(10) }, this);
         this.btn_AddGems?.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.GemShop) }, this);
+        this.btn_rewardView?.node.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.RewardView) }, this);
         oops.message.on(AccountEvent.CoinDataChange, this.updateDataDisplay, this);
     }
 
@@ -93,7 +90,7 @@ export class HatchView extends Component {
             oops.gui.open(UIID.GemShop)
             return
         }
-
+        this.canHatch = false;
         this.anim.once(Animation.EventType.FINISHED, this.OnAnimFinish, this);
         this.anim.play();
         this.hatchResult = null;
@@ -113,6 +110,9 @@ export class HatchView extends Component {
         var uic: UICallbacks = {
             onAdded: (node: Node, params: any) => {
                 node.getComponent(HatchReward)?.InitUI(this.hatchResult.rewardList);
+            },
+            onRemoved: (node: Node, params: any) => {
+                this.canHatch = true;
             },
         };
         let uiArgs: any;

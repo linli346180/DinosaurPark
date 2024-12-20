@@ -11,6 +11,7 @@ import { STBToggle } from './STBToggle';
 import { CusScrollList } from '../common/scrollList/CusScrollList';
 import { UICallbacks } from '../../../../extensions/oops-plugin-framework/assets/core/gui/layer/Defines';
 import { EvolveTipsView } from '../evolve/EvolveTipsView';
+import { AvatarUtil } from '../common/AvatarUtil';
 
 const { ccclass, property } = _decorator;
 
@@ -156,6 +157,17 @@ export class RankView extends Component {
         });
         this.selfRankItem.initItem(this.rankData.userRank, this.curRankGroup, this.curSTBRankType);
         this.emptyNode.active = this.rankData.rankList.length === 0;
+        await this.updateTop3Avatars();
+    }
+
+    private async updateTop3Avatars() {
+        const topSprites = [this.top1, this.top2, this.top3];
+        const length = Math.min(this.rankData.rankList.length, 3);
+
+        for (let i = 0; i < length; i++) {
+            console.log(i);
+            topSprites[i].getComponent(AvatarUtil)?.InitAvatar(smc.account.AccountModel.userData.avatarPath);
+        }
     }
 
     // 更新富豪榜数据

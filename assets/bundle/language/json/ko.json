@@ -80,7 +80,7 @@
     "main_btn_invite": "초대",
     "main_btn_usdt_activity": "USDT 혜택",
     "main_pk":"배틀",
-    "main_income_num":"수익 금액",
+    "main_income_num":"수익량",
     "main_income_speed":"속도",
 
     "tips_buy_sucess": "구매 성공",
@@ -142,16 +142,17 @@
     "invite_10": "복사됨",
     "invite_11": "초대 없음",
  
-    "rank_01": "랭킹",
+    "rank_01": "순위표",
     "rank_02":"초대",
     "rank_03": "부",
-    "rank_04": "궁극의 스타 비스트",
+    "rank_04": "스타비스트",
 
     "hatch_01":"가차 머신",
     "hatch_02":"운 포인트",
     "hatch_03":"횟수",
     "hatch_04": "1회 돌리기",
     "hatch_05": "10회 돌리기",
+    "hatch_06": "뽑기를 통해 얻었습니다",
     
     "prop_01": "카운트다운 가속",
     "prop_02": "무료",
@@ -159,6 +160,9 @@
     "prop_04": "수익 속도 x",
     "prop_05": "가속 아이템이 이미 사용 중입니다. 구매하면 교체됩니다. 구매를 확인하시겠습니까?",
     "prop_06": "구매를 확인하시겠습니까?",
+
+    "pay_01": "결제",
+    "pay_02": "결제 방법을 선택하세요",
 
     "reward_tip_preview": "보상 미리보기",
     "reward_tip_normal": "초급 보상",

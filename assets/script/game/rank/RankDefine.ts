@@ -115,6 +115,7 @@ export class RankData {
     ranking: number;            // 排名
     userID: number;             // 用户id
     userName: string;           // 用户名称
+    avatarPath: string          // 头像路径 
     count: number;              // 邀请人数
 
     curRankType: RankGroup;     // 当前排行榜类型

@@ -2,6 +2,8 @@ import { _decorator, Component, Node, Label, Sprite, assetManager, ImageAsset, T
 import { RankData, RankGroup, STBType } from './RankDefine';
 import { StringUtil } from '../common/utils/StringUtil';
 import { ScrollListItem } from '../common/scrollList/ScrollListItem';
+import { AvatarUtil } from '../common/AvatarUtil';
+import { smc } from '../common/SingletonModuleComp';
 const { ccclass, property } = _decorator;
 
 @ccclass('RankItem')
@@ -30,6 +32,7 @@ export class RankItem extends ScrollListItem {
 
         this.userName.string = data.userName;
         this.inviteCount.string = StringUtil.formatMoney(data.count, 2).toString();
+        this.rankAc.getComponent(AvatarUtil)?.InitAvatar(smc.account.AccountModel.userData.avatarPath);
         this.updateIcons(rankGroup, STBtype);
         this.updateRankingDisplay(Math.floor(data.ranking));
     }
@@ -60,24 +63,5 @@ export class RankItem extends ScrollListItem {
         this.level1.active = ranking === 1;
         this.level2.active = ranking === 2;
         this.level3.active = ranking === 3;
-    }
-
-    /**
-     * 加载头像
-     * @param url 头像URL
-     */
-    private loadAvatar(url: string) {
-        if (!url || url.length === 0) {
-            return;
-        }
-        // assetManager.loadRemote<ImageAsset>(url, (err, imageAsset) => {
-        //     if (!err) {
-        //         const texture = new Texture2D();
-        //         texture.image = imageAsset;
-        //         const spriteFrame = new SpriteFrame();
-        //         spriteFrame.texture = texture;
-        //         this.rankAc.spriteFrame = spriteFrame;
-        //     }
-        // });
     }
 }

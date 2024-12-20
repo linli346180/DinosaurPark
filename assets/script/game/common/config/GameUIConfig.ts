@@ -85,6 +85,7 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     // 抽奖
     [UIID.Hatch]: { layer: LayerType.UI, prefab: "gui/hatch/prefab/hatch", preLoad: true },
     [UIID.HatchReward]: { layer: LayerType.PopUp, prefab: "gui/hatch/prefab/hatchReward", mask: true, preLoad: true },
+    [UIID.RewardView]: { layer: LayerType.PopUp, prefab: "gui/hatch/prefab/rewardView", mask: true, vacancy: true },
 
     // 进化
     [UIID.Evolve]: { layer: LayerType.UI, prefab: "gui/evolve/evolveUI", preLoad: true },

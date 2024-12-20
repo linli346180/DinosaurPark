@@ -80,7 +80,7 @@
     "main_btn_invite": "Undang",
     "main_btn_usdt_activity": "Kegiatan USDT",
     "main_pk":"Pertempuran",
-    "main_income_num":"Jumlah Pendapatan",
+    "main_income_num":" Jumlah",
     "main_income_speed":"Kecepatan",
 
     "tips_buy_sucess": "Pembelian Berhasil",
@@ -142,16 +142,17 @@
     "invite_10": "Tersalin",
     "invite_11": "No invitations at the moment",
  
-    "rank_01": "Papan Peringkat",
+    "rank_01": "Peringkat",
     "rank_02":"Undang",
     "rank_03": "Kekayaan",
-    "rank_04": "Binatang Bintang Tertinggi",
+    "rank_04": "BintangBinat",
 
     "hatch_01":"Mesin Gacha",
     "hatch_02":"Poin Keberuntungan",
     "hatch_03":"Kali",
     "hatch_04": "Putar Sekali",
     "hatch_05": "Putar Sepuluh Kali",
+    "hatch_06": "Diperoleh melalui gacha",
     
     "prop_01": "Percepatan Hitung Mundur",
     "prop_02": "Gratis",
@@ -159,6 +160,9 @@
     "prop_04": "Kecepatan Pendapatan x",
     "prop_05": "Item percepatan sudah digunakan, pembelian akan menggantikannya. Konfirmasi pembelian?",
     "prop_06": "Konfirmasi pembelian?",
+
+    "pay_01": "Pembayaran",
+    "pay_02": "Pilih metode pembayaran",
 
     "reward_tip_preview": "Pratinjau Hadiah",
     "reward_tip_normal": "Hadiah Pemula",

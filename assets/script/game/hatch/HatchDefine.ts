@@ -22,7 +22,14 @@ export class UserHatchConfig {
     hatchNum: number = 0;           // 当前孵化次数
     readonly hatchTotal : number = 100;      // 孵化总次数
     readonly hatchPrice : number = 300;      // 孵化价格
-    readonly hatchRecords: string[] = [];    // 孵化记录
+    readonly hatchRecords: hatchRecord[] = [];    // 孵化记录
+}
+
+export class hatchRecord {
+    userName: string;
+    rewardType: number;
+    rewardId: number;
+    rewardQuantity: string;
 }
 
 /** 孵蛋结果 */
@@ -35,7 +42,7 @@ export class HatchResult {
 export interface RewardConfig {
     readonly goodName: string;          // 奖励名称
     readonly level: number;             // 奖励级别(1.普通,2.中级,3.高级,4.稀有)
-    readonly rewardType: number;    // 奖励类型(1.货币,2.星兽,3.星兽碎片)
+    readonly rewardType: number;    // 奖励类型(1.货币,2.星兽,3.星兽碎片, 5加速卡)
     readonly rewardGoodsID: number;     // 奖励物品ID
     readonly rewardNum: number;         // 奖励数量
     readonly standbyID?: number;         // 备用ID(碎片的主表ID)
