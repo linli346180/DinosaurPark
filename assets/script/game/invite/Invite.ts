@@ -113,7 +113,7 @@ export class InviteVeiw extends Component {
     private copyInviteLink() {
         if (navigator.clipboard) {
             navigator.clipboard.writeText(this.inviteLink).then(() => {
-                oops.gui.toast("invite_tips_copytoclipboard", true);
+                oops.gui.toast("invite_10", true);
             }).catch(err => {
                 console.error("无法拷贝到剪切板", err);
             });

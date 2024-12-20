@@ -89,7 +89,7 @@ export class InviteRewardItem extends Component {
         this.btn_item.interactable = false;
         const res = await InviteNetService.clampInviteReward(this.config.id);
         if(res) {
-            oops.gui.toast(oops.language.getLangByID('invite_tips_claim_success'));
+            oops.gui.toast(oops.language.getLangByID('mail_tips_received'));
             smc.account.updateCoinData();
             this.config.clamed = true;
             this.initItem(this.totalNum, this.config);

@@ -31,11 +31,10 @@ export class RankItem extends ScrollListItem {
         if (!data) return;
 
         this.userName.string = data.userName;
-        if(data.count < 1){
-            const num = Number(data.count);
-            this.inviteCount.string = num.toFixed(4).toString();
+        if(rankGroup == RankGroup.Rich){
+            this.inviteCount.string = StringUtil.formatMoney(data.count, 4).toString();
         }else{
-            this.inviteCount.string = StringUtil.formatMoney(data.count, 2).toString();
+            this.inviteCount.string = StringUtil.formatMoney(data.count, 0).toString();
         }
         console.log(data.count);
         this.rankAc.getComponent(AvatarUtil)?.InitAvatar(data.avatarPath);
