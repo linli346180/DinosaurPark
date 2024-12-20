@@ -1,4 +1,4 @@
-import { EventTouch, _decorator, Component, Node, UITransform, Vec3, Contact2DType, Collider2D, IPhysics2DContact, PhysicsSystem2D } from 'cc';
+import { EventTouch, _decorator, Component, Node, UITransform, Vec3, PhysicsSystem2D } from 'cc';
 import { ActorController } from './state/ActorController';
 const { ccclass } = _decorator;
 
@@ -10,17 +10,12 @@ export class ActorDrag extends Component {
 
     start() {
         // 是否启用物理系统
-        PhysicsSystem2D.instance.enable = true;
+        PhysicsSystem2D.instance.enable = false;
         this.actorCtrl = this.node.getComponent(ActorController);
         this.node.on(Node.EventType.TOUCH_START, this.onNodeTouchStart, this);
         this.node.on(Node.EventType.TOUCH_MOVE, this.onNodeTouchMove, this);
         this.node.on(Node.EventType.TOUCH_END, this.onNodeTouchEnd, this);
         this.node.on(Node.EventType.TOUCH_CANCEL, this.onNodeTouchEnd, this);
-
-        // const collider = this.getComponent(Collider2D);
-        // if (collider) {
-        //     collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-        // }
     }
 
     onDestroy() {
@@ -30,97 +25,65 @@ export class ActorDrag extends Component {
         this.node.off(Node.EventType.TOUCH_CANCEL, this.onNodeTouchEnd, this);
     }
 
-    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        // if (this.IsDragging) {
-        //     console.log('碰撞到了', otherCollider.node.name);
-        //     let stbID1 = this.actorCtrl?.stbId ?? 0;
-        //     let stbID2 = otherCollider.node.getComponent(ActorController)?.stbId ?? 0;
-        //     if (stbID1 === 0 || stbID2 === 0 || !smc.account.getUserSTBData(stbID2, UserSTBType.InCome)) return;
-
-        //     var uic: UICallbacks = {
-        //       onAdded: (node: Node, params: any) => {
-        //         const component = node.getComponent(STBMergeView);
-        //         if (component) {
-        //           component.InitUI(stbID1, stbID2);
-        //         }
-        //       },
-        //     };
-        //     let uiArgs: any;
-        //     oops.gui.open(UIID.STBMerge, uiArgs, uic);
-        //     this.onNodeTouchEnd();
-        // }
-      // this.actorCtrl?.setWaitState();
-    }
-
     private onNodeTouchStart(event: EventTouch) {
-      console.log('onNodeTouchStart');
-      this.IsDragging = true;
-      this.actorCtrl?.setDrag(true);
-      this.calculateOffset(event);
-      this.setNodeToTop(this.node);
+        this.IsDragging = true;
+        this.actorCtrl?.setDrag(true);
+        this.calculateOffset(event);
+        this.setNodeToTop(this.node);
+
+        this.actorCtrl.ShowSurvival = true;
     }
 
     private onNodeTouchMove(event: EventTouch) {
-      console.log('onNodeTouchStart');
-      if (!this.IsDragging) return;
-      this.updateNodePosition(event);
+        if (!this.IsDragging) return;
+        this.updateNodePosition(event);
     }
 
     private onNodeTouchEnd() {
-      console.log('onNodeTouchStart');
-      this.IsDragging = false;
-      this.actorCtrl?.setDrag(false);
+        this.IsDragging = false;
+        this.actorCtrl?.setDrag(false);
+        setTimeout(()=>{this.actorCtrl.ShowSurvival = false}, 2000);
     }
 
     private calculateOffset(event: EventTouch) {
-      const uiTransform = this.node.parent?.getComponent(UITransform);
-      if (uiTransform) {
-        // 获取触摸点的世界坐标
-        const touchLocation = event.getUILocation();
-        const worldPosition = new Vec3(touchLocation.x, touchLocation.y, 0);
-
-        // 将世界坐标转换为节点的局部坐标（相对于锚点）
-        const localPosition = uiTransform.convertToNodeSpaceAR(worldPosition);
-
-        // 计算节点当前位置与点击位置的偏移
-        this.offset = this.node.position.clone().subtract(localPosition);
-      }
+        const uiTransform = this.node.parent?.getComponent(UITransform);
+        if (uiTransform) {
+            const touchLocation = event.getUILocation();
+            const worldPosition = new Vec3(touchLocation.x, touchLocation.y, 0);
+            const localPosition = uiTransform.convertToNodeSpaceAR(worldPosition);
+            this.offset = this.node.position.clone().subtract(localPosition);
+        }
     }
 
     private updateNodePosition(event: EventTouch) {
-      if (!this.IsDragging) return;
+        if (!this.IsDragging) return;
 
-      const uiTransform = this.node.parent?.getComponent(UITransform);
-      if (uiTransform) {
-        // 获取拖动中的世界坐标
-        const touchLocation = event.getUILocation();
-        const worldPosition = new Vec3(touchLocation.x, touchLocation.y, 0);
+        const uiTransform = this.node.parent?.getComponent(UITransform);
+        if (uiTransform) {
+            const touchLocation = event.getUILocation();
+            const worldPosition = new Vec3(touchLocation.x, touchLocation.y, 0);
+            const localPosition = uiTransform.convertToNodeSpaceAR(worldPosition);
+            const newPos = localPosition.add(this.offset);
 
-        // 将世界坐标转换为节点父级的本地坐标
-        const localPosition = uiTransform.convertToNodeSpaceAR(worldPosition);
+            // 限制节点移动范围
+            if (this.actorCtrl) {
+                newPos.x = Math.max(
+                    this.actorCtrl.widthLimit.x,
+                    Math.min(newPos.x, this.actorCtrl.widthLimit.y)
+                );
+                newPos.y = Math.max(
+                    this.actorCtrl.heightLimit.x,
+                    Math.min(newPos.y, this.actorCtrl.heightLimit.y)
+                );
+            }
 
-        // 根据偏移量设置新位置
-        const newPos = localPosition.add(this.offset);
-
-        // 限制节点移动范围
-        if (this.actorCtrl) {
-          newPos.x = Math.max(
-            this.actorCtrl.widthLimit.x,
-            Math.min(newPos.x, this.actorCtrl.widthLimit.y)
-          );
-          newPos.y = Math.max(
-            this.actorCtrl.heightLimit.x,
-            Math.min(newPos.y, this.actorCtrl.heightLimit.y)
-          );
+            this.node.setPosition(newPos);
         }
-
-        this.node.setPosition(newPos);
-      }
     }
 
-    private setNodeToTop(slef: Node) {
-      if (slef.parent) {
-        slef.setSiblingIndex(slef.parent.children.length - 1);
-      }
+    private setNodeToTop(self: Node) {
+        if (self.parent) {
+            self.setSiblingIndex(self.parent.children.length - 1);
+        }
     }
 }

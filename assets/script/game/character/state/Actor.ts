@@ -7,21 +7,17 @@ import { Color } from 'cc';
 const { ccclass, property, requireComponent, disallowMultiple } = _decorator;
 
 @ccclass('Actor')
-// @requireComponent(RigidBody2D)
-// @requireComponent(Collider2D)
-// @disallowMultiple(true)
+@requireComponent(RigidBody2D)
+@requireComponent(Collider2D)
+@disallowMultiple(true)
 export class Actor extends Component {
     public rigidbody: RigidBody2D | null = null;
     public collider: Collider2D | null = null;
 
-    @property(Animation)
-    public animation: Animation = null!;
-    @property(Sprite)
-    public mainRenderer: Sprite = null!;
-    @property(Label)
-    public survival: Label = null!;
-    // @property
-    // public linearSpeed: number = 5;    // 移动速度
+    @property(Animation) animation: Animation = null!;
+    @property(Sprite) mainRenderer: Sprite = null!;
+    @property(Label) survival: Label = null!;
+
     public stateMgr: StateMachine<StateDefine> = new StateMachine();
 
     _input: Vec2 = v2();
@@ -44,12 +40,16 @@ export class Actor extends Component {
     }
 
     /** 更新存活时间显示 */
-    public updateSurvivalDisplay(survivalSec: number) {
+    public updateSurvivalDisplay(survivalSec: number, isShow: boolean = true) {
+        if (!isShow) {
+            this.survival.node.active = false;
+            return;
+        }
+
         this.survival.node.active = true;
         const hours = Math.floor(survivalSec / 3600);
         const minutes = Math.floor((survivalSec % 3600) / 60);
         const seconds = survivalSec % 60;
-
         let formattedTime = "";
         if (hours > 0) {
             formattedTime = `${this.padZero(hours)}:${this.padZero(minutes)}:${this.padZero(seconds)}`;
@@ -58,7 +58,6 @@ export class Actor extends Component {
         }
 
         this.survival.string = formattedTime;
-
         if (survivalSec <= 3)
             this.survival.color = Color.RED;
     }

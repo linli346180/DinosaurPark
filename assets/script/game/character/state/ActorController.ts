@@ -25,8 +25,8 @@ const tmpP0 = new Vec2();
 @ccclass('ActorController')
 export class ActorController extends Component {
     public stbId: number = 0;  // 星兽ID
-    public stbConfigType : number = 0; // 星兽配置类型
-    
+    public stbConfigType: number = 0; // 星兽配置类型
+
     // public stbData: StartBeastData | undefined; // 星兽数据
     public widthLimit: Vec2 = new Vec2();
     public heightLimit: Vec2 = new Vec2();
@@ -46,9 +46,9 @@ export class ActorController extends Component {
     private runInterval: number = 0;
     private idleInterval: number = 0;
 
-    private isSurvival: boolean = true; // 是否存活
     private survivalSec: number = 0;    //生命周期
     private incomeCycle: number = 0; // 收益周期
+
 
     public init(pos: Vec3, vec: Vec3): void {
         this.runTime = 0;
@@ -117,17 +117,32 @@ export class ActorController extends Component {
         return;
     }
 
+    /** 显示剩余时间 */
+    private _showSurvival: boolean = false;
+    public set ShowSurvival(value: boolean) {
+        this._showSurvival = value;
+        if (this.survivalSec > 0) 
+            this.actor.updateSurvivalDisplay(this.survivalSec, this._showSurvival|| this.survivalSec <= 60);
+    }
+
     /** 初始化生命周期 */
-    private initSurvival() {
+    public initSurvival() {
         if (!this.actor)
             return;
 
         this.survivalSec = smc.account.getSTBSurvivalSec(this.stbId);
-        this.isSurvival = this.survivalSec > 0;
-        this.actor.survival.node.active = this.isSurvival;
-        if (this.isSurvival) {
-            this.actor.updateSurvivalDisplay(this.survivalSec);
+        if (this.survivalSec > 0) {
             this.schedule(this.updateSurvival, 1.0, this.survivalSec, 0);
+        }
+    }
+
+    /** 更新生命周期 */
+    private updateSurvival() {
+        if (this.survivalSec > 0) {
+            this.survivalSec--;
+            this.actor.updateSurvivalDisplay(this.survivalSec, this._showSurvival|| this.survivalSec <= 60);
+        } else {
+            this.unschedule(this.updateSurvival);
         }
     }
 
@@ -161,17 +176,7 @@ export class ActorController extends Component {
         }, randomInterval);
     }
 
-    /** 更新生命周期 */
-    private updateSurvival() {
-        if (this.survivalSec > 0) {
-            this.survivalSec--;
-            this.actor.updateSurvivalDisplay(this.survivalSec);
-        } else {
-            console.log('时间到，执行相关逻辑');
-            this.unschedule(this.updateSurvival);
-            this.isSurvival = false;
-        }
-    }
+
 
     private randomToRun(dt: number) {
         if (!this.rvoCollider)
