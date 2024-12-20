@@ -105,9 +105,9 @@ export class EvolveView extends Component {
         this.boxIcon_301.node.active = this.selectIndex === 301;
         this.boxIcon_302.node.active = this.selectIndex === 302;
         this.boxIcon_303.node.active = this.selectIndex === 303;
-        this.boxIcon_301.progress = 1;
-        this.boxIcon_302.progress = 1;
-        this.boxIcon_303.progress = 1;
+        // this.boxIcon_301.progress = 1;
+        // this.boxIcon_302.progress = 1;
+        // this.boxIcon_303.progress = 1;
 
         this.biaoIcon_301.active = this.selectIndex === 301;
         this.biaoIcon_302.active = this.selectIndex === 302;
@@ -120,8 +120,8 @@ export class EvolveView extends Component {
         this.stbResourceNum.string = '0';
         this.coinResourceNum.string = '0';
         this.progressLabel.string = '(0/0)';
-        this.progressBar.progress = 0;
-        this.slider.progress = 0;
+        // this.progressBar.progress = 0;
+        // this.slider.progress = 0;
         this.evolutionNumber = 0;
         this.evoNumLabel.string = this.evolutionNumber.toString();
     }
@@ -174,6 +174,7 @@ export class EvolveView extends Component {
         // 更新进度条
         tween(this.progressBar).to(0.5, { progress: targetProgress }).start();
         tween(this.slider).to(0.5, { progress: targetProgress }).start();
+
         if (this.boxIcon_301.node.active) {
             tween(this.boxIcon_301).to(0.5, { progress: 1 - targetProgress }).start();
         }
@@ -184,6 +185,7 @@ export class EvolveView extends Component {
             tween(this.boxIcon_303).to(0.5, { progress: 1 - targetProgress }).start();
         }
     }
+
 
     private async onEvolveClick() {
         if (this.evolutionNumber <= 0) {

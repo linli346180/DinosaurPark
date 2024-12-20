@@ -121,8 +121,8 @@ export class ActorController extends Component {
     private _showSurvival: boolean = false;
     public set ShowSurvival(value: boolean) {
         this._showSurvival = value;
-        if (this.survivalSec > 0) 
-            this.actor.updateSurvivalDisplay(this.survivalSec, this._showSurvival|| this.survivalSec <= 60);
+        if (this.survivalSec > 0)
+            this.actor.updateSurvivalDisplay(this.survivalSec, this._showSurvival || this.survivalSec <= 60);
     }
 
     /** 初始化生命周期 */
@@ -140,7 +140,7 @@ export class ActorController extends Component {
     private updateSurvival() {
         if (this.survivalSec > 0) {
             this.survivalSec--;
-            this.actor.updateSurvivalDisplay(this.survivalSec, this._showSurvival|| this.survivalSec <= 60);
+            this.actor.updateSurvivalDisplay(this.survivalSec, this._showSurvival || this.survivalSec <= 60);
         } else {
             this.unschedule(this.updateSurvival);
         }
