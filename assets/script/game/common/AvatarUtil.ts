@@ -7,11 +7,10 @@ export class AvatarUtil extends Component {
     @property icon: Sprite = null!;
     @property url: string = '';
     @property saveToStorage: boolean = true;   // 是否保存到本地
-    @property({ readonly: true })
-    loadSuccess: boolean = false;   // 是否加载成功(用于判断是否需要保存到本地)
+    @property(SpriteFrame)
+    defauleIcon: SpriteFrame = null!;
 
-    @property({ type: SpriteFrame })
-    defauleIcon: SpriteFrame = null;
+    private loadFail = false;
 
     onLoad() {
         this.icon = this.getComponent(Sprite);
@@ -26,7 +25,7 @@ export class AvatarUtil extends Component {
 
     // 加载头像
     public loadAvatar(url: string) {
-        if (!this.defauleIcon)
+        if (this.defauleIcon != null)
             this.icon.spriteFrame = this.defauleIcon;
 
         if (url === '') {
@@ -38,8 +37,8 @@ export class AvatarUtil extends Component {
             return;
         }
 
-        if (this.loadSuccess) {
-            console.log("头像已加载成功,无需重复加载");
+        if (this.loadFail) {
+            console.log("远程头像下载失败,不再重试:", url);
             return;
         }
 
@@ -89,8 +88,8 @@ export class AvatarUtil extends Component {
                             }
                         });
                 } else {
-                    this.loadSuccess = true
                     this.logError("加载远程头像失败:", url);
+                    this.loadFail = true;
                 }
             });
         } catch (error) {
@@ -133,8 +132,6 @@ export class AvatarUtil extends Component {
         const spriteFrame = new SpriteFrame();
         spriteFrame.texture = texture;
         this.icon.spriteFrame = spriteFrame;
-
-        this.loadSuccess = true;
     }
 
     // 统一错误日志处理
