@@ -26,7 +26,7 @@ export class AvatarUtil extends Component {
 
     // 加载头像
     public loadAvatar(url: string) {
-        if (!this.icon.spriteFrame)
+        if (!this.defauleIcon)
             this.icon.spriteFrame = this.defauleIcon;
 
         if (url === '') {

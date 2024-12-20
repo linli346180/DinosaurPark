@@ -141,6 +141,8 @@ export class WithdrawWidget extends Component {
             smc.account.updateCoinData();
         }
         this.btn_withdrawal.interactable = true;
+        this.edit_amount.string = '';
+        this.edit_email.string = '';    
     }
 
     private onConnectStateChange(isConnected: boolean) {

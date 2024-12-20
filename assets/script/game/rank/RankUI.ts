@@ -173,7 +173,11 @@ export class RankView extends Component {
 
         for (let i = 0; i < length; i++) {
             topSprites[i].node.active = true;
-            topSprites[i].getComponent(AvatarUtil)?.InitAvatar(this.rankData.rankList[i].avatarPath);
+            const comp = topSprites[i].getComponent(AvatarUtil);
+            if(comp) {
+                comp.icon.spriteFrame = null;
+                comp.InitAvatar(this.rankData.rankList[i].avatarPath);
+            }
         }
     }
 
