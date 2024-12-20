@@ -4248,7 +4248,7 @@
       "__id__": 130
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 180
@@ -8266,6 +8266,9 @@
     },
     "hatchRoll": {
       "__id__": 44
+    },
+    "twistedEgg8": {
+      "__id__": 179
     },
     "_id": ""
   },

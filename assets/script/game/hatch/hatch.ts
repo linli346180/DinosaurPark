@@ -27,6 +27,7 @@ export class HatchView extends Component {
     @property(ProgressBar) progress: ProgressBar = null!;
     @property(Animation) anim: Animation = null!;
     @property({ type: HatchRoll }) hatchRoll: HatchRoll = null;
+    @property(Node) twistedEgg8: Node = null!;
 
     private hatchConfig: UserHatchConfig = new UserHatchConfig();
     private hatchResult: HatchResult = new HatchResult();
@@ -39,6 +40,7 @@ export class HatchView extends Component {
 
     start() {
         this.canHatch = true;
+        this.twistedEgg8.active = false;
         this.btn_close?.node.on(Button.EventType.CLICK, this.onClose, this);
         this.btn_instructions?.node.on(Button.EventType.CLICK, this.showTips, this);
         this.btn_HatchOneTime?.node.on(Button.EventType.CLICK, () => { this.userHatch(1) }, this);
@@ -91,6 +93,7 @@ export class HatchView extends Component {
             return
         }
         this.canHatch = false;
+        this.twistedEgg8.active = true;
         this.anim.once(Animation.EventType.FINISHED, this.OnAnimFinish, this);
         this.anim.play();
         this.hatchResult = null;
@@ -113,6 +116,7 @@ export class HatchView extends Component {
             },
             onRemoved: (node: Node, params: any) => {
                 this.canHatch = true;
+                this.twistedEgg8.active = false;
             },
         };
         let uiArgs: any;
