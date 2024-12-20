@@ -32,7 +32,7 @@ export class RankItem extends ScrollListItem {
 
         this.userName.string = data.userName;
         this.inviteCount.string = StringUtil.formatMoney(data.count, 2).toString();
-        this.rankAc.getComponent(AvatarUtil)?.InitAvatar(smc.account.AccountModel.userData.avatarPath);
+        this.rankAc.getComponent(AvatarUtil)?.InitAvatar(data.avatarPath);
         this.updateIcons(rankGroup, STBtype);
         this.updateRankingDisplay(Math.floor(data.ranking));
     }

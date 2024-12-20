@@ -164,9 +164,13 @@ export class RankView extends Component {
         const topSprites = [this.top1, this.top2, this.top3];
         const length = Math.min(this.rankData.rankList.length, 3);
 
+        for (let i = 0; i < 3; i++) {
+            topSprites[i].node.active = false;
+        }
+
         for (let i = 0; i < length; i++) {
-            console.log(i);
-            topSprites[i].getComponent(AvatarUtil)?.InitAvatar(smc.account.AccountModel.userData.avatarPath);
+            topSprites[i].node.active = true;
+            topSprites[i].getComponent(AvatarUtil)?.InitAvatar(this.rankData.rankList[i].avatarPath);
         }
     }
 

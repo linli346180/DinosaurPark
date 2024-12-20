@@ -21,7 +21,7 @@ export class InviteItemView extends ScrollListItem {
         this.userName.string = inviteData.inviteeUserName;
         this.success.active = inviteData.successInvite == 2;
         this.unsuccess.active = inviteData.successInvite == 1;
-        this.userIcon.getComponent(AvatarUtil)?.InitAvatar(smc.account.AccountModel.userData.avatarPath);
+        this.userIcon.getComponent(AvatarUtil)?.InitAvatar(inviteData.avatarUrl);
     }
 }
 

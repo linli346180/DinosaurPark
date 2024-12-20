@@ -9,6 +9,7 @@ import { AccountEvent } from '../account/AccountEvent';
 import { CountdownTimer } from './CountdownTimer';
 import { coinPoolVM } from '../account/viewModel/CoinPoolViewModel';
 import { netConfig } from '../../net/custom/NetConfig';
+import { tips } from '../common/tips/TipsManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Accelerate')
@@ -80,12 +81,15 @@ export class Accelerate extends Component {
     }
 
     private onFree() {
-        let propId = this.freePropsData?.id ?? 0;
-        if (propId > 0) {
-            ShopNetService.useProps(this.freePropsData.id).then((res) => {
-                if (res && res.props) {
-                    this.freePropsData.id = 0;
-                }
+        let propId = this.freePropsData?.id ?? 0;//是否有免费加速道具可使用
+        const propDataRes = smc.account.AccountModel.propData;//是否正在加速
+        if (propId > 0 && propDataRes.propsId > 0) {
+            tips.confirm(oops.language.getLangByID('prop_05'), () => {
+                ShopNetService.useProps(this.freePropsData.id).then((res) => {
+                    if (res && res.props) {
+                        this.freePropsData.id = 0;
+                    }
+                });
             });
         }
     }
