@@ -153,10 +153,6 @@ export class WithdrawWidget extends Component {
     }
 
     private showPurchase() {
-        const address = tonConnect.TonAddress;
-        if (tonConnect.IsConnected && address.length > 0) {
-            const formattedAddress = `${address.slice(0, 5)}...${address.slice(-5)}`;
-            this.label_purse.string = formattedAddress;
-        }
+        this.label_purse.string = tonConnect.TonAddress;
     }
 }
