@@ -44,7 +44,6 @@ export class AvatarUtil extends Component {
             } else {
                 this.loadAvatarFromRemote(url);
             }
-            console.log(`【加载完成】`);
         });
     }
 
@@ -72,19 +71,24 @@ export class AvatarUtil extends Component {
 
     // 从远程加载头像
     private loadAvatarFromRemote(url: string) {
-        assetManager.loadRemote<ImageAsset>(url, (err, imageAsset) => {
-            if (!err) {
-                console.log(`2.加载远程头像成功:${url}`);
-                this.setAvatarToSprite(imageAsset!);
-                if(this.saveToStorage) 
-                    this.saveAvatarToLocalStorage(url, url, (success) => {
-                        if (success) {  
-                            console.log("3.保存到本地缓存:", url);
-                        }});
-            } else {
-                this.logError("加载远程头像失败:", url);
-            } 
-        });
+        try {
+            assetManager.loadRemote<ImageAsset>(url, (err, imageAsset) => {
+                if (!err) {
+                    console.log(`2.加载远程头像成功:${url}`);
+                    this.setAvatarToSprite(imageAsset!);
+                    if(this.saveToStorage) 
+                        this.saveAvatarToLocalStorage(url, url, (success) => {
+                            if (success) {  
+                                console.log("3.保存到本地缓存:", url);
+                            }});
+                } else {
+                    this.loadSuccess = true
+                    this.logError("加载远程头像失败:", url);
+                } 
+            });
+        } catch (error) {
+            
+        }
     }
 
     // 存储头像到本地

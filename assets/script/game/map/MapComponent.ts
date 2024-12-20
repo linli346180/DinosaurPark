@@ -9,6 +9,7 @@ import { ActorController } from '../character/state/ActorController';
 import { RvoMgr } from '../../RVO/RvoMgr';
 import { StringUtil } from '../common/utils/StringUtil';
 import { TableSTBConfig } from '../common/table/TableSTBConfig';
+import { clear } from 'console';
 const { ccclass, property } = _decorator;
 
 const tmpP0 = v3();
@@ -19,8 +20,7 @@ export class MapComponent extends Component {
     @property(Node) mapRoot: Node = null!;
     @property(Node) delNode: Node = null!;
     private delList: number[] = [];
-    private waitList: number[] = [];
-
+    private timeoutId: NodeJS.Timeout;
     onLoad(): void {
         RvoMgr.radius = 80;
         RvoMgr.neighborDist = RvoMgr.radius * 1.7;
@@ -43,23 +43,16 @@ export class MapComponent extends Component {
 
     update(dt: number) {
         RvoMgr.update(dt);
-        // 防止超出个数限制
-        if (this.waitList.length > 0) {
-            const stbId = this.waitList.shift();    // 移除并返回第一个元素
-            this.createUserSTB(stbId);
-        }
     }
 
     private onHandler(event: string, args: any) {
         switch (event) {
             case AccountEvent.AddInComeSTB:
-                this.waitList.push(args);
+                this.autoFillUserSTB();
                 break;
-
             case AccountEvent.DelIncomeSTB:
                 this.delUserSTBItem(args);
-                this.unschedule(this.fillUserSTB);
-                this.scheduleOnce(this.fillUserSTB, 1);
+                this.autoFillUserSTB();
                 break;
         }
     }
@@ -67,6 +60,14 @@ export class MapComponent extends Component {
     private initUI() {
         this.delList = [];
         this.fillUserSTB();
+    }
+
+    /** 延迟等待填充 */
+    private autoFillUserSTB() {
+        clearTimeout(this.timeoutId);
+        this.timeoutId = setTimeout(() => {
+            this.fillUserSTB();
+        }, 1000);
     }
 
     private fillUserSTB() {
@@ -79,45 +80,30 @@ export class MapComponent extends Component {
 
     /** 自动填充玩家星兽 */
     private fillUserSTBMap(stbConfigType: number, limitNum: number, createNum: number = 1) {
+        // 获取所有星兽数据
         const stbDataList = smc.account.getSTBDataByConfigType(stbConfigType);
         const stbNum = stbDataList.length;
         if (stbNum === 0) return;
 
         const stbConfig = smc.account.getSTBConfigByType(stbConfigType);
-        const existList = this.getChildCount(stbConfigType, stbConfig.id);
-        if (existList.length >= limitNum) {
+        const existNum = this.getExistChildCount(stbConfigType);
+        if (existNum >= limitNum) {
             console.warn('星兽已满,不再显示:', stbConfigType);
             return;
         }
         const stbTable = new TableSTBConfig();
         stbTable.init(stbConfigType);
-        let fillNum = Math.min(stbNum, limitNum - existList.length);
+        let fillNum = Math.min(stbNum, limitNum - existNum);
         fillNum = Math.min(fillNum, createNum);
 
-        console.log('创建星兽:', stbConfigType, '已有:', existList.length, '需要:', fillNum);
+        console.log('创建星兽:', stbConfigType, '已有:', existNum, '需要:', fillNum);
 
-        stbDataList.forEach(stbData => {
-            if (!existList.includes(stbData.id) && fillNum > 0) {
+        for (const stbData of stbDataList) {
+            if (!this.isSTBExist(stbData.id) && fillNum > 0) {
                 this.createSTBItem(stbConfigType, stbData, stbTable.perfab);
                 fillNum--;
             }
-        });
-    }
-
-    private createUserSTB(stbId: number) {
-        const stbData = smc.account.getUserSTBData(stbId, UserSTBType.InCome);
-        if (!stbData) {
-            console.error('创建星兽失败:', stbId);
-            return;
         }
-        const stbConfig = smc.account.getSTBConfigById(stbData.stbConfigID);
-        if (!stbConfig) {
-            console.error('创建星兽失败:', stbId);
-            return;
-        }
-        const stbConfigType = StringUtil.combineNumbers(stbConfig.stbKinds, stbConfig.stbGrade, 2);
-        const limitNum = stbConfigType === 110 ? 5 : 1;
-        this.fillUserSTBMap(stbConfigType, limitNum, 1);
     }
 
     private async createSTBItem(stbConfigType: number, stbData: StartBeastData, prefabPath: string) {
@@ -153,18 +139,28 @@ export class MapComponent extends Component {
             childNode.getComponent(Collider2D).enabled = false;
             this.delList.push(stbId);
             childNode.getComponent(ActorController).onActorDeath();
+            console.log('删除星兽:', stbId);
         } else {
             console.error('删除星兽失败:', stbId);
         }
     }
 
     /** 获取指定星兽类型的数量 */
-    private getChildCount(stbConfigType: number, stbId: number): number[] {
-        return this.mapRoot.children
-            .filter(child => {
-                const cmp = child.getComponent(ActorController);
-                return cmp && cmp.stbConfigType === stbConfigType && !this.delList.includes(stbId);
-            })
-            .map(child => stbId);
+    private getExistChildCount(stbConfigType: number): number {
+        let stbCount = 0;
+        this.mapRoot.children.forEach(child => {
+            const cmp = child.getComponent(ActorController);
+            if (cmp && cmp.stbConfigType === stbConfigType && !this.delList.includes(cmp.stbId)) {
+                stbCount++;
+            }
+        });
+        return stbCount;
+    }
+
+    private isSTBExist(stbId: number): boolean {
+        return this.mapRoot.children.some(child => {
+            const cmp = child.getComponent(ActorController);
+            return cmp && cmp.stbId === stbId && !this.delList.includes(stbId);
+        });
     }
 }

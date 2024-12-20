@@ -10,11 +10,9 @@ export class KnapsackView extends Component {
     @property(Button) btn_fold: Button = null!;
 
     /** 是否展开 */
-    get IsShow() {
-        return this.btn_fold.node.active;
-    }
+    private _isShow: boolean = true;
     set IsShow(value: boolean) {
-        if (this.IsShow === value) return;
+        if (this._isShow === value) return;
         if (value) {
             this.onKnapsackShow();
         } else {
@@ -44,9 +42,11 @@ export class KnapsackView extends Component {
 
     private onKnapsackHide() {
         this.animation.play('knapsack_hide');
+        this._isShow = false;
     }
 
     private onKnapsackShow() {
         this.animation.play('knapsack_open');
+        this._isShow = true;
     }
 }

@@ -68,7 +68,7 @@ export class KnapsackControlle extends Component {
     }
 
     /** 创建背包槽位 */
-    createSlotItem(slotId: number) {
+    private createSlotItem(slotId: number) {
         if (slotId < 1 || slotId > this.maxslotNum) {
             console.error("背包槽索引不正确");
             return;
@@ -270,11 +270,10 @@ export class KnapsackControlle extends Component {
             // 交换ConfigID
             this.fromSlot.STBConfigID = this.toSTBConfigId;
             this.toSlot.STBConfigID = this.fronSTBConfigId;
-
-            this.canChangeSlot = false;
             console.log(`目标槽位为空，直接交换 ${this.fromSTBID} ${toslotId}`);
+
+            this.limitOperateInterval();
             smc.account.changeSTBSlotIdNet(this.fromSTBID, toslotId, (success) => {
-                this.canChangeSlot = true;
                 if (!success) {
                     console.error("交换位置失败");
                     this.recoverSlot();
@@ -290,9 +289,9 @@ export class KnapsackControlle extends Component {
         if (this.fromSlot.STBConfigId != this.toSlot.STBConfigId) {
             this.fromSlot.STBConfigID = this.toSTBConfigId;
             this.toSlot.STBConfigID = this.fronSTBConfigId;
-            this.canChangeSlot = false;
+
+            this.limitOperateInterval();
             smc.account.changeSTBSlotIdNet(this.fromSTBID, toslotId, (success) => {
-                this.canChangeSlot = true;
                 if (!success) {
                     console.error("交换位置失败");
                     this.recoverSlot();
@@ -304,16 +303,15 @@ export class KnapsackControlle extends Component {
         } else {
             // 两个星兽等级相同，合成后星兽等级+1 
             if (this.fromSlot.STBConfigId == this.toSlot.STBConfigId) {
-                // 获取下一级星兽配置
                 const config = smc.account.STBConfigMode.getNextSTBConfigData(this.toSTBConfigId);
                 if (config) {
                     this.toSlot.stbData.stbConfigID = config.id;
                 }
                 this.toSlot.InitUI(this.toSlot.stbData, false, true);
                 this.fromSlot.STBConfigID = 0;
-                this.canChangeSlot = false;
+
+                this.limitOperateInterval();
                 smc.account.mergeUnIncomeSTBNet(this.toSTBID, this.fromSTBID, (success, levelUp) => {
-                    this.canChangeSlot = true;
                     if (!success) {
                         console.error("合成星兽失败");
                         this.recoverSlot();
@@ -321,6 +319,14 @@ export class KnapsackControlle extends Component {
                 });
             }
         }
+    }
+
+    // 限制操作间隔时间(0.25s操作一次)
+    private limitOperateInterval() {
+        this.canChangeSlot = false;
+        setTimeout(() => {
+            this.canChangeSlot = true;
+        }, 250);
     }
 
     recoverSlot() {

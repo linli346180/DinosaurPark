@@ -66,11 +66,17 @@ export class AdoptionView extends Component {
         const config = this._configDataList[this._index];
         if (config) {
             console.log(`领养${config.stbName}`);
-            this._canClick = false;
-            smc.account.adopStartBeastNet(config.id, false, (success: boolean, msg: string) => {
-                this._canClick = true;
-            });
+            this.limitOperateInterval();
+            smc.account.adopStartBeastNet(config.id, false, (success: boolean, msg: string) => {});
         }
+    }
+
+    // 限制操作间隔时间(0.25s操作一次)
+    private limitOperateInterval() {
+        this._canClick = false;
+        setTimeout(() => {
+            this._canClick = true;
+        }, 250);
     }
 
     private onLeft() {

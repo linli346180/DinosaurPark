@@ -147,14 +147,17 @@ export class RankView extends Component {
             item.STBRankType = this.curSTBRankType;
         });
         this.rankData.rankList.sort((a, b) => a.ranking - b.ranking);
-        this.rankData.rankList.forEach((data) => {
-            const itemNode = instantiate(this.itemPerfab);
-            const rankItem = itemNode.getComponent(RankItem);
-            if (rankItem) {
-                rankItem.initItem(data, this.curRankGroup, this.curSTBRankType);
-                this.container.addChild(itemNode);
-            }
-        });
+
+        this.scrollList.setDataList(this.rankData.rankList, 2, [0, 0, 10]);
+
+        // this.rankData.rankList.forEach((data) => {
+        //     const itemNode = instantiate(this.itemPerfab);
+        //     const rankItem = itemNode.getComponent(RankItem);
+        //     if (rankItem) {
+        //         rankItem.initItem(data, this.curRankGroup, this.curSTBRankType);
+        //         this.container.addChild(itemNode);
+        //     }
+        // });
         this.selfRankItem.initItem(this.rankData.userRank, this.curRankGroup, this.curSTBRankType);
         this.emptyNode.active = this.rankData.rankList.length === 0;
         await this.updateTop3Avatars();
