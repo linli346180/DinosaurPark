@@ -31,7 +31,13 @@ export class RankItem extends ScrollListItem {
         if (!data) return;
 
         this.userName.string = data.userName;
-        this.inviteCount.string = StringUtil.formatMoney(data.count, 2).toString();
+        if(data.count < 1){
+            const num = Number(data.count);
+            this.inviteCount.string = num.toFixed(4).toString();
+        }else{
+            this.inviteCount.string = StringUtil.formatMoney(data.count, 2).toString();
+        }
+        console.log(data.count);
         this.rankAc.getComponent(AvatarUtil)?.InitAvatar(data.avatarPath);
         this.updateIcons(rankGroup, STBtype);
         this.updateRankingDisplay(Math.floor(data.ranking));

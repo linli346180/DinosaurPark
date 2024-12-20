@@ -15,7 +15,7 @@ export class StringUtil {
         } else if (value >= 1_000) {
             return (Math.floor(value / 1_000 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces)).toFixed(decimalPlaces) + 'K'; // 千
         } else {
-            return Math.floor(value).toString();
+            return Math.floor(value).toFixed(decimalPlaces);
         }
     }
 

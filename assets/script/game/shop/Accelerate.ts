@@ -91,6 +91,12 @@ export class Accelerate extends Component {
                     }
                 });
             });
+        }else if(propId > 0 && propDataRes.propsId === 0){
+            ShopNetService.useProps(this.freePropsData.id).then((res) => {
+                if (res && res.props) {
+                    this.freePropsData.id = 0;
+                }
+            });
         }
     }
 
