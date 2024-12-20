@@ -7,8 +7,11 @@ export class AvatarUtil extends Component {
     @property icon: Sprite = null!;
     @property url: string = '';
     @property saveToStorage: boolean = true;   // 是否保存到本地
-    @property({readonly: true})
+    @property({ readonly: true })
     loadSuccess: boolean = false;   // 是否加载成功(用于判断是否需要保存到本地)
+
+    @property({ type: SpriteFrame })
+    defauleIcon: SpriteFrame = null;
 
     onLoad() {
         this.icon = this.getComponent(Sprite);
@@ -23,6 +26,9 @@ export class AvatarUtil extends Component {
 
     // 加载头像
     public loadAvatar(url: string) {
+        if (!this.icon.spriteFrame)
+            this.icon.spriteFrame = this.defauleIcon;
+
         if (url === '') {
             return;
         }
@@ -32,7 +38,7 @@ export class AvatarUtil extends Component {
             return;
         }
 
-        if(this.loadSuccess) {
+        if (this.loadSuccess) {
             console.log("头像已加载成功,无需重复加载");
             return;
         }
@@ -76,18 +82,19 @@ export class AvatarUtil extends Component {
                 if (!err) {
                     console.log(`2.加载远程头像成功:${url}`);
                     this.setAvatarToSprite(imageAsset!);
-                    if(this.saveToStorage) 
+                    if (this.saveToStorage)
                         this.saveAvatarToLocalStorage(url, url, (success) => {
-                            if (success) {  
+                            if (success) {
                                 console.log("3.保存到本地缓存:", url);
-                            }});
+                            }
+                        });
                 } else {
                     this.loadSuccess = true
                     this.logError("加载远程头像失败:", url);
-                } 
+                }
             });
         } catch (error) {
-            
+
         }
     }
 

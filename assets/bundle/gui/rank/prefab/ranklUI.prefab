@@ -2803,6 +2803,10 @@
     "url": "",
     "saveToStorage": true,
     "loadSuccess": false,
+    "defauleIcon": {
+      "__uuid__": "e5dcec7e-1c71-4993-bcd6-769f2b886d5b@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_id": ""
   },
   {
@@ -3408,6 +3412,10 @@
     "url": "",
     "saveToStorage": true,
     "loadSuccess": false,
+    "defauleIcon": {
+      "__uuid__": "e5dcec7e-1c71-4993-bcd6-769f2b886d5b@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_id": ""
   },
   {
@@ -4013,6 +4021,10 @@
     "url": "",
     "saveToStorage": true,
     "loadSuccess": false,
+    "defauleIcon": {
+      "__uuid__": "e5dcec7e-1c71-4993-bcd6-769f2b886d5b@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_id": ""
   },
   {

@@ -14,8 +14,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass('WithdrawWidget')
 export class WithdrawWidget extends Component {
-    @property({ type: DropDown })
-    private DropDown: DropDown = null!;
+    // @property({ type: DropDown })
+    // private DropDown: DropDown = null!;
 
     @property(Editbox)
     private edit_email: Editbox = null!;
@@ -112,9 +112,9 @@ export class WithdrawWidget extends Component {
     private async withdrawal() {
         const address = tonConnect.walletConfig.address;
         const emailCode = this.edit_email.string.trim();
-        const purseType = this.DropDown.selectedIndex;
+        // const purseType = this.DropDown.selectedIndex;
         const amount = this.edit_amount.string.trim();
-        console.log(`提现信息: ${address}, ${emailCode}, ${purseType + 1}, ${amount}`);
+        // console.log(`提现信息: ${address}, ${emailCode}, ${purseType + 1}, ${amount}`);
         if (address === '') {
             oops.gui.toast(oops.language.getLangByID('tips_Wallet_address_empty'));
             return;
@@ -131,7 +131,7 @@ export class WithdrawWidget extends Component {
         let request: WithdrawRequest = {
             verificationCode: emailCode,
             purseUrl: address,
-            purseType: purseType + 1,
+            purseType: 1,
             withdrawAmount: parsedAmount
         }
         this.btn_withdrawal.interactable = false;

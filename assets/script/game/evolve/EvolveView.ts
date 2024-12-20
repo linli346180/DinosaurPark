@@ -272,7 +272,7 @@ export class EvolveView extends Component {
             const stnConfigId = this.stbResource.resourceId;
             this.updateResourceIcon(stnConfigId);
             if(useAccount) {
-                this.stbRemain.string = StringUtil.formatMoney(smc.account.getUserInstbCount(this.stbResource.resourceId));
+                this.stbRemain.string = StringUtil.formatMoney(smc.account.getUserInstbCount(this.stbResource.resourceId),0);
             } else {
                 this.stbRemain.string = this.stbResource.userQuantity.toString();
             }
@@ -288,7 +288,7 @@ export class EvolveView extends Component {
         if (this.coinResource) {
             this.icon_102.active = true;
             if(useAccount) { 
-                this.coinRemain.string = StringUtil.formatMoney(smc.account.AccountModel.CoinData.gemsCoin);
+                this.coinRemain.string = StringUtil.formatMoney(smc.account.AccountModel.CoinData.gemsCoin,0);
             } else {
                 this.coinRemain.string = this.coinResource.userQuantity.toString();
             }
