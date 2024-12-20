@@ -1,53 +1,34 @@
-import { _decorator, Component, Node, Button, Label, Toggle, Sprite, assetManager, ImageAsset, Texture2D, SpriteFrame } from 'cc';
+import { _decorator, Component, Node, Button, Label, Toggle, Sprite, assetManager, ImageAsset, Texture2D, SpriteFrame, sys } from 'cc';
 import { smc } from '../common/SingletonModuleComp';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { AccountEvent } from '../account/AccountEvent';
 import { UIID } from '../common/config/GameUIConfig';
 import { AccountNetService } from '../account/AccountNet';
 import { tonConnect } from '../wallet/TonConnect';
-import { sys } from 'cc';
 import { UserConfigData } from './UserConfigDefine';
 import { ReddotComp } from '../reddot/ReddotComp';
+import { AvatarUtil } from '../common/AvatarUtil';
 
 const { ccclass, property } = _decorator;
 
 @ccclass('usercenter')
 export class usercenter extends Component {
-    @property(Button)
-    private btn_clsoe: Button = null!;
-
-    @property(Sprite)
-    private avatar: Sprite = null!;
-    @property(Label)
-    private label_name: Label = null!;
-    @property(Label)
-    private label_id: Label = null!;
-    @property(Label)
-    private label_email: Label = null!;
-    @property(Label)
-    private label_purse: Label = null!;
-    @property(Label)
-    private label_language: Label = null!;
-
-    @property(Button)
-    private btn_email: Button = null!;
-    @property(Button)
-    private btn_purse: Button = null!;
-    @property(Button)
-    private btn_language: Button = null!;
-    @property(Button)
-    private btn_mailbox: Button = null!;
-    @property(Button)
-    private btn_introduce: Button = null!;
-    @property(Button)
-    private btn_guide: Button = null!;
-    @property(Button)
-    private btn_service: Button = null!;
-
-    @property(Toggle)
-    private toggle_music: Toggle = null!;
-    @property(Toggle)
-    private toggle_sound: Toggle = null!;
+    @property(Button) btn_close: Button = null!;
+    @property(Sprite) avatar: Sprite = null!;
+    @property(Label) label_name: Label = null!;
+    @property(Label) label_id: Label = null!;
+    @property(Label) label_email: Label = null!;
+    @property(Label) label_purse: Label = null!;
+    @property(Label) label_language: Label = null!;
+    @property(Button) btn_email: Button = null!;
+    @property(Button) btn_purse: Button = null!;
+    @property(Button) btn_language: Button = null!;
+    @property(Button) btn_mailbox: Button = null!;
+    @property(Button) btn_introduce: Button = null!;
+    @property(Button) btn_guide: Button = null!;
+    @property(Button) btn_service: Button = null!;
+    @property(Toggle) toggle_music: Toggle = null!;
+    @property(Toggle) toggle_sound: Toggle = null!;
 
     private configData: UserConfigData[] = [];
 
@@ -58,7 +39,7 @@ export class usercenter extends Component {
             }
         });
 
-        this.btn_clsoe.node.on(Button.EventType.CLICK, this.closeUI, this);
+        this.btn_close.node.on(Button.EventType.CLICK, this.closeUI, this);
         this.btn_email.node.on(Button.EventType.CLICK, this.changeEmail, this);
         this.btn_language.node.on(Button.EventType.CLICK, this.changeLanguage, this);
         this.btn_purse?.node.on(Button.EventType.CLICK, this.connectPurse, this);
@@ -69,17 +50,17 @@ export class usercenter extends Component {
         this.toggle_music.node.on(Toggle.EventType.TOGGLE, this.onToggleMusic, this);
         this.toggle_sound.node.on(Toggle.EventType.TOGGLE, this.onToggleSound, this);
 
-        oops.message.on(AccountEvent.ChangeEmail, this.onHandler, this);
-        oops.message.on(AccountEvent.ChangeLanguage, this.onHandler, this);
+        oops.message.on(AccountEvent.ChangeEmail, this.initUI, this);
+        oops.message.on(AccountEvent.ChangeLanguage, this.initUI, this);
     }
 
     onEnable() {
         this.initUI();
     }
 
-    protected onDestroy(): void {
-        oops.message.off(AccountEvent.ChangeEmail, this.onHandler, this);
-        oops.message.off(AccountEvent.ChangeLanguage, this.onHandler, this);
+    onDestroy() {
+        oops.message.off(AccountEvent.ChangeEmail, this.initUI, this);
+        oops.message.off(AccountEvent.ChangeLanguage, this.initUI, this);
     }
 
     private initUI() {
@@ -93,44 +74,15 @@ export class usercenter extends Component {
         this.label_email.string = smc.account.AccountModel.userData.email;
         tonConnect.onStateChange = this.onConnectStateChange.bind(this);
         this.showPurchase();
-
-        // TODO 头像需要上传到服务器
-        // const url = userData.avatarPath;
-        // this.loadAvatar(url, this.avatar);
+        this.loadAvatar();
     }
 
     private onConnectStateChange(isConnected: boolean) {
         this.showPurchase();
     }
 
-    private loadAvatar(url: string, icon: Sprite) {
-        if (!url || url.length === 0) {
-            console.error('Failed to load avatar: url is empty');
-            return;
-        }
-
-        // try {
-        //     assetManager.loadRemote<ImageAsset>(url, (err, imageAsset) => {
-        //         if (!err) {
-        //             const texture = new Texture2D();
-        //             texture.image = imageAsset;
-        //             const spriteFrame = new SpriteFrame();
-        //             spriteFrame.texture = texture;
-        //             icon.spriteFrame = spriteFrame;
-        //         }
-        //     });
-        // } catch (error) {
-        //     console.error('Failed to load avatar:', error);
-        // }
-    }
-
-    private onHandler(event: string, args: any) {
-        switch (event) {
-            case AccountEvent.ChangeEmail:
-            case AccountEvent.ChangeLanguage:
-                this.initUI();
-                break;
-        }
+    private loadAvatar() {
+        this.avatar.getComponent(AvatarUtil)?.InitAvatar(smc.account.AccountModel.userData.avatarPath);
     }
 
     private changeEmail() {
@@ -192,10 +144,6 @@ export class usercenter extends Component {
         for (const item of this.configData) {
             if (item.languageKey === kye) {
                 window.open(item.description);
-                if (sys.platform == 'DESKTOP_BROWSER') {
-                    // const WebApp = (window as any).Telegram.WebApp;
-                    // WebApp.openLink(item.description);
-                }
             }
         }
     }
@@ -205,10 +153,6 @@ export class usercenter extends Component {
     }
 
     private showPurchase() {
-        const address = tonConnect.TonAddress;
-        if (tonConnect.IsConnected && address.length > 0) {
-            const formattedAddress = `${address.slice(0, 5)}...${address.slice(-5)}`;
-            this.label_purse.string = formattedAddress;
-        }
+        this.label_purse.string = tonConnect.TonAddress;
     }
 }

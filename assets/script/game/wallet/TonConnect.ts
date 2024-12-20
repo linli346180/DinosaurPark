@@ -203,8 +203,8 @@ export default class TonConnect {
         if(this.walletConfig.address === '')
             return "";  
         const address = new TonWeb.Address(this.walletConfig.address);
-        const base64Address = address.toString(true, true, true);
-        return base64Address;
+        const base64Address = address.toString(true, true, false);
+        return `${base64Address.slice(0, 4)}...${base64Address.slice(-4)}`;
     }
 
     private notifyStateChange(isConnected: boolean) {
