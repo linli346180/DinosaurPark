@@ -59,7 +59,7 @@ export class KnapsackSlot extends Component {
 
     /** 设置星兽配置ID */
     set STBConfigID(stbConfigID: number) {
-        console.log(`更新槽位:${this.slotId} 星兽配置:${stbConfigID}`);
+        // console.log(`更新槽位:${this.slotId} 星兽配置:${stbConfigID}`);
         if (this.stbData) {
             this.stbData.stbConfigID = stbConfigID;
         }
@@ -86,7 +86,7 @@ export class KnapsackSlot extends Component {
     }
 
     public InitUI(stbData: StartBeastData, showLand: boolean = false, showLevelUp: boolean = false) {
-        console.log(`初始化槽位:${this.slotId} 星兽id:${stbData?.id} 星兽配置:${stbData?.stbConfigID} 降落伞:${showLand} 升级:${showLevelUp}`);
+        // console.log(`初始化槽位:${this.slotId} 星兽id:${stbData?.id} 星兽配置:${stbData?.stbConfigID} 降落伞:${showLand} 升级:${showLevelUp}`);
 
         // 使用浅拷贝
         this.stbData = Object.assign({}, stbData);

@@ -280,6 +280,7 @@ export class Account extends ecs.Entity {
         const res = await AccountNetService.GetUserSTBData();
         if (res && res.userInstbData != null) {
             let allList: number[] = [];      // 所有星兽
+            let newList: number[] = [];      // 新增星兽
             let delList: number[] = [];      // 已删除星兽
 
             // 更新收益星兽
@@ -292,18 +293,26 @@ export class Account extends ecs.Entity {
                     }
                     allList.push(stbId);
                     if (this.getUserSTBData(stbId, UserSTBType.InCome) == null) {
+                        newList.push(stbId);
                         this.AccountModel.addInComeSTBData(stbItem);
-                        oops.message.dispatchEvent(AccountEvent.AddInComeSTB, stbId);
                     }
                 }
 
+                // 移除已删除星兽
                 for (const stbItem of this.AccountModel.getUserInstb()) {
                     if (!allList.includes(stbItem.id)) {
                         delList.push(stbItem.id);
                     }
                 }
                 for (const delId of delList) {
+                    console.log("删除收益星兽:", delId);
                     this.delUserSTBData(delId, UserSTBType.InCome);
+                }
+
+                // 新增收益星兽
+                for (const stbId of newList) {
+                    console.log("新增收益星兽:", stbId);
+                    oops.message.dispatchEvent(AccountEvent.AddInComeSTB, stbId);
                 }
             }
 

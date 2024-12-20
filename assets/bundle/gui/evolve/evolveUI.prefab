@@ -3554,7 +3554,7 @@
       "y": 0
     },
     "_fillStart": 0,
-    "_fillRange": 0.2,
+    "_fillRange": 0,
     "_isTrimmedMode": true,
     "_useGrayscale": false,
     "_atlas": null,
@@ -3858,7 +3858,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -198.858,
+      "x": -301.3,
       "y": 0,
       "z": 0
     },
@@ -4116,7 +4116,7 @@
       "__id__": 170
     },
     "_direction": 0,
-    "_progress": 0.17,
+    "_progress": 0,
     "_id": ""
   },
   {
@@ -4455,7 +4455,7 @@
     },
     "_mode": 2,
     "_totalLength": 1,
-    "_progress": 0.2,
+    "_progress": 0,
     "_reverse": false,
     "_id": ""
   },
@@ -8829,6 +8829,8 @@
       "__id__": 0
     },
     "fileId": "59tOQtqLtFIrWdtaRQwykF",
+    "instance": null,
+    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
